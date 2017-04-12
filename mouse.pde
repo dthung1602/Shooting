@@ -1,10 +1,18 @@
-void mousePressed () {
-  if (health>0) {
-    Bullet b = new Bullet((float) (mouseX-width/2)/20,(float) (mouseY-groundHeight)/20);
-    bulletList = (Bullet []) append(bulletList,b);
-    bulletCount += 1;
-  } else {
-    if (width/6<=mouseX && mouseX<width/6+200 && height*3/4<mouseY && mouseY<height*3/4+70)
-      setup();
+void mousePressed() {
+  //check if any button is pressed
+  for (int i=0; i<screen.buttonList.length; i++)
+    if (screen.buttonList[i].containPoint(mouseX,mouseY) && screen.buttonList[i].enable) {
+      screen.buttonList[i].action();
+      return;
+    }
+    
+  //drop stuff
+  if (shooter.currentStuff != null) {
+    stuffList[stuffCount] = shooter.currentStuff;
+    shooter.currentStuff = null;
+    return;
   }
+    
+  // shoot
+  shooter.currentWeapon.shoot();
 }

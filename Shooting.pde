@@ -1,32 +1,85 @@
-float groundHeight; 
-float gravity = 0.5;
-color GROUND = color(50,255,5);
-Canon c = new Canon();
-int ballRate;
-int defaultHealth = 100;
-int health;
-int popCount;
-Ball ballList [];
-Bullet bulletList [];
-HBullet hbulletList [];
-VBullet vbulletListL [];
-VBullet vbulletListR [];
-PFont font;
-PFont bigfont;
-float maxSpeed;
-String info;
-int infoTime;
-int bulletCount;
-boolean pause = false;
-int size;
-color bulletColor;
+//----------------------------- constant-----------------------------------//
+float GROUND_HEIGHT  = 300;
+float GRAVITY        = 0.5;
+int DEFAULT_HEALTH   = 100;
+int DEFAULT_MONEY    = 100;
+int MAX_ROUND        = 16;
+int ENEMY_LIST_SIZE  = 500;
+int BULLET_LIST_SIZE = 1000;
+int EFFECT_LIST_SIZE = 500;
+int STUFF_LIST_SIZE  = 100;
+
+color WHITE = color(100, 100, 100, 100);   
+color RED   = color(255, 0, 0, 100);
+color BLUE  = color(0, 150, 250, 100);
+color CLEAR_BLUE  = color(50, 180, 250, 70);
+
+//------------------------------ variables---------------------------------//
+Screen screen;
+int currentRound;    
+int totalEnemyInRound;                     // how many enemy will be created in this round 
+int killCount;                             // how many enemy kiled
+int enemyCount;                            // how many enemy in current round
+int bulletCount;                           // how many weapon in current round 
+int effectCount;                           // number of effect in current round
+int stuffCount;                            // number of stuff in current round
+
+boolean starting = false;                  // true: player start a round;    false: round if finished
+boolean pausing = true;                    // true: menu;                    false: in game
+
+int oldFrame        = 0;                   // save frame since the last time an enemy was created
+int newEnemyDelay = 25;                    // delay time between creation of two enemies; will receive random values in game
+
+String message;                            // save a message to display on screen when playing 
+int messageTime = 0;                       // how long the message will stay on screenint size;
+
+
+//--------------------------constant objects--------------------------------//
+Shooter shooter            = new Shooter();
+Enemy enemyList []         = new Enemy [ENEMY_LIST_SIZE];
+Bullet bulletList []       = new Bullet [BULLET_LIST_SIZE];
+VisualEffect effectList [] = new VisualEffect [EFFECT_LIST_SIZE];
+Stuff stuffList []         = new Stuff [STUFF_LIST_SIZE];
+
+// screens
+Screen menuScreen;
+PlayScreen playScreen;
+Screen pauseScreen;
+Screen winScreen;
+Screen loseScreen;
+Screen upgradeScreen;
+
+// images of bullets
+PImage stonePic;
+PImage shurikenPic;
+PImage arrowPic;
+PImage bulletPic;
+PImage icePic;
+PImage firePic;
+PImage bombPic;
+PImage grenadePic;
+PImage laserPic;
+PImage nukePic;
+
+// image of visual effects
+PImage snowflakePic;
+PImage explosionPic;
+
+// fonts
+PFont fontSmall;
+PFont fontMedium;
+PFont fontLarge;
+
+// tmp
+Bullet laserBullet = new Laser(0, 0, 0, 0);
 
 
 //specialAction var
+float size;                                // how much the weapon is enlarged
 boolean saClear = false; 
 float saMaxSpeed;
-boolean saAntiGravity = false;
-boolean saGravity = false;
+boolean saAntiGRAVITY = false;
+boolean saGRAVITY = false;
 int laserOn = 0;
 int saFreeze = 0;
 int saGiantBullet = 0;
@@ -40,45 +93,46 @@ int hshootRate = 150;
 boolean vShoot = false;
 int vshootRate = 150;
 
-void setup () {
-  //size(1200,700);
-  fullScreen();
-  frameRate(50);
-  rectMode(CENTER);
-  
-  font = loadFont("ComicSansMS-Bold-25.vlw");
-  bigfont = loadFont("ComicSansMS-Bold-48.vlw");
-  groundHeight = height*3/4;
 
-  size = 10;
-  bulletColor = color(0);
-  bulletCount = 0;
-  ballRate = 125;
-  health = defaultHealth;
-  popCount = 0;
-  maxSpeed = 3;
-  ballList = new Ball [0];
-  bulletList = new Bullet [0];
-  hbulletList = new HBullet [0];
-  vbulletListL = new VBullet [0];
-  vbulletListR = new VBullet [0];
+
+void setup () {
+  //--------------basic--------------------------//
+  size(1000,500);
+  frameRate(25);
+  rectMode(CENTER);
+  imageMode(CENTER);
   
-  saClear = false; 
-  saMaxSpeed = 0;
-  saAntiGravity = false;
-  saGravity = false;
-  laserOn = 0;
-  saFreeze = 0;
-  saGiantBullet = 0;
-  saFireBullet = 0;
-  saFireWorkBullet = 0;
-  saFastBullet = 1;
-  minSize = 20;
-  midSize = 30;
-  maxSize = 40;
-  saBigBall = 0;
-  hShoot = false;
-  hshootRate = 150;
-  vShoot = false;
-  vshootRate = 150;
+  //-----------------load images----------------//
+  // weapon images
+  stonePic   = loadImage("./Pic/stone.png");
+  shurikenPic= loadImage("./Pic/dart.png");
+  bulletPic  = loadImage("./Pic/bullet.png");
+  icePic     = loadImage("./Pic/ice.png");
+  firePic    = loadImage("./Pic/fire.png");
+  bombPic    = loadImage("./Pic/bomb.png");
+  grenadePic = loadImage("./Pic/grenade.png");
+  laserPic   = loadImage("./Pic/laser.gif");
+  nukePic    = loadImage("./Pic/nuke.png");
+  
+  //-----------------------load fonts------------------------//
+  fontSmall  = loadFont("./Font/font_small.vlw");
+  fontMedium = loadFont("./Font/font_medium.vlw");
+  fontLarge  = loadFont("./Font/font_large.vlw");
+
+  //-----------------------create screens----------------------//
+  PImage bg;
+  Button buttonList [];
+  
+  
+  //----------------------show menu--------------------------//
+  screen = playScreen;
+  pausing = true;
+  
+  //--------------------------- tmp-----------------------------
+  shooter.currentWeapon = new LaserGun();
+  shooter.aim = true;
+}
+
+void draw () {
+  screen.show();
 }

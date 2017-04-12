@@ -1,129 +1,76 @@
-class Bullet {
-  float x = width/2;
-  float y = groundHeight;
+//-----------------------------------------------------------
+//   classes of bullets that are NOT affected by gravity
+//-----------------------------------------------------------
+
+abstract class Bullet {
+  float x, y;
   float vx,vy;
-  int status = 0;
+  int status = 0;          // 0 = in game; 1 = out of game
+  int damage;              
+  float weight;            // how much gravity affects bullet. 0 = no effect;
+  PImage img;
   
-  Bullet (float tmp_vx, float tmp_vy) {
-    vx = tmp_vx;
-    vy = tmp_vy;
+  Bullet (float x, float y, float vx, float vy) {
+    this.x = x;
+    this.y = y;
+    this.vx = vx;
+    this.vy = vy;
   }
   
-  void move () {    
-    //touch sides
-    if (x<0 || x>width)
-      vx *= -0.7;
-    if (y<0)
-      vy *= -0.7;
+  void show () {    
+    //touch sides, skip out of range bullets
+    if (x<0 || x>width || y<0) {
+      status = 1;
+      return;
+    }
     
     // move
-    x += vx * saFastBullet;
-    y += vy * saFastBullet;
-    vy += gravity;
+    x += vx;
+    y += vy;    
+    vy += GRAVITY * weight;     // effect of gravity
     
-    // pop
-    for (int i=0; i<ballList.length; i++) {
-      if (touch(ballList[i])) {
-        if (saFireBullet<0)
-          status = 1;
-        ballList[i].status = 1;
-        ballList[i].action();
-        popCount++;
-        if (saFireWorkBullet>0)
-          saFireWork();
-        return;
+    // check if bullet hit any enemy
+    for (int i=0; i<enemyCount; i++) {
+      if (touch(enemyList[i])) {
+        status = 1;
+        enemyList[i].hit(this);
       }
-    } 
+    }
     
-    //touch ground
-    if (y>groundHeight)
-      status = 1;      
-  }
+    // draw
+    image(img, x, y);
+  }   
   
-  void show () {
-    if (status == 1)
-      return;
-    rect(x,y,size,size);
-  }
-  
-  boolean touch (Ball b) {
-    if (b.status==1)
-      return false;
-    if (dist(x,y,b.x,b.y)<b.r+size)
+  private boolean touch (Enemy e) {
+    if (dist(x, y, e.x, e.y) < e.r)
       return true;
     return false;
   }
-  
-  void saFireWork() {
-    for (int i=0; i<10; i++) {
-      Bullet b = new Bullet (random(-15,15),random(-15,15));
-      b.x = x;
-      b.y = y;
-      bulletList = (Bullet []) append (bulletList, b);
-    }
-  }
 }
 
-class HBullet extends Bullet {
-  HBullet (float tmp_vx) {
-    super(tmp_vx,0);
-    x = width/2;
-    y = height*3/4 - 30;
-  }
-  
-  void move () {    
-    //touch sides
-    if (x<0 || x>width)
-      status = 1;
-    
-    // move
-    x += vx * saFastBullet;
-    
-    // pop
-    for (int i=0; i<ballList.length; i++) {
-      if (touch(ballList[i])) {
-        if (saFireBullet<0)
-          status = 1;
-        ballList[i].status = 1;
-        ballList[i].action();
-        popCount++;
-        if (saFireWorkBullet>0)
-          saFireWork();
-        return;
-      }
-    } 
-    
-    //touch ground
-    if (y>groundHeight)
-      status = 1;      
+class Stone extends Bullet {
+  Stone (float x, float y, float vx, float vy) {
+    super(x, y, vx, vy);
+    damage = 1;
+    img = stonePic;
+    weight = 0.8;
   }
 }
 
 
-class VBullet extends Bullet {
-  VBullet (float tmp_vy, float tmp_x, float tmp_y) {
-    super(0,tmp_vy);
-    x = tmp_x;
-    y = tmp_y;
+class Shuriken extends Bullet {
+  Shuriken (float x, float y, float vx, float vy) {
+    super(x, y, vx, vy);
+    damage = 2;
+    img = shurikenPic;
+    weight = 0;
   }
-  
-  void move () {       
-    // move
-    y += vy * saFastBullet;
-    vy += gravity/2;
-    
-    // pop
-    for (int i=0; i<ballList.length; i++) {
-      if (touch(ballList[i])) {
-        if (saFireBullet<0)
-          status = 1;
-        ballList[i].status = 1;
-        ballList[i].action();
-        popCount++;
-        if (saFireWorkBullet>0)
-          saFireWork();
-        return;
-      }
-    }
+}
+
+class Laser extends Bullet {
+  Laser (float x, float y, float vx, float vy) {
+    super(x, y, vx, vy);
+    weight = 0.8;
   }
-} 
+  void move(){};
+}
