@@ -45,7 +45,7 @@ class Shooter {
     float py = y;                        // prev y pos
     
     // move the point to create the path
-    while (tmpy < GROUND_HEIGHT && tmpy > 0 && tmpx < width && tmpx > 0) {        // still in screen
+    while (tmpy < height - GROUND_HEIGHT && tmpy > 0 && tmpx < width && tmpx > 0) {        // still in screen
       line(px, py, tmpx, tmpy);             // draw a line
       if (currentWeapon instanceof LaserGun)                                      // destroy if using laser gun
         laserDestroy(tmpx, tmpy);
@@ -66,6 +66,7 @@ class Shooter {
       image(laserPic, 70, -5, 70, 50);
     rotate(-angle);
     translate(-x, -y);
+    currentWeapon.delay -= 1;
   }
   
   private void laserDestroy (float tmpx, float tmpy) {
@@ -76,7 +77,7 @@ class Shooter {
         continue;
         
       // check if laser hit any enemy
-      if (dist(tmpx, tmpy, enemyList[i].x, enemyList[i].y) < enemyList[i].r) 
+      if (dist(tmpx, tmpy, enemyList[i].x, enemyList[i].y) < enemyList[i].size) 
         enemyList[i].hit(laserBullet);
     }
   }

@@ -1,7 +1,3 @@
-//-----------------------------------------------------------
-//   classes of bullets that are NOT affected by gravity
-//-----------------------------------------------------------
-
 abstract class Bullet {
   float x, y;
   float vx,vy;
@@ -19,7 +15,7 @@ abstract class Bullet {
   
   void show () {    
     //touch sides, skip out of range bullets
-    if (x<0 || x>width || y<0) {
+    if (x<0 || x>width || y<0  || y > height - GROUND_HEIGHT) {
       status = 1;
       return;
     }
@@ -38,11 +34,11 @@ abstract class Bullet {
     }
     
     // draw
-    image(img, x, y);
+    image(img, x, y, 20, 20);
   }   
   
   private boolean touch (Enemy e) {
-    if (dist(x, y, e.x, e.y) < e.r)
+    if (dist(x, y, e.x, e.y) < e.size)
       return true;
     return false;
   }
@@ -53,7 +49,7 @@ class Stone extends Bullet {
     super(x, y, vx, vy);
     damage = 1;
     img = stonePic;
-    weight = 0.8;
+    weight = 1;
   }
 }
 
@@ -70,7 +66,7 @@ class Shuriken extends Bullet {
 class Laser extends Bullet {
   Laser (float x, float y, float vx, float vy) {
     super(x, y, vx, vy);
-    weight = 0.8;
+    weight = 0;
   }
   void move(){};
 }

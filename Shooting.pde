@@ -1,5 +1,5 @@
 //----------------------------- constant-----------------------------------//
-float GROUND_HEIGHT  = 300;
+float GROUND_HEIGHT  = 50;
 float GRAVITY        = 0.5;
 int DEFAULT_HEALTH   = 100;
 int DEFAULT_MONEY    = 100;
@@ -8,6 +8,9 @@ int ENEMY_LIST_SIZE  = 500;
 int BULLET_LIST_SIZE = 1000;
 int EFFECT_LIST_SIZE = 500;
 int STUFF_LIST_SIZE  = 100;
+float DIFICULTLY     = 1.2;
+int MIN_ENEMY_DELAY  = 10;
+int MAX_ENEMY_DELAY  = 30;
 
 color WHITE = color(100, 100, 100, 100);   
 color RED   = color(255, 0, 0, 100);
@@ -97,7 +100,7 @@ int vshootRate = 150;
 
 void setup () {
   //--------------basic--------------------------//
-  size(1000,500);
+  size(800,520);
   frameRate(25);
   rectMode(CENTER);
   imageMode(CENTER);
@@ -123,14 +126,17 @@ void setup () {
   PImage bg;
   Button buttonList [];
   
+  playScreen = new PlayScreen();
   
   //----------------------show menu--------------------------//
   screen = playScreen;
   pausing = true;
   
   //--------------------------- tmp-----------------------------
-  shooter.currentWeapon = new LaserGun();
+  shooter.currentWeapon = new Hand();
   shooter.aim = true;
+  totalEnemyInRound = 5;
+  resetRound();
 }
 
 void draw () {

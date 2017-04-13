@@ -10,7 +10,7 @@ abstract class Weapon {
     // do nothing when delay is not over or out of bullet
     if (delay > 0 || bulletLeft == 0)
       return;
-      
+    
     // shoot!
     float d = dist(shooter.x, shooter.y, mouseX, mouseY);
     float vx = speed * (mouseX - shooter.x) / d;          // x speed
@@ -18,6 +18,7 @@ abstract class Weapon {
     bulletList[bulletCount] = newBullet(vx, vy);
     delay = defaultDelay;
     bulletLeft -= 1;
+    bulletCount += 1;
   }
   
   Bullet newBullet (float vx, float vy) {
@@ -36,9 +37,10 @@ abstract class Weapon {
 
 class Hand extends Weapon{
   Hand () {
-    bullet = new Stone (0, 0, 0, 0);
-    delay = 5;
+    bullet = new Stone(0, 0, 0, 0);
+    defaultDelay = 25;
     img = loadImage("./Pic/laser_gun.png");
+    speed = 15;
     bulletLeft = -1;
   }  
 }
@@ -46,8 +48,10 @@ class Hand extends Weapon{
 
 class Arm extends Weapon{
   Arm () {
-    bullet = new Stone (0, 0, 0, 0);
-    defaultDelay = 10;
+    bullet = new Laser (0, 0, 0, 0);
+    defaultDelay = 5000;
+    img = loadImage("./Pic/laser_gun.png");
+    speed = 20;
     bulletLeft = -1;
   }  
 }

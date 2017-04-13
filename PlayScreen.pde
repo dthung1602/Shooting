@@ -1,6 +1,6 @@
 class PlayScreen extends Screen {
   PlayScreen () {
-    bg = loadImage("./Pic/background");
+    bg = loadImage("./Pic/map0.jpg");
     buttonList = new Button [] {
       //>>>> buttons here
     };
@@ -10,16 +10,16 @@ class PlayScreen extends Screen {
     background(screen.bg);
     createEnemy();
     
-    drawStuff();
+    //drawStuff();
     drawEnemy();
     drawBullet();
-    drawEffect();
+    //drawEffect();
     shooter.show();
     
-    checkGameEnd();
-    checkFinishRound();
-    showInfo();
-    drawMouse();
+    //checkGameEnd();
+    //checkFinishRound();
+    //showInfo();
+    //drawMouse();
   }
   
   private void createEnemy() {
@@ -27,7 +27,13 @@ class PlayScreen extends Screen {
     if (enemyCount == totalEnemyInRound) 
       return;
       
+    // create delay time between enemy creation
+    if (frameCount < oldFrame + newEnemyDelay)
+      return;
+      
     // create a new enemy base on random numbers
+    oldFrame = frameCount;
+    newEnemyDelay = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);
     int k = (int) random(0, 100);
     int y = height - (int) random(100, 300);
     
@@ -64,7 +70,9 @@ class PlayScreen extends Screen {
       } else {
         enemyList[enemyCount] = new StrongEnemy(width, y);
       }
-    }       
+    }
+    
+    enemyCount++; 
   }
   
   private void drawStuff() {
@@ -111,6 +119,7 @@ class PlayScreen extends Screen {
     // finish round
     resetRound();
     currentRound++;
+    totalEnemyInRound *= DIFICULTLY;
     shooter.health = shooter.maxHealth;
   }
   
@@ -121,7 +130,7 @@ class PlayScreen extends Screen {
   private void drawMouse() {
     //high light if mouse on any button
     Button b;
-    for (int i=0; i<screen.buttonList.length; i++) {
+    for (int i=0; i<buttonList.length; i++) {
       b = screen.buttonList[i]; 
       if (b.containPoint(mouseX, mouseY) && b.enable) {
         fill(BLUE);

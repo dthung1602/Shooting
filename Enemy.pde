@@ -1,8 +1,10 @@
 abstract class Enemy {
   int x,y;
-  int r;                // how large the enemy is
+  int size;             // how large the enemy is
   int speed;            // a positive number determine how fast it goes
   int attackRange;      // how far the enemy can attack
+  int defaultAttackTime;// time between attacks
+  int attackTime;       // number of frames left to next attack
   int health;
   int damage;
   int freeze = 0;       // how much time left enemy has to stay still
@@ -23,11 +25,11 @@ abstract class Enemy {
     
     //move   
     x -= speed;
-    if (y + img.height/2 > GROUND_HEIGHT)
+    if (y + img.height/2 > height - GROUND_HEIGHT)
       y += speed;
     
     //check if enemy has hit house
-    if (x < attackRange) {
+    if (x < attackRange) { // >>>> fix to check for stuff
       speed = 0;
       attack();
     }
@@ -38,10 +40,20 @@ abstract class Enemy {
   
   void hit (Bullet bl) {
     health -= bl.damage;
+    println("hit");
   }
   
   void attack () {
+    // delay between attacks
+    if (attackTime > 0) {
+      attackTime--;
+      return;
+    }
+    
+    // attack!
     shooter.health -= damage;
+    attackTime = defaultAttackTime;
+    println("attack -1");
   }
 }
 
@@ -52,7 +64,11 @@ class BasicEnemy extends Enemy {
     health = 1;
     speed  = 2;
     damage = 1;
-    //img     
+    size = 20;
+    defaultAttackTime = 50;
+    attackTime = 0;
+    img = loadImage("./Pic/dart_monkey.png");
+    attackRange = 100;
   }
 }
 
