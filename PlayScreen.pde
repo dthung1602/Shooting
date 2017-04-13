@@ -2,7 +2,7 @@ class PlayScreen extends Screen {
   PlayScreen () {
     bg = loadImage("./Pic/map0.jpg");
     buttonList = new Button [] {
-      //>>>> buttons here
+      new NewWallButton (0, 0, 100, 100)
     };
   }
   
@@ -10,7 +10,7 @@ class PlayScreen extends Screen {
     background(screen.bg);
     createEnemy();
     
-    //drawStuff();
+    drawStuff();
     drawEnemy();
     drawBullet();
     //drawEffect();
@@ -19,7 +19,7 @@ class PlayScreen extends Screen {
     //checkGameEnd();
     //checkFinishRound();
     //showInfo();
-    //drawMouse();
+    drawMouse();
   }
   
   private void createEnemy() {
@@ -133,6 +133,7 @@ class PlayScreen extends Screen {
     for (int i=0; i<buttonList.length; i++) {
       b = screen.buttonList[i]; 
       if (b.containPoint(mouseX, mouseY) && b.enable) {
+        noStroke();
         fill(BLUE);
         rect(b.x1, b.y1, b.x2, b.y2);
         return;
@@ -143,7 +144,7 @@ class PlayScreen extends Screen {
     if (shooter.currentStuff != null) {
       shooter.currentStuff.x = mouseX;
       shooter.currentStuff.y = mouseY;
-      image(shooter.currentStuff.img, mouseX, mouseY);
+      image(shooter.currentStuff.img, mouseX, mouseY, 200, 200);
     }
   }
 }

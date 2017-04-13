@@ -9,6 +9,7 @@ void mousePressed() {
   //drop stuff
   if (shooter.currentStuff != null) {
     stuffList[stuffCount] = shooter.currentStuff;
+    stuffCount++;
     shooter.currentStuff = null;
     return;
   }

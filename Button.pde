@@ -1,9 +1,9 @@
 abstract class Button {
-  float x1, y1;                      // upper left corner
-  float x2, y2;                      // lower right corner
+  int x1, y1;                      // upper left corner
+  int x2, y2;                      // lower right corner
   boolean enable = true;
 
-  Button(float x1, float y1, float x2, float y2) {
+  Button(int x1, int y1, int x2, int y2) {
     this.x1 = x1;
     this.y1 = y1;
     this.x2 = x2;
@@ -17,4 +17,15 @@ abstract class Button {
   }
 
   void action() {}
+}
+
+// tmp
+class NewWallButton extends Button {
+  NewWallButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+  
+  void action () {
+    shooter.currentStuff = new ExWall(mouseX, mouseY);
+  }
 }
