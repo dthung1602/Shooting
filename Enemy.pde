@@ -8,6 +8,7 @@ abstract class Enemy {
   int attackTime;       // number of frames left to next attack
   int health;
   int damage;
+  int bonusMoney;
   int freeze = 0;       // how much time left enemy has to stay still
   PImage img;
   
@@ -22,11 +23,6 @@ abstract class Enemy {
       freeze--;
       return;
     }
-    
-    //move   
-    x -= speed;
-    if (y + img.height/2 > height - GROUND_HEIGHT)
-      y += speed;
     
     //check if enemy was block by a stuff  
     for (int i=0; i<stuffCount; i++) {
@@ -48,6 +44,13 @@ abstract class Enemy {
       
       break;
     }
+    
+    //move   
+    x -= speed;
+    if (y + img.height/2 > height - GROUND_HEIGHT)
+      y += speed;
+    
+    speed = defaultSpeed;
         
     // check if enemy can attact house
     if (x - shooter.x < attackRange) {
@@ -61,11 +64,14 @@ abstract class Enemy {
   
   void hit (Bullet bl) {
     health -= bl.damage;
-    println("hit");
+    if (health <= 0)
+      shooter.money += bonusMoney;
   }
   
   void hit (AttackableStuff st) {
     health -= st.damage;
+    if (health <= 0)
+      shooter.money += bonusMoney;
   }
   
   void attack (CanBeAttacked target) {
@@ -76,9 +82,9 @@ abstract class Enemy {
     }
     
     // attack!
+    //println(target + " " + shooter + " " + damage);
     target.health -= damage;
     attackTime = defaultAttackTime;
-    println("attack -1");
   }
 }
 
@@ -88,12 +94,14 @@ class BasicEnemy extends Enemy {
     super(x, y);
     health = 1;
     speed  = 2;
-    damage = 1;
+    damage = 5;
     size = 20;
     defaultAttackTime = 50;
+    defaultSpeed = 2;
     attackTime = 0;
     img = loadImage("./Pic/dart_monkey.png");
     attackRange = 100;
+    bonusMoney = 5;
   }
 }
 

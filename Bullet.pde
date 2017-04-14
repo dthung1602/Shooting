@@ -2,7 +2,8 @@ abstract class Bullet {
   float x, y;
   float vx,vy;
   int status = 0;          // 0 = in game; 1 = out of game
-  int damage;              
+  int damage;
+  int hitRadius;
   float weight;            // how much gravity affects bullet. 0 = no effect;
   PImage img;
   
@@ -47,7 +48,7 @@ abstract class Bullet {
   }   
   
   private boolean touch (Enemy e) {
-    if (dist(x, y, e.x, e.y) < e.size)
+    if (dist(x, y, e.x, e.y) < e.size + hitRadius)
       return true;
     return false;
   }
@@ -59,6 +60,7 @@ class Stone extends Bullet {
     damage = 1;
     img = stonePic;
     weight = 1;
+    hitRadius = 5;
   }
 }
 

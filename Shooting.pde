@@ -117,6 +117,10 @@ void setup () {
   laserPic   = loadImage("./Pic/laser.gif");
   nukePic    = loadImage("./Pic/nuke.png");
   
+  //effect images
+  explosionPic = loadImage("./Pic/explosion.png");
+  snowflakePic = loadImage("./Pic/dart.png");
+  
   //-----------------------load fonts------------------------//
   fontSmall  = loadFont("./Font/font_small.vlw");
   fontMedium = loadFont("./Font/font_medium.vlw");

@@ -2,11 +2,11 @@ abstract class Stuff extends CanBeAttacked {
   int x, y;
   int vx = 0, vy = 0;
   PImage img;
-  int health;
   int size;
   boolean walkthrough;
   
   Stuff (int x, int y) {
+    super();
     this.x = x;
     this.y = y;
   }
@@ -40,7 +40,7 @@ abstract class AttackableStuff extends Stuff{
 class ExWall extends AttackableStuff {
   ExWall (int x, int y) {
     super(x, y);
-    health = 5;
+    health = 50;
     img = loadImage("./Pic/wall.png");
     size = 100;
     walkthrough = false;
@@ -49,6 +49,8 @@ class ExWall extends AttackableStuff {
   
   void action () {
     health = 0;
+    effectList[effectCount] = new ExplosionEffect(x, y);
+    effectCount++;
     for (int i=0; i<enemyCount; i++) {
       if (enemyList[i].health > 0 && containPoint(enemyList[i].x, enemyList[i].y)) {
         enemyList[i].hit(this);

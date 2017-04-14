@@ -1,5 +1,6 @@
 abstract class CanBeAttacked {
   int health;
+  CanBeAttacked () {}
 }
 
 
@@ -7,7 +8,6 @@ class Shooter extends CanBeAttacked {
   //basic
   float x = 100; 
   float y = 200;
-  int health = 0;
   int money = 0;
   float angle = 0;
   Weapon currentWeapon;
@@ -19,7 +19,9 @@ class Shooter extends CanBeAttacked {
   int maxHealth = DEFAULT_HEALTH;
   //>> add new upgrade here
   
-  Shooter () {}
+  Shooter () {
+    super();
+  }
 
   void show () {
     showShooter();

@@ -13,12 +13,12 @@ class PlayScreen extends Screen {
     drawStuff();
     drawEnemy();
     drawBullet();
-    //drawEffect();
+    drawEffect();
     shooter.show();
     
     //checkGameEnd();
     //checkFinishRound();
-    //showInfo();
+    showInfo();
     drawMouse();
   }
   
@@ -120,11 +120,16 @@ class PlayScreen extends Screen {
     resetRound();
     currentRound++;
     totalEnemyInRound *= DIFICULTLY;
-    shooter.health = shooter.maxHealth;
+    //screen = upgradeScreen;
   }
   
   private void showInfo() {
-    
+    // show basic info
+    textFont(fontSmall);
+    fill(255, 0, 0);
+    text("Health " + str(shooter.health), 50, 450);
+    text("Money  " + str(shooter.money), 50, 475);
+    text("Weapon " + str(shooter.currentWeapon.delay), 50, 500);
   }
   
   private void drawMouse() {
