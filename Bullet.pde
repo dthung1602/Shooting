@@ -34,6 +34,14 @@ abstract class Bullet {
       }
     }
     
+    // check if bullet hit any stuff
+    for (int i=0; i<stuffCount; i++) {
+      if (stuffList[i].health > 0 && stuffList[i].containPoint(x, y)) {
+        stuffList[i].action();
+        status = 1;
+      }
+    }
+    
     // draw
     image(img, x, y, 20, 20);
   }   

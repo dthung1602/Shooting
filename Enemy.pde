@@ -30,21 +30,16 @@ abstract class Enemy {
     
     //check if enemy was block by a stuff  
     for (int i=0; i<stuffCount; i++) {
+      // skip out-of-game stuffs
+      if (stuffList[i].health <= 0) 
+        continue;
       
       // skip pass-able stuffs
       if (stuffList[i].walkthrough)
         continue;
       
-      //check if enemy passes stuff
-      if (x < stuffList[i].x)
-        continue;
-      
-      // check if enemy and stuff on same row
-      if (abs(y - stuffList[i].y) > size/2 + stuffList[i].size/2)
-        continue;
-         
-      // check if stuff is too far away from enemy
-      if (x - stuffList[i].x > size/2 + stuffList[i].size/2)
+      // check if stuff block enemy
+      if (!stuffList[i].containPoint(x, y)) 
         continue;
       
       //stop and attack stuff
@@ -67,6 +62,10 @@ abstract class Enemy {
   void hit (Bullet bl) {
     health -= bl.damage;
     println("hit");
+  }
+  
+  void hit (AttackableStuff st) {
+    health -= st.damage;
   }
   
   void attack (CanBeAttacked target) {
