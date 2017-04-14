@@ -1,4 +1,9 @@
-class Shooter {
+abstract class CanBeAttacked {
+  int health;
+}
+
+
+class Shooter extends CanBeAttacked {
   //basic
   float x = 100; 
   float y = 200;
@@ -73,7 +78,7 @@ class Shooter {
     for (int i=0; i<enemyCount; i++) {
       
       // skip dead enemy
-      if (enemyList[i].status == 1) 
+      if (enemyList[i].health > 0) 
         continue;
         
       // check if laser hit any enemy

@@ -27,9 +27,10 @@ abstract class Bullet {
     
     // check if bullet hit any enemy
     for (int i=0; i<enemyCount; i++) {
-      if (touch(enemyList[i])) {
+      if (enemyList[i].health > 0 && touch(enemyList[i])) {
         status = 1;
         enemyList[i].hit(this);
+        break;
       }
     }
     

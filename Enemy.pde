@@ -1,14 +1,14 @@
 abstract class Enemy {
   int x,y;
   int size;             // how large the enemy is
-  int speed;            // a positive number determine how fast it goes
+  int defaultSpeed;     // a positive number determine how fast it goes at default
+  int speed;            // a positive number determine how fast it is currently going
   int attackRange;      // how far the enemy can attack
   int defaultAttackTime;// time between attacks
   int attackTime;       // number of frames left to next attack
   int health;
   int damage;
   int freeze = 0;       // how much time left enemy has to stay still
-  int status = 0;       // 0 = alive, 1 = dead
   PImage img;
   
   Enemy (int x, int y) {
@@ -28,10 +28,36 @@ abstract class Enemy {
     if (y + img.height/2 > height - GROUND_HEIGHT)
       y += speed;
     
-    //check if enemy has hit house
-    if (x < attackRange) { // >>>> fix to check for stuff
+    //check if enemy was block by a stuff  
+    for (int i=0; i<stuffCount; i++) {
+      
+      // skip pass-able stuffs
+      if (stuffList[i].walkthrough)
+        continue;
+      
+      //check if enemy passes stuff
+      if (x < stuffList[i].x)
+        continue;
+      
+      // check if enemy and stuff on same row
+      if (abs(y - stuffList[i].y) > size/2 + stuffList[i].size/2)
+        continue;
+         
+      // check if stuff is too far away from enemy
+      if (x - stuffList[i].x > size/2 + stuffList[i].size/2)
+        continue;
+      
+      //stop and attack stuff
       speed = 0;
-      attack();
+      attack(stuffList[i]);
+      
+      break;
+    }
+        
+    // check if enemy can attact house
+    if (x - shooter.x < attackRange) {
+      speed = 0;
+      attack(shooter);
     }
     
     //draw
@@ -43,7 +69,7 @@ abstract class Enemy {
     println("hit");
   }
   
-  void attack () {
+  void attack (CanBeAttacked target) {
     // delay between attacks
     if (attackTime > 0) {
       attackTime--;
@@ -51,7 +77,7 @@ abstract class Enemy {
     }
     
     // attack!
-    shooter.health -= damage;
+    target.health -= damage;
     attackTime = defaultAttackTime;
     println("attack -1");
   }

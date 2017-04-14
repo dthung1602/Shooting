@@ -144,7 +144,7 @@ class PlayScreen extends Screen {
     if (shooter.currentStuff != null) {
       shooter.currentStuff.x = mouseX;
       shooter.currentStuff.y = mouseY;
-      image(shooter.currentStuff.img, mouseX, mouseY, 200, 200);
+      image(shooter.currentStuff.img, mouseX, mouseY, 100, 100);
     }
   }
 }
