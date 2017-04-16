@@ -1,7 +1,7 @@
 //----------------------------- constant-----------------------------------//
 float GROUND_HEIGHT  = 50;
 float GRAVITY        = 0.5;
-int DEFAULT_HEALTH   = 100;
+int DEFAULT_HEALTH   = 10;
 int DEFAULT_MONEY    = 100;
 int MAX_ROUND        = 16;
 int ENEMY_LIST_SIZE  = 500;
@@ -25,7 +25,7 @@ int killCount;                             // how many enemy kiled
 int enemyCount;                            // how many enemy in current round
 int bulletCount;                           // how many weapon in current round 
 int effectCount;                           // number of effect in current round
-int stuffCount;                            // number of stuff in current round
+int objCount;                            // number of obj in current round
 
 boolean starting = false;                  // true: player start a round;    false: round if finished
 boolean pausing = true;                    // true: menu;                    false: in game
@@ -42,7 +42,7 @@ Shooter shooter            = new Shooter();
 Enemy enemyList []         = new Enemy [ENEMY_LIST_SIZE];
 Bullet bulletList []       = new Bullet [BULLET_LIST_SIZE];
 VisualEffect effectList [] = new VisualEffect [EFFECT_LIST_SIZE];
-Stuff stuffList []         = new Stuff [STUFF_LIST_SIZE];
+Obj objList []         = new Obj [STUFF_LIST_SIZE];
 
 // screens
 Screen menuScreen;

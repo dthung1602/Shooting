@@ -35,10 +35,10 @@ abstract class Bullet {
       }
     }
     
-    // check if bullet hit any stuff
-    for (int i=0; i<stuffCount; i++) {
-      if (stuffList[i].health > 0 && stuffList[i].containPoint(x, y)) {
-        stuffList[i].action();
+    // check if bullet hit any obj
+    for (int i=0; i<objCount; i++) {
+      if (objList[i].health > 0 && objList[i].containPoint(x, y)) {
+        objList[i].action();
         status = 1;
       }
     }

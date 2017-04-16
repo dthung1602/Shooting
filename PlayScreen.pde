@@ -10,14 +10,14 @@ class PlayScreen extends Screen {
     background(screen.bg);
     createEnemy();
     
-    drawStuff();
+    drawObj();
     drawEnemy();
     drawBullet();
     drawEffect();
     shooter.show();
     
-    //checkGameEnd();
-    //checkFinishRound();
+    checkGameEnd();
+    checkFinishRound();
     showInfo();
     drawMouse();
   }
@@ -75,10 +75,10 @@ class PlayScreen extends Screen {
     enemyCount++; 
   }
   
-  private void drawStuff() {
-    for (int i=0; i<stuffCount; i++)
-      if (stuffList[i].health > 0)
-        stuffList[i].show();
+  private void drawObj() {
+    for (int i=0; i<objCount; i++)
+      if (objList[i].health > 0)
+        objList[i].show();
   }
   
   private void drawEnemy() {
@@ -113,10 +113,12 @@ class PlayScreen extends Screen {
   
   private void checkFinishRound() {
     // have not finish round
+    println(killCount, totalEnemyInRound);
     if (killCount < totalEnemyInRound)
       return;
       
     // finish round
+    println("ok");
     resetRound();
     currentRound++;
     totalEnemyInRound *= DIFICULTLY;
@@ -129,7 +131,7 @@ class PlayScreen extends Screen {
     fill(255, 0, 0);
     text("Health " + str(shooter.health), 50, 450);
     text("Money  " + str(shooter.money), 50, 475);
-    text("Weapon " + str(shooter.currentWeapon.delay), 50, 500);
+    text("Round  " + str(currentRound), 50, 500);
   }
   
   private void drawMouse() {
@@ -145,11 +147,11 @@ class PlayScreen extends Screen {
       }
     }
     
-    //draw stuff
-    if (shooter.currentStuff != null) {
-      shooter.currentStuff.x = mouseX;
-      shooter.currentStuff.y = mouseY;
-      image(shooter.currentStuff.img, mouseX, mouseY, 100, 100);
+    //draw obj
+    if (shooter.currentObj != null) {
+      shooter.currentObj.x = mouseX;
+      shooter.currentObj.y = mouseY;
+      image(shooter.currentObj.img, mouseX, mouseY, 100, 100);
     }
   }
 }

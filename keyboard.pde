@@ -9,8 +9,10 @@ void keyPressed () {
   switch (key) {
     case 'p':
     case 'P': 
-      pausing = true;
-      screen = pauseScreen;
+      if (screen == pauseScreen)   
+        screen = playScreen;
+      else 
+        screen = pauseScreen;
       break;
     case 'm':
     case 'M':

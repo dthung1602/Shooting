@@ -11,7 +11,7 @@ class Shooter extends CanBeAttacked {
   int money = 0;
   float angle = 0;
   Weapon currentWeapon;
-  Stuff currentStuff;
+  Obj currentObj;
   
   //upgrade  
   Weapon weaponList [] = new Weapon [] {/*new kind of weapon will be add gradualy*/};

@@ -26,6 +26,6 @@ class NewWallButton extends Button {
   }
   
   void action () {
-    shooter.currentStuff = new ExWall(mouseX, mouseY);
+    shooter.currentObj = new ExWall(mouseX, mouseY);
   }
 }

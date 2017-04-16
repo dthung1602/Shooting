@@ -6,11 +6,11 @@ void mousePressed() {
       return;
     }
     
-  //drop stuff
-  if (shooter.currentStuff != null) {
-    stuffList[stuffCount] = shooter.currentStuff;
-    stuffCount++;
-    shooter.currentStuff = null;
+  //drop obj
+  if (shooter.currentObj != null) {
+    objList[objCount] = shooter.currentObj;
+    objCount++;
+    shooter.currentObj = null;
     return;
   }
     

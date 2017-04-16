@@ -4,7 +4,7 @@ void resetRound() {
   enemyCount     = 0;
   bulletCount    = 0;
   effectCount    = 0;
-  stuffCount     = 0;
+  objCount     = 0;
   shooter.health = shooter.maxHealth;
   oldFrame       = frameCount;
   newEnemyDelay  = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);

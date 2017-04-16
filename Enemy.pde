@@ -24,23 +24,23 @@ abstract class Enemy {
       return;
     }
     
-    //check if enemy was block by a stuff  
-    for (int i=0; i<stuffCount; i++) {
-      // skip out-of-game stuffs
-      if (stuffList[i].health <= 0) 
+    //check if enemy was block by a obj  
+    for (int i=0; i<objCount; i++) {
+      // skip out-of-game objs
+      if (objList[i].health <= 0) 
         continue;
       
-      // skip pass-able stuffs
-      if (stuffList[i].walkthrough)
+      // skip pass-able objs
+      if (objList[i].walkthrough)
         continue;
       
-      // check if stuff block enemy
-      if (!stuffList[i].containPoint(x, y)) 
+      // check if obj block enemy
+      if (!objList[i].containPoint(x, y)) 
         continue;
       
-      //stop and attack stuff
+      //stop and attack obj
       speed = 0;
-      attack(stuffList[i]);
+      attack(objList[i]);
       
       break;
     }
@@ -64,14 +64,18 @@ abstract class Enemy {
   
   void hit (Bullet bl) {
     health -= bl.damage;
-    if (health <= 0)
+    if (health <= 0) {
       shooter.money += bonusMoney;
+      killCount++;
+    }
   }
   
-  void hit (AttackableStuff st) {
+  void hit (AttackableObj st) {
     health -= st.damage;
-    if (health <= 0)
+    if (health <= 0) {
       shooter.money += bonusMoney;
+      killCount++;
+    }
   }
   
   void attack (CanBeAttacked target) {
