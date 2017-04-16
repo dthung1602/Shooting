@@ -4,7 +4,10 @@ abstract class Weapon {
   PImage img;
   int defaultDelay;              // how many frames by default before weapon can shoot again
   int delay;                     // how many frames left before weapon can shoot again
+  int defaultSpecialDelay;       // how many frames by default before weapon can use special again
+  int delaySpecial;              // how many frames left before weapon can use special again
   float speed;                   // how fast the bullet is
+  boolean enable = false;        // true: shooter can use; fasle: can't be used
   
   void shoot() {
     // do nothing when delay is not over or out of bullet
@@ -30,7 +33,25 @@ abstract class Weapon {
     if (wp instanceof Arm)
       return new Shuriken(shooter.x, shooter.y, vx, vy);
       
-    return new Laser(0, 0, 0, 0);
+    return new Laser(shooter.x, shooter.y, vx, vy);
+  }
+  
+  void special () {
+    // do nothing when delay is not over
+    if (delaySpecial > 0)
+      return;
+      
+    delaySpecial = defaultSpecialDelay;
+    for (int i=0; i<enemyCount; i++) {
+      // skip dead enemy
+      if (enemyList[i].health <= 0) 
+        continue;
+      float d = dist(shooter.x, shooter.y, enemyList[i].x, enemyList[i].y);
+      float vx = speed * (enemyList[i].x - shooter.x) / d;          // x speed
+      float vy = speed * (enemyList[i].y - shooter.y) / d;          // y speed
+      bulletList[bulletCount] = newBullet(vx, vy);
+      bulletCount += 1;
+    }
   }
 }
 
@@ -39,10 +60,12 @@ class Hand extends Weapon{
   Hand () {
     bullet = new Stone(0, 0, 0, 0);
     defaultDelay = 25;
+    defaultSpecialDelay = 500;
     img = loadImage("./Pic/laser_gun.png");
     speed = 15;
     bulletLeft = -1;
-  }  
+    enable = true;
+  }    
 }
 
 

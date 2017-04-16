@@ -19,7 +19,7 @@ abstract class Button {
   void action() {}
 }
 
-// tmp
+// -------------------tmp----------------------------
 class NewWallButton extends Button {
   NewWallButton (int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
@@ -28,4 +28,52 @@ class NewWallButton extends Button {
   void action () {
     shooter.currentObj = new ExWall(mouseX, mouseY);
   }
+}
+
+class HighScoreButton extends Button {
+  HighScoreButton(int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action() {
+  }
+}
+
+class QuitButton extends Button {
+  QuitButton(int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action() {
+    exit();
+  }
+}
+
+class MenuButton extends Button {  
+  MenuButton(int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action() {
+    screen = menuScreen;
+  }
+}
+
+class ChooseRoundButton extends Button { 
+  ChooseRoundButton(int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action() {
+  }
+}
+
+class ResumeButton extends Button {
+  ResumeButton(int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action() {
+    screen = playScreen;
+  } 
 }

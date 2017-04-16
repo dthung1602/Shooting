@@ -15,5 +15,8 @@ void mousePressed() {
   }
     
   // shoot
-  shooter.currentWeapon.shoot();
+  if (mouseButton == LEFT)
+    shooter.currentWeapon.shoot();
+  if (mouseButton == RIGHT)
+    shooter.currentWeapon.special();
 }

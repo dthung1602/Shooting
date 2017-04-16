@@ -1,9 +1,6 @@
 class PlayScreen extends Screen {
-  PlayScreen () {
-    bg = loadImage("./Pic/map0.jpg");
-    buttonList = new Button [] {
-      new NewWallButton (0, 0, 100, 100)
-    };
+  PlayScreen (PImage bg, Button [] bt) {
+    super(bg, bt);    
   }
   
   void show() {

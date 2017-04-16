@@ -1,9 +1,10 @@
 void keyPressed () {
   // 0-->9: change weapon
-  if (Character.isDigit(key)) {
+  if (Character.isDigit(key) && shooter.weaponList[key].enable) {
     shooter.currentWeapon = shooter.weaponList[key];
     return;
   }
+  
   
   // other functions
   switch (key) {
@@ -21,7 +22,7 @@ void keyPressed () {
       break;
     case 's':
     case 'S':
-      //>>> use special skill
+      shooter.special();
     default:
       message = "Invalid key!";
       messageTime = 50;

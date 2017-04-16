@@ -45,12 +45,14 @@ VisualEffect effectList [] = new VisualEffect [EFFECT_LIST_SIZE];
 Obj objList []         = new Obj [STUFF_LIST_SIZE];
 
 // screens
-Screen menuScreen;
 PlayScreen playScreen;
+Screen menuScreen;
 Screen pauseScreen;
 Screen winScreen;
 Screen loseScreen;
 Screen upgradeScreen;
+Screen highScoreScreen;
+Screen choosingRoundScreen;
 
 // images of bullets
 PImage stonePic;
@@ -130,7 +132,66 @@ void setup () {
   PImage bg;
   Button buttonList [];
   
-  playScreen = new PlayScreen();
+  //---------create play screen-----------
+  bg = loadImage("./Pic/map0.jpg");
+  buttonList = new Button [] {
+    new NewWallButton(0,0,200,200)
+  };
+  playScreen = new PlayScreen(bg, buttonList);
+  /*
+
+Screen upgradeScreen;
+Screen choosingRoundScreen;*/
+  //---------create menu screen-----------
+  bg = loadImage("./Pic/menu.jpg");
+  buttonList = new Button[] { 
+    new QuitButton(730, 10, 790, 70),
+    new HighScoreButton(555, 440, 785, 480),
+  };
+  menuScreen = new Screen(bg, buttonList);
+  
+  //---------create pause screen-----------
+  bg = loadImage("./Pic/menu.jpg");
+  buttonList = new Button[] {
+    new ResumeButton(15, 440, 250, 480),
+    new MenuButton(15, 440, 250, 480),
+  };
+  menuScreen = new Screen(bg, buttonList);
+  
+  //---------create win screen-------------
+  bg = loadImage("./Pic/win.jpg");
+  buttonList = new Button[] {
+    new MenuButton(415, 310, 495, 370)
+  };
+  winScreen = new Screen(bg, buttonList);
+  
+  //-----------create lose screen-------------
+  bg = loadImage("./Pic/lose.jpg");
+  buttonList = new Button[] {
+    new MenuButton(580, 215, 655, 280),
+  };
+  loseScreen = new Screen(bg, buttonList);
+  
+  //-----------create high score screen-------------  
+  bg = loadImage("./Pic/highscore.jpg");
+  buttonList = new Button[] {
+    new MenuButton(750, 475, 790, 512)
+  };
+  highScoreScreen = new Screen(bg, buttonList);
+  
+  //---------create upgrade screen-----------
+  bg = loadImage("./Pic/menu.jpg");
+  buttonList = new Button[] {
+    // .>>>> lot of buttons
+  };
+  menuScreen = new Screen(bg, buttonList);
+  
+  //-----------create choosing round screen-------------  
+  bg = loadImage("./Pic/highscore.jpg");
+  buttonList = new Button[] {
+    new ChooseRoundButton(0,0,200,200),
+  };
+  highScoreScreen = new Screen(bg, buttonList);
   
   //----------------------show menu--------------------------//
   screen = playScreen;

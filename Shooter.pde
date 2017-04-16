@@ -76,6 +76,19 @@ class Shooter extends CanBeAttacked {
     currentWeapon.delay -= 1;
   }
   
+  void special () {
+    if (money < -1)
+      return;
+    
+    money -= 1000;
+    for (int i=0; i<10; i++) {
+      bulletList[bulletCount] = currentWeapon.newBullet(0, 0);
+      bulletList[bulletCount].x = (int) random(50, width-50);
+      bulletList[bulletCount].y = (int) random(1, 100);
+      bulletCount++;
+    }
+  }
+  
   private void laserDestroy (float tmpx, float tmpy) {
     for (int i=0; i<enemyCount; i++) {
       
