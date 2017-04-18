@@ -43,7 +43,7 @@ class FreezeEffect extends VisualEffect {
 
 class ExplosionEffect extends VisualEffect {
   int size = 0;                              // current size, will increase
-  int maxSize = 200;                         // max size
+  int maxSize = 400;                         // max size
   int inc;                                   // how much size will increase in show()
   
   ExplosionEffect(float x, float y) {

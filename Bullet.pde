@@ -26,32 +26,38 @@ abstract class Bullet {
     y += vy;    
     vy += GRAVITY * weight;     // effect of gravity
     
+    // check if bullet hit any obj
+    for (int i=0; i<objCount; i++) {
+      if (objList[i].health > 0 && objList[i].containPoint(x, y)) {
+        status = 1;
+        objList[i].action();
+        action();
+        break;
+      }
+    }
+    
     // check if bullet hit any enemy
     for (int i=0; i<enemyCount; i++) {
       if (enemyList[i].health > 0 && touch(enemyList[i])) {
         status = 1;
         enemyList[i].hit(this);
+        action();
         break;
       }
     }
     
-    // check if bullet hit any obj
-    for (int i=0; i<objCount; i++) {
-      if (objList[i].health > 0 && objList[i].containPoint(x, y)) {
-        objList[i].action();
-        status = 1;
-      }
-    }
-    
     // draw
+    println(this);
     image(img, x, y, 20, 20);
   }   
   
-  private boolean touch (Enemy e) {
+  boolean touch (Enemy e) {
     if (dist(x, y, e.x, e.y) < e.size + hitRadius)
       return true;
     return false;
   }
+  
+  void action () {}
 }
 
 class Stone extends Bullet {
@@ -65,6 +71,32 @@ class Stone extends Bullet {
 }
 
 
+class Grenade extends Bullet {
+  int explosiveRadius = 100;
+  
+  Grenade (float x, float y, float vx, float vy) {
+    super(x, y, vx, vy);
+    damage = 1;
+    img = grenadePic;
+    println(img);
+    weight = 1;
+    hitRadius = 5;
+  }
+  
+  void action () {
+    // explode
+    for (int i=0; i<enemyCount; i++) {
+      if (enemyList[i].health > 0 && dist(enemyList[i].x, enemyList[i].y, x, y) < explosiveRadius)
+        enemyList[i].hit(this);
+    }
+    
+    // add explosive effect
+    effectList[effectCount] = new ExplosionEffect(x, y);
+    effectCount++;
+  }
+}
+
+
 class Shuriken extends Bullet {
   Shuriken (float x, float y, float vx, float vy) {
     super(x, y, vx, vy);
@@ -73,6 +105,29 @@ class Shuriken extends Bullet {
     weight = 0;
   }
 }
+
+
+
+class Arrow extends Bullet {
+  Arrow (float x, float y, float vx, float vy) {
+    super(x, y, vx, vy);
+    damage = 2;
+    img = arrowPic;
+    weight = 0;
+  }
+}
+
+
+class Ice extends Bullet {
+  Ice (float x, float y, float vx, float vy) {
+    super(x, y, vx, vy);
+    damage = 2;
+    img = icePic;
+    weight = 0;
+  }
+}
+
+
 
 class Laser extends Bullet {
   Laser (float x, float y, float vx, float vy) {

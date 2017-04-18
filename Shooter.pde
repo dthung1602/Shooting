@@ -14,7 +14,7 @@ class Shooter extends CanBeAttacked {
   Obj currentObj;
   
   //upgrade  
-  Weapon weaponList [] = new Weapon [] {/*new kind of weapon will be add gradualy*/};
+  Weapon weaponList [] = new Weapon [] {};
   boolean aim = false;
   int maxHealth = DEFAULT_HEALTH;
   //>> add new upgrade here
@@ -47,7 +47,7 @@ class Shooter extends CanBeAttacked {
     float vx = currentWeapon.speed * (mouseX - x) / d;          // x speed
     float vy = currentWeapon.speed * (mouseY - y) / d;          // y speed
     float tmpx = x + vx;                 // current x pos
-    float tmpy = y + vy + GRAVITY;       // curretn y pos
+    float tmpy = y + vy + GRAVITY * currentWeapon.bullet.weight;       // curretn y pos
     float px = x;                        // prev x pos
     float py = y;                        // prev y pos
     
@@ -82,7 +82,7 @@ class Shooter extends CanBeAttacked {
     
     money -= 1000;
     for (int i=0; i<10; i++) {
-      bulletList[bulletCount] = currentWeapon.newBullet(0, 0);
+      bulletList[bulletCount] = currentWeapon.newBullet(0, 5);
       bulletList[bulletCount].x = (int) random(50, width-50);
       bulletList[bulletCount].y = (int) random(1, 100);
       bulletCount++;

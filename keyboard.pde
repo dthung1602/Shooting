@@ -1,7 +1,7 @@
 void keyPressed () {
   // 0-->9: change weapon
-  if (Character.isDigit(key) && shooter.weaponList[key].enable) {
-    shooter.currentWeapon = shooter.weaponList[key];
+  if ('0' <= key && key <= '9' && key-48 < shooter.weaponList.length) {
+    shooter.currentWeapon = shooter.weaponList[key-48];
     return;
   }
   
@@ -17,8 +17,8 @@ void keyPressed () {
       break;
     case 'm':
     case 'M':
-      pausing = true;
-      screen = menuScreen;
+      if (screen == playScreen)
+        screen = menuScreen;
       break;
     case 's':
     case 'S':

@@ -7,7 +7,6 @@ abstract class Weapon {
   int defaultSpecialDelay;       // how many frames by default before weapon can use special again
   int delaySpecial;              // how many frames left before weapon can use special again
   float speed;                   // how fast the bullet is
-  boolean enable = false;        // true: shooter can use; fasle: can't be used
   
   void shoot() {
     // do nothing when delay is not over or out of bullet
@@ -27,18 +26,27 @@ abstract class Weapon {
   Bullet newBullet (float vx, float vy) {
     Weapon wp = shooter.currentWeapon;
     
-    if (wp instanceof Hand)
+    if (wp instanceof HandStone)
       return new Stone(shooter.x, shooter.y, vx, vy);
     
-    if (wp instanceof Arm)
+    if (wp instanceof HandShuriken)
       return new Shuriken(shooter.x, shooter.y, vx, vy);
       
-    return new Laser(shooter.x, shooter.y, vx, vy);
+    if (wp instanceof HandGrenade)
+      return new Grenade(shooter.x, shooter.y, vx, vy);
+      
+    if (wp instanceof Bow)
+      return new Arrow(shooter.x, shooter.y, vx, vy);
+      
+    if (wp instanceof FreezeGun)
+      return new Ice(shooter.x, shooter.y, vx, vy);
+      
+    return new Grenade(shooter.x, shooter.y, vx, vy);
   }
   
   void special () {
     // do nothing when delay is not over
-    if (delaySpecial > 0)
+    if (delaySpecial != 0)
       return;
       
     delaySpecial = defaultSpecialDelay;
@@ -46,9 +54,11 @@ abstract class Weapon {
       // skip dead enemy
       if (enemyList[i].health <= 0) 
         continue;
+      
+      // create one bullet for each enemy
       float d = dist(shooter.x, shooter.y, enemyList[i].x, enemyList[i].y);
-      float vx = speed * (enemyList[i].x - shooter.x) / d;          // x speed
-      float vy = speed * (enemyList[i].y - shooter.y) / d;          // y speed
+      float vx = speed * 2 * (enemyList[i].x - shooter.x) / d;          // x speed
+      float vy = speed * 2 * (enemyList[i].y - shooter.y) / d;          // y speed
       bulletList[bulletCount] = newBullet(vx, vy);
       bulletCount += 1;
     }
@@ -56,36 +66,73 @@ abstract class Weapon {
 }
 
 
-class Hand extends Weapon{
-  Hand () {
+class HandStone extends Weapon {
+  HandStone () {
     bullet = new Stone(0, 0, 0, 0);
     defaultDelay = 25;
-    defaultSpecialDelay = 500;
-    img = loadImage("./Pic/laser_gun.png");
-    speed = 15;
+    defaultSpecialDelay = 250;
+    img = handPic;  
+    speed = 20;
     bulletLeft = -1;
-    enable = true;
   }    
 }
 
 
-class Arm extends Weapon{
-  Arm () {
-    bullet = new Laser (0, 0, 0, 0);
-    defaultDelay = 5000;
-    img = loadImage("./Pic/laser_gun.png");
+class HandGrenade extends Weapon {
+  HandGrenade () {
+    bullet = new Grenade (0, 0, 0, 0); 
+    defaultDelay = 25;
+    defaultSpecialDelay = -1;
+    img = handPic;  
+    speed = 15;
+    bulletLeft = 5;
+  }
+}
+
+
+class HandShuriken extends Weapon{
+  HandShuriken () {
+    bullet = new Shuriken(0, 0, 0, 0);
+    defaultDelay = 10;
+    defaultSpecialDelay = 500;
+    img = handPic;
     speed = 20;
     bulletLeft = -1;
   }  
 }
 
 
+class Bow extends Weapon {
+  Bow () {
+    bullet = new Arrow(0, 0, 0, 0);
+    defaultDelay = 10;
+    defaultSpecialDelay = 500;
+    img = bowPic;
+    speed = 25;
+    bulletLeft = -1;
+  }  
+}
+
+
+class FreezeGun extends Weapon {
+  FreezeGun () {
+    bullet = new Ice(0, 0, 0, 0);
+    defaultDelay = 10;
+    defaultSpecialDelay = 500;
+    img = freezeGunPic;
+    speed = 25;
+    bulletLeft = 20;
+  }  
+}
+
+
 class LaserGun extends Weapon {
   LaserGun () {
-    bullet = new Laser (0, 0, 0, 0);
-    defaultDelay = 5000;
-    img = loadImage("./Pic/laser_gun.png");
-    speed = 20;
+    bullet = new Stone(0, 0, 0, 0);
+    defaultDelay = 25;
+    defaultSpecialDelay = 500;
+    img = laserGunPic;
+    speed = 15;
     bulletLeft = -1;
   }
 }

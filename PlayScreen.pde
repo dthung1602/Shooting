@@ -110,12 +110,10 @@ class PlayScreen extends Screen {
   
   private void checkFinishRound() {
     // have not finish round
-    println(killCount, totalEnemyInRound);
     if (killCount < totalEnemyInRound)
       return;
       
     // finish round
-    println("ok");
     resetRound();
     currentRound++;
     totalEnemyInRound *= DIFICULTLY;

@@ -70,6 +70,15 @@ PImage nukePic;
 PImage snowflakePic;
 PImage explosionPic;
 
+// image of weapon
+PImage handPic;
+PImage bowPic;
+PImage laserGunPic;
+PImage freezeGunPic;
+
+// image of enemy
+PImage basicEnemyPic;
+
 // fonts
 PFont fontSmall;
 PFont fontMedium;
@@ -111,6 +120,7 @@ void setup () {
   // weapon images
   stonePic   = loadImage("./Pic/stone.png");
   shurikenPic= loadImage("./Pic/dart.png");
+  arrowPic   = loadImage("./Pic/arrow.png");
   bulletPic  = loadImage("./Pic/bullet.png");
   icePic     = loadImage("./Pic/ice.png");
   firePic    = loadImage("./Pic/fire.png");
@@ -122,6 +132,15 @@ void setup () {
   //effect images
   explosionPic = loadImage("./Pic/explosion.png");
   snowflakePic = loadImage("./Pic/dart.png");
+  
+  //weapon image
+  handPic     = loadImage("./Pic/laser_gun.png");
+  bowPic      = loadImage("./Pic/bow.png");
+  laserGunPic = loadImage("./Pic/laser_gun.png");
+  freezeGunPic= loadImage("./Pic/laser_gun.png");
+  
+  // enemy image
+  basicEnemyPic = loadImage("./Pic/dart_monkey.png");
   
   //-----------------------load fonts------------------------//
   fontSmall  = loadFont("./Font/font_small.vlw");
@@ -198,7 +217,14 @@ Screen choosingRoundScreen;*/
   pausing = true;
   
   //--------------------------- tmp-----------------------------
-  shooter.currentWeapon = new Hand();
+  shooter.weaponList = new Weapon [] {
+    new HandStone(),
+    new HandShuriken(),
+    new HandGrenade(),
+    new Bow(),
+    new FreezeGun()
+  };
+  shooter.currentWeapon = shooter.weaponList[0];
   shooter.aim = true;
   totalEnemyInRound = 5;
   resetRound();

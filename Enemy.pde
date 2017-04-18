@@ -70,8 +70,8 @@ abstract class Enemy {
     }
   }
   
-  void hit (AttackableObj st) {
-    health -= st.damage;
+  void hit (ExplosiveObj obj) {
+    health -= obj.damage;
     if (health <= 0) {
       shooter.money += bonusMoney;
       killCount++;
@@ -86,7 +86,6 @@ abstract class Enemy {
     }
     
     // attack!
-    //println(target + " " + shooter + " " + damage);
     target.health -= damage;
     attackTime = defaultAttackTime;
   }
@@ -97,13 +96,13 @@ class BasicEnemy extends Enemy {
   BasicEnemy (int x, int y) {
     super(x, y);
     health = 1;
-    speed  = 2;
+    speed  = 1;
     damage = 5;
     size = 20;
     defaultAttackTime = 50;
-    defaultSpeed = 2;
+    defaultSpeed = 1;
     attackTime = 0;
-    img = loadImage("./Pic/dart_monkey.png");
+    img = basicEnemyPic;//loadImage("./Pic/dart_monkey.png");
     attackRange = 100;
     bonusMoney = 5;
   }
@@ -114,9 +113,15 @@ class FastEnemy extends Enemy {
   FastEnemy (int x, int y) {
     super(x, y);
     health = 1;
-    speed  = 6;
-    damage = 1;
-    //img     
+    speed  = 3;
+    damage = 5;
+    size = 20;
+    defaultAttackTime = 30;
+    defaultSpeed = 3;
+    attackTime = 0;
+    img = loadImage("./Pic/ice_tower.png");
+    attackRange = 100;
+    bonusMoney = 8;     
   }
 }
 
@@ -124,10 +129,16 @@ class FastEnemy extends Enemy {
 class FlyEnemy extends Enemy {
   FlyEnemy (int x, int y) {
     super(x, y);
-    health = 2;
-    speed  = 4;
-    damage = 1;
-    //img     
+    health = 1;
+    speed  = 2;
+    damage = 5;
+    size = 20;
+    defaultAttackTime = 50;
+    defaultSpeed = 2;
+    attackTime = 0;
+    img = loadImage("./Pic/bomb_tower.png");
+    attackRange = 100;
+    bonusMoney = 5;    
   }
 }
 
@@ -135,9 +146,15 @@ class FlyEnemy extends Enemy {
 class StrongEnemy extends Enemy {
   StrongEnemy (int x, int y) {
     super(x, y);
-    health = 4;
+    health = 1;
     speed  = 2;
-    damage = 2;
-    //img     
+    damage = 5;
+    size = 20;
+    defaultAttackTime = 50;
+    defaultSpeed = 2;
+    attackTime = 0;
+    img = loadImage("./Pic/super_monkey.png");
+    attackRange = 100;
+    bonusMoney = 5;     
   }
 }

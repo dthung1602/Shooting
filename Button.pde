@@ -19,16 +19,52 @@ abstract class Button {
   void action() {}
 }
 
-// -------------------tmp----------------------------
+// -----------------------New obj------------------------
 class NewWallButton extends Button {
   NewWallButton (int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
   }
   
   void action () {
-    shooter.currentObj = new ExWall(mouseX, mouseY);
+    shooter.currentObj = new Wall(mouseX, mouseY);
   }
 }
+
+
+class NewBigWallButton extends Button {
+  NewBigWallButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+  
+  void action () {
+    shooter.currentObj = new BigWall(mouseX, mouseY);
+  }
+}
+
+
+class NewBarrel extends Button {
+  NewBarrel (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+  
+  void action () {
+    shooter.currentObj = new Barrel(mouseX, mouseY);
+  }
+}
+
+
+class NewToxicBarrel extends Button {
+  NewToxicBarrel (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+  
+  void action () {
+    shooter.currentObj = new Barrel(mouseX, mouseY);
+  }
+}
+
+
+//-------------------------------------------------------
 
 class HighScoreButton extends Button {
   HighScoreButton(int x1, int y1, int x2, int y2) {
