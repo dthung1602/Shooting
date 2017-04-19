@@ -45,14 +45,16 @@ VisualEffect effectList [] = new VisualEffect [EFFECT_LIST_SIZE];
 Obj objList []         = new Obj [STUFF_LIST_SIZE];
 
 // screens
-PlayScreen playScreen;
 Screen menuScreen;
+Screen highScoreScreen;
+Screen choosingRoundScreen;
+Screen settingScreen;
+Screen changeUserScreen;
+PlayScreen playScreen;
+Screen upgradeScreen;
 Screen pauseScreen;
 Screen winScreen;
 Screen loseScreen;
-Screen upgradeScreen;
-Screen highScoreScreen;
-Screen choosingRoundScreen;
 
 // images of bullets
 PImage stonePic;
@@ -84,36 +86,28 @@ PFont fontSmall;
 PFont fontMedium;
 PFont fontLarge;
 
-// tmp
-Bullet laserBullet = new Laser(0, 0, 0, 0);
+// sound effects
+import ddf.minim.*;
+Minim minim;
+AudioPlayer bgSound;
+AudioPlayer dartSound;
+AudioPlayer iceSound;
+AudioPlayer bombSound;
+AudioPlayer laserSound;
+
+boolean musicEnable = true;
+boolean soundEnable = true;
 
 
-//specialAction var
-float size;                                // how much the weapon is enlarged
-boolean saClear = false; 
-float saMaxSpeed;
-boolean saAntiGRAVITY = false;
-boolean saGRAVITY = false;
-int laserOn = 0;
-int saFreeze = 0;
-int saGiantBullet = 0;
-int saFireBullet = 0;
-int saFireWorkBullet = 0;
-float saFastBullet = 1;
-float minSize, midSize, maxSize;
-int saBigBall = 0;
-boolean hShoot = false;
-int hshootRate = 150;
-boolean vShoot = false;
-int vshootRate = 150;
+// others
 
 
 
 void setup () {
   //--------------basic--------------------------//
   size(800,520);
-  frameRate(25);
-  rectMode(CENTER);
+  frameRate(20);
+  rectMode(CORNERS);
   imageMode(CENTER);
   
   //-----------------load images----------------//
@@ -150,26 +144,56 @@ void setup () {
   //-----------------------create screens----------------------//
   PImage bg;
   Button buttonList [];
-  
-  //---------create play screen-----------
-  bg = loadImage("./Pic/map0.jpg");
-  buttonList = new Button [] {
-    new NewWallButton(0,0,200,200)
-  };
-  playScreen = new PlayScreen(bg, buttonList);
-  /*
 
-Screen upgradeScreen;
-Screen choosingRoundScreen;*/
-  //---------create menu screen-----------
+  // menu screen-
   bg = loadImage("./Pic/menu.jpg");
-  buttonList = new Button[] { 
-    new QuitButton(730, 10, 790, 70),
+  buttonList = new Button[] {
+    new ContinueButton(15, 440, 250, 480), 
+    new UpGradeButton(15, 440, 250, 480),
+    new ChoosingRoundMenuButton(280, 440, 515, 480),
+    new ChangePlayerButton(730, 10, 790, 70),
     new HighScoreButton(555, 440, 785, 480),
-  };
-  menuScreen = new Screen(bg, buttonList);
+    new SettingButton(730, 10, 790, 70),
+    new QuitButton(730, 10, 790, 70),  
+  };menuScreen = new Screen(bg, buttonList);
+
+  // high score screen
+  highScoreScreen = new HighScoreScreen();
   
-  //---------create pause screen-----------
+  
+  // create choosing round screen
+  bg = loadImage("./Pic/highscore.jpg");
+  buttonList = new Button[] {
+    new MenuButton(580, 215, 655, 280),
+  };
+  choosingRoundScreen = new Screen(bg, buttonList);
+  choosingRoundScreen.infoList = new Info [] {
+    new Info("", 500, 400, color(200,255,0), fontSmall),
+  };
+  
+  // create setting screen  
+  bg = loadImage("./Pic/highscore.jpg");
+  buttonList = new Button[] {
+    new MenuButton(580, 215, 655, 280),
+    new SoundButton(580, 215, 655, 280),
+    new MusicButton(580, 215, 655, 280),
+  };
+  settingScreen = new Screen(bg, buttonList);
+  
+  // create change user
+  changeUserScreen = new ChangeUserScreen();
+  
+  // create play screen
+  playScreen = new PlayScreen();
+  
+  // create upgradeScreen
+  bg = loadImage("./Pic/highscore.jpg");
+  buttonList = new Button [] {
+  // upgrade here
+  };
+  upgradeScreen = new Screen (bg, buttonList);
+  
+  // create pause screen
   bg = loadImage("./Pic/menu.jpg");
   buttonList = new Button[] {
     new ResumeButton(15, 440, 250, 480),
@@ -177,40 +201,19 @@ Screen choosingRoundScreen;*/
   };
   menuScreen = new Screen(bg, buttonList);
   
-  //---------create win screen-------------
+  // create win screen
   bg = loadImage("./Pic/win.jpg");
   buttonList = new Button[] {
     new MenuButton(415, 310, 495, 370)
   };
   winScreen = new Screen(bg, buttonList);
   
-  //-----------create lose screen-------------
+  // create lose screen
   bg = loadImage("./Pic/lose.jpg");
   buttonList = new Button[] {
     new MenuButton(580, 215, 655, 280),
   };
   loseScreen = new Screen(bg, buttonList);
-  
-  //-----------create high score screen-------------  
-  bg = loadImage("./Pic/highscore.jpg");
-  buttonList = new Button[] {
-    new MenuButton(750, 475, 790, 512)
-  };
-  highScoreScreen = new Screen(bg, buttonList);
-  
-  //---------create upgrade screen-----------
-  bg = loadImage("./Pic/menu.jpg");
-  buttonList = new Button[] {
-    // .>>>> lot of buttons
-  };
-  menuScreen = new Screen(bg, buttonList);
-  
-  //-----------create choosing round screen-------------  
-  bg = loadImage("./Pic/highscore.jpg");
-  buttonList = new Button[] {
-    new ChooseRoundButton(0,0,200,200),
-  };
-  highScoreScreen = new Screen(bg, buttonList);
   
   //----------------------show menu--------------------------//
   screen = playScreen;

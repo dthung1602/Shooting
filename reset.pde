@@ -1,5 +1,4 @@
 void resetRound() {
-  size           = 1;
   killCount      = 0;
   enemyCount     = 0;
   bulletCount    = 0;

@@ -1,6 +1,19 @@
 class PlayScreen extends Screen {
-  PlayScreen (PImage bg, Button [] bt) {
-    super(bg, bt);    
+  PlayScreen () {
+    bg = loadImage("./Pic/map0.jpg");
+    buttonList = new Button [] {
+      new NewObjButton(0, 0, 100, 100, 0),
+      new NewObjButton(100, 0, 200, 100, 1),
+      new NewObjButton(200, 0, 300, 100, 2),
+      new NewObjButton(0, 100, 100, 200, 3),
+      new NewObjButton(100, 100, 200, 200, 4),
+    };
+    
+    infoList = new Info [] {
+      new Info("Health " + str(shooter.health), 50, 450, color(255,0,0), fontSmall),
+      new Info("Money  " + str(shooter.money), 50, 475, color(255,0,0), fontSmall),
+      new Info("Round  " + str(currentRound), 50, 500, color(255,0,0), fontSmall),
+    };    
   }
   
   void show() {
@@ -117,23 +130,22 @@ class PlayScreen extends Screen {
     resetRound();
     currentRound++;
     totalEnemyInRound *= DIFICULTLY;
-    //screen = upgradeScreen;
+    screen = upgradeScreen;
+    
+    // check highscore
+    //>>>>>>>
   }
   
   private void showInfo() {
-    // show basic info
-    textFont(fontSmall);
-    fill(255, 0, 0);
-    text("Health " + str(shooter.health), 50, 450);
-    text("Money  " + str(shooter.money), 50, 475);
-    text("Round  " + str(currentRound), 50, 500);
+    for (int i=0; i<infoList.length; i++) 
+      infoList[i].show();
   }
   
   private void drawMouse() {
     //high light if mouse on any button
     Button b;
     for (int i=0; i<buttonList.length; i++) {
-      b = screen.buttonList[i]; 
+      b = buttonList[i]; 
       if (b.containPoint(mouseX, mouseY) && b.enable) {
         noStroke();
         fill(BLUE);

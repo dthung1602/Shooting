@@ -20,54 +20,69 @@ abstract class Button {
 }
 
 // -----------------------New obj------------------------
-class NewWallButton extends Button {
-  NewWallButton (int x1, int y1, int x2, int y2) {
+class NewObjButton extends Button {
+  int objNum;
+  
+  NewObjButton (int x1, int y1, int x2, int y2, int objNum) {
     super(x1, y1, x2, y2);
+    this.objNum = objNum;
   }
   
   void action () {
-    shooter.currentObj = new Wall(mouseX, mouseY);
+    shooter.currentObj = newObj();
+  }
+  
+  Obj newObj () {
+    switch (objNum) {
+      case 0: return new Wall (mouseX, mouseY);
+      case 1: return new BigWall (mouseX, mouseY);
+      case 2: return new Barrel (mouseX, mouseY);
+      default: return new ToxicBarrel (mouseX, mouseY);
+    }
   }
 }
 
 
-class NewBigWallButton extends Button {
-  NewBigWallButton (int x1, int y1, int x2, int y2) {
+
+//------------------------menu button----------------------
+class ContinueButton extends Button {
+  ContinueButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
   }
-  
-  void action () {
-    shooter.currentObj = new BigWall(mouseX, mouseY);
+
+  void action() {
   }
 }
 
-
-class NewBarrel extends Button {
-  NewBarrel (int x1, int y1, int x2, int y2) {
+class UpGradeButton extends Button {
+  UpGradeButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
   }
-  
-  void action () {
-    shooter.currentObj = new Barrel(mouseX, mouseY);
+
+  void action() {
   }
 }
 
-
-class NewToxicBarrel extends Button {
-  NewToxicBarrel (int x1, int y1, int x2, int y2) {
+class ChangePlayerButton extends Button {
+  ChangePlayerButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
   }
-  
-  void action () {
-    shooter.currentObj = new Barrel(mouseX, mouseY);
+
+  void action() {
   }
 }
-
-
-//-------------------------------------------------------
 
 class HighScoreButton extends Button {
   HighScoreButton(int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action() {
+  }
+}
+
+class SettingButton extends Button {
+  SettingButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
   }
 
@@ -85,6 +100,8 @@ class QuitButton extends Button {
   }
 }
 
+
+//--------------------play screen buttons--------------
 class MenuButton extends Button {  
   MenuButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
@@ -92,15 +109,6 @@ class MenuButton extends Button {
 
   void action() {
     screen = menuScreen;
-  }
-}
-
-class ChooseRoundButton extends Button { 
-  ChooseRoundButton(int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action() {
   }
 }
 
@@ -113,3 +121,52 @@ class ResumeButton extends Button {
     screen = playScreen;
   } 
 }
+
+class ChoosingRoundMenuButton extends Button {
+  ChoosingRoundMenuButton(int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+  
+  void action() {
+    screen = choosingRoundScreen;
+  }
+}
+
+
+//-------------sound buttons-------------------
+class MusicButton extends Button {
+  MusicButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+  
+  void action () {
+    if (musicEnable) {
+      message = "Music disabled";
+      messageTime = 50;
+    } else {
+      message = "Music enabled";
+      messageTime = 50;
+    }
+    musicEnable = !musicEnable;
+  }
+}
+
+
+class SoundButton extends Button {
+  SoundButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+  
+  void action () {
+    if (soundEnable) {
+      message = "Sound effect disabled";
+      messageTime = 50;
+    } else {
+      message = "Sound effect enabled";
+      messageTime = 50;
+    }
+    soundEnable = !soundEnable;
+  }
+}
+
+//----------------------buttons in other menu---------------------

@@ -82,7 +82,7 @@ class Shooter extends CanBeAttacked {
     
     money -= 1000;
     for (int i=0; i<10; i++) {
-      bulletList[bulletCount] = currentWeapon.newBullet(0, 5);
+      bulletList[bulletCount] = currentWeapon.newBullet(0, 15);
       bulletList[bulletCount].x = (int) random(50, width-50);
       bulletList[bulletCount].y = (int) random(1, 100);
       bulletCount++;
@@ -97,8 +97,8 @@ class Shooter extends CanBeAttacked {
         continue;
         
       // check if laser hit any enemy
-      if (dist(tmpx, tmpy, enemyList[i].x, enemyList[i].y) < enemyList[i].size) 
-        enemyList[i].hit(laserBullet);
+      //if (dist(tmpx, tmpy, enemyList[i].x, enemyList[i].y) < enemyList[i].size) 
+       // enemyList[i].hit(laserBullet);
     }
   }
 }
