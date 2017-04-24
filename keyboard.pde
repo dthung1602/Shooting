@@ -25,8 +25,8 @@ void keyPressed () {
       case 'S':
         shooter.special();
       default:
-        message = "Invalid key!";
-        messageTime = 50;
+        screen.info.message = "Invalid key!";
+        screen.info.time = 50;
     }
   }
   
@@ -43,52 +43,60 @@ void keyPressed () {
   }
   
   //------------------for change user screen----------------
-  if (screen == changeUserScreen) {
+  if (screen == changePlayerScreen) {
     // enter alnum
     if ('0' <= key && key <= '9' || 'a' <= key && key <= 'z' || 'A' <= key && key <= 'A')
-        changeUserScreen.infoList[changeUserScreen.status].message += key;
+        changePlayerScreen.infoList[changePlayerScreen.status].message += key;
     
     // enter back space
     if (keyCode == 8) {
-      String s = changeUserScreen.infoList[changeUserScreen.status].message;
-      changeUserScreen.infoList[changeUserScreen.status].message = s.substring(0, s.length()-1);
+      String s = changePlayerScreen.infoList[changePlayerScreen.status].message;
+      changePlayerScreen.infoList[changePlayerScreen.status].message = s.substring(0, s.length()-1);
     }
       
     // enter enter
     if (keyCode == 10) {
       
-      // if entering username
-      if (changeUserScreen.status == 0) {
+      // if entering username, change to entering pass
+      if (changePlayerScreen.status == 0) {
+        changePlayerScreen.status = 1;
+        
+      // if entering pass, check validity
+      } else {
         
         // check if username in list
         boolean inList = false;
-        for (int i=2; i<changeUserScreen.infoList.length; i++) {
-          if (split(changeUserScreen.infoList[i].message, " ")[1].equals(changeUserScreen.infoList[0].message)) {
+        for (int i=2; i<changePlayerScreen.infoList.length; i++) {
+          if (split(changePlayerScreen.infoList[i].message, " ")[1].equals(changePlayerScreen.infoList[0].message)) {
             inList = true;
             break;
           }
         }
         
+        // if not in list of existing users
         if (!inList) {
-          changeUserScreen.infoList[0].message = "";
-        } else {
-          changeUserScreen.status = 1;
+          changePlayerScreen.infoList[0].message = "";
+          changePlayerScreen.infoList[1].message = "";
+          changePlayerScreen.status = 0;
+          screen.info.message = "Invalid username!";
+          screen.info.time = 75;
+          return;
         }
         
-      // if entering pass, check validity
-      } else {
-        
         // read player's file for pass
-        String data [] = loadStrings("./Player/" + changeUserScreen.infoList[0].message + ".txt");
+        String data [] = loadStrings("./Player/" + changePlayerScreen.infoList[0].message + ".txt");
         
         // if wrong pass
-        if (hash(changeUserScreen.infoList[1].message) != int(data[0])) {
-          changeUserScreen.infoList[1].message = "";
+        if (hash(changePlayerScreen.infoList[1].message) != int(data[0])) {
+          changePlayerScreen.infoList[1].message = "";
+          screen.info.message = "Invalid password!";
+          screen.info.time = 75;
           return;
         }
         
         // pass is correct
         screen = menuScreen;
+        menuScreen.info =  new TimeInfo ("Welcome, " + changePlayerScreen.infoList[0].message + "!", 500, 50, BOLD_RED, fontSmall, -1);
         //>>>player.loadPlayer();
       }
     }

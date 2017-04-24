@@ -2,6 +2,7 @@ class Screen {
   PImage bg;
   Button buttonList[];
   Info infoList[];
+  TimeInfo info = new TimeInfo("", 50, height-50, color(255,0,0), fontSmall, 0);
   
   Screen (PImage bg, Button buttonList[]) {
     this.bg = bg;
@@ -29,6 +30,9 @@ class Screen {
     if (infoList != null)
       for (int i=0; i<infoList.length; i++) 
         infoList[i].show();
+        
+    // show time info
+    info.show();
   }
 }
 
@@ -47,13 +51,14 @@ class HighScoreScreen extends Screen {
   }
 }
 
-class ChangeUserScreen extends Screen {
+class ChangePlayerScreen extends Screen {
   int status = 0;  // 0: user name, 1: password
   
-  ChangeUserScreen () {
+  ChangePlayerScreen () {
     bg = loadImage("./Pic/highscore.jpg");
     buttonList = new Button[] {
-      new MenuButton(0, 0, 100, 100)
+      new MenuButton(0, 0, 100, 100),
+      new NewPlayerButton(100, 0, 200, 100),
     };
     
     // load data from file

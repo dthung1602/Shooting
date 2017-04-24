@@ -26,3 +26,19 @@ class Info {
     }
   }
 }
+
+class TimeInfo extends Info {
+  int time;
+  TimeInfo (String message, int x, int y, color cl, PFont font, int time) {
+    super(message, x, y, cl, font);
+    this.time = time;
+  }
+  
+  void show() {
+    if (time == 0) 
+      return;
+    super.show();
+    if (time > 0) 
+      time--;
+  }
+}

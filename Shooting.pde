@@ -31,13 +31,11 @@ int objCount;                              // number of obj in current round
 int oldFrame        = 0;                   // save frame since the last time an enemy was created
 int newEnemyDelay = 25;                    // delay time between creation of two enemies; will receive random values in game
 
-String message;                            // save a message to display on screen when playing 
-int messageTime = 0;                       // how long the message will stay on screenint size;
-
 
 //--------------------------constant objects--------------------------------//
-Player player              = new Player ();
-Shooter shooter            = new Shooter();
+Player player;
+Shooter shooter;
+
 Enemy enemyList []         = new Enemy [ENEMY_LIST_SIZE];
 Bullet bulletList []       = new Bullet [BULLET_LIST_SIZE];
 VisualEffect effectList [] = new VisualEffect [EFFECT_LIST_SIZE];
@@ -48,7 +46,7 @@ Screen menuScreen;
 HighScoreScreen highScoreScreen;
 Screen choosingRoundScreen;
 Screen settingScreen;
-ChangeUserScreen changeUserScreen;
+ChangePlayerScreen changePlayerScreen;
 PlayScreen playScreen;
 Screen upgradeScreen;
 Screen pauseScreen;
@@ -135,6 +133,10 @@ void setup () {
   // enemy image
   basicEnemyPic = loadImage("./Pic/dart_monkey.png");
   
+  // -----------------load important objects-------------------//
+  player  = new Player();
+  shooter = new Shooter();
+  
   //-----------------------load fonts------------------------//
   fontSmall  = loadFont("./Font/font_small.vlw");
   fontMedium = loadFont("./Font/font_medium.vlw");
@@ -147,18 +149,16 @@ void setup () {
   // menu screen
   bg = loadImage("./Pic/menu.jpg");
   buttonList = new Button[] {
-    new ContinueButton(15, 440, 250, 480), 
+    new ResumeButton(15, 440, 250, 480),
+    //  new ContinueButton(15, 440, 250, 480),  tmp for above button 
     new UpGradeButton(15, 440, 250, 480),
     new ChoosingRoundMenuButton(280, 440, 515, 480),
     new ChangePlayerButton(730, 10, 790, 70),
     new HighScoreButton(555, 440, 785, 480),
     new SettingButton(730, 10, 790, 70),
-    new QuitButton(730, 10, 790, 70),  
+    new QuitButton(730, 10, 790, 70),
   };
   menuScreen = new Screen(bg, buttonList);
-  menuScreen.infoList = new Info [] {
-    new Info ("Welcome, ", 100, 50, BOLD_RED, fontMedium)
-  };
 
   // high score screen
   highScoreScreen = new HighScoreScreen();
@@ -183,8 +183,8 @@ void setup () {
   };
   settingScreen = new Screen(bg, buttonList);
   
-  // create change user
-  changeUserScreen = new ChangeUserScreen();
+  // create change user screen
+  changePlayerScreen = new ChangePlayerScreen();
   
   // create play screen
   playScreen = new PlayScreen();
@@ -202,7 +202,7 @@ void setup () {
     new ResumeButton(15, 440, 250, 480),
     new MenuButton(15, 440, 250, 480),
   };
-  menuScreen = new Screen(bg, buttonList);
+  pauseScreen = new Screen(bg, buttonList);
   
   // create win screen
   bg = loadImage("./Pic/win.jpg");
@@ -222,14 +222,7 @@ void setup () {
   
   
   //--------------------------- tmp----------------------------
-  screen = changeUserScreen;
-  shooter.weaponList = new Weapon [] {
-    new HandStone(),
-    new HandShuriken(),
-    new HandGrenade(),
-    new Bow(),
-    new FreezeGun()
-  };
+  screen = changePlayerScreen;
   shooter.currentWeapon = shooter.weaponList[0];
   shooter.aim = true;
   totalEnemyInRound = 5;

@@ -14,7 +14,14 @@ class Shooter extends CanBeAttacked {
   Obj currentObj;
   
   //upgrade  
-  Weapon weaponList [] = new Weapon [] {};
+  /*this wp list is tmp*/
+  Weapon weaponList [] = new Weapon [] {
+    new HandStone(),
+    new HandShuriken(),
+    new HandGrenade(),
+    new Bow(),
+    new FreezeGun()
+  };
   boolean aim = false;
   int maxHealth = DEFAULT_HEALTH;
   //>> add new upgrade here

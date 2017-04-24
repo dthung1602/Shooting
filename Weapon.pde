@@ -7,6 +7,7 @@ abstract class Weapon {
   int defaultSpecialDelay;       // how many frames by default before weapon can use special again
   int delaySpecial;              // how many frames left before weapon can use special again
   float speed;                   // how fast the bullet is
+  boolean enable;                // can shooter use it or not
   
   void shoot() {
     // do nothing when delay is not over or out of bullet

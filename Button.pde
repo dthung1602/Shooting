@@ -141,11 +141,11 @@ class MusicButton extends Button {
   
   void action () {
     if (musicEnable) {
-      message = "Music disabled";
-      messageTime = 50;
+      screen.info.message = "Music disabled";
+      screen.info.time = 50;
     } else {
-      message = "Music enabled";
-      messageTime = 50;
+      screen.info.message = "Music enabled";
+      screen.info.time = 50;
     }
     musicEnable = !musicEnable;
   }
@@ -159,14 +159,24 @@ class SoundButton extends Button {
   
   void action () {
     if (soundEnable) {
-      message = "Sound effect disabled";
-      messageTime = 50;
+      screen.info.message = "Sound effect disabled";
+      screen.info.time = 50;
     } else {
-      message = "Sound effect enabled";
-      messageTime = 50;
+      screen.info.message = "Sound effect enabled";
+      screen.info.time = 50;
     }
     soundEnable = !soundEnable;
   }
 }
 
 //----------------------buttons in other menu---------------------
+
+class NewPlayerButton extends Button {
+  NewPlayerButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+  
+  void action () {
+    player.createPlayer();
+  }
+}

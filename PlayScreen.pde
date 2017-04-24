@@ -131,13 +131,14 @@ class PlayScreen extends Screen {
     totalEnemyInRound *= DIFICULTLY;
     screen = upgradeScreen;
     
-    // check highscore
+    // save game, unlock new round & check highscore
     //>>>>>>>
   }
   
   private void showInfo() {
     for (int i=0; i<infoList.length; i++) 
       infoList[i].show();
+    info.show();
   }
   
   private void drawMouse() {
