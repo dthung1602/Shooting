@@ -46,10 +46,13 @@ void keyPressed () {
   if (screen == changeUserScreen) {
     // enter alnum
     if ('0' <= key && key <= '9' || 'a' <= key && key <= 'z' || 'A' <= key && key <= 'A')
-      if (changeUserScreen.status == 0)
-        changeUserScreen.infoList[0].message += key;
-      else 
-        changeUserScreen.infoList[1].message += key;
+        changeUserScreen.infoList[changeUserScreen.status].message += key;
+    
+    // enter back space
+    if (keyCode == 8) {
+      String s = changeUserScreen.infoList[changeUserScreen.status].message;
+      changeUserScreen.infoList[changeUserScreen.status].message = s.substring(0, s.length()-1);
+    }
       
     // enter enter
     if (keyCode == 10) {
@@ -60,7 +63,7 @@ void keyPressed () {
         // check if username in list
         boolean inList = false;
         for (int i=2; i<changeUserScreen.infoList.length; i++) {
-          if (changeUserScreen.infoList[i].message.equals(changeUserScreen.infoList[0].message)) {
+          if (split(changeUserScreen.infoList[i].message, " ")[1].equals(changeUserScreen.infoList[0].message)) {
             inList = true;
             break;
           }
@@ -85,7 +88,8 @@ void keyPressed () {
         }
         
         // pass is correct
-        player.loadPLayer();
+        screen = menuScreen;
+        //>>>player.loadPlayer();
       }
     }
   }

@@ -28,9 +28,6 @@ int bulletCount;                           // how many weapon in current round
 int effectCount;                           // number of effect in current round
 int objCount;                              // number of obj in current round
 
-boolean starting = false;                  // true: player start a round;    false: round if finished
-boolean pausing = true;                    // true: menu;                    false: in game
-
 int oldFrame        = 0;                   // save frame since the last time an enemy was created
 int newEnemyDelay = 25;                    // delay time between creation of two enemies; will receive random values in game
 
@@ -157,7 +154,11 @@ void setup () {
     new HighScoreButton(555, 440, 785, 480),
     new SettingButton(730, 10, 790, 70),
     new QuitButton(730, 10, 790, 70),  
-  };menuScreen = new Screen(bg, buttonList);
+  };
+  menuScreen = new Screen(bg, buttonList);
+  menuScreen.infoList = new Info [] {
+    new Info ("Welcome, ", 100, 50, BOLD_RED, fontMedium)
+  };
 
   // high score screen
   highScoreScreen = new HighScoreScreen();
@@ -191,7 +192,7 @@ void setup () {
   // create upgradeScreen
   bg = loadImage("./Pic/highscore.jpg");
   buttonList = new Button [] {
-  // upgrade here
+    new ResumeButton(0, 0, 100, 100),
   };
   upgradeScreen = new Screen (bg, buttonList);
   
@@ -204,7 +205,7 @@ void setup () {
   menuScreen = new Screen(bg, buttonList);
   
   // create win screen
-  bg = loadImage("./Pic/wind.jpg");
+  bg = loadImage("./Pic/win.jpg");
   buttonList = new Button[] {
     new MenuButton(415, 310, 495, 370)
   };
@@ -218,10 +219,10 @@ void setup () {
   loseScreen = new Screen(bg, buttonList);
   
   //----------------------show menu--------------------------//
-  screen = playScreen;
-  pausing = true;
   
-  //--------------------------- tmp-----------------------------
+  
+  //--------------------------- tmp----------------------------
+  screen = changeUserScreen;
   shooter.weaponList = new Weapon [] {
     new HandStone(),
     new HandShuriken(),
@@ -234,6 +235,7 @@ void setup () {
   totalEnemyInRound = 5;
   resetRound();
 }
+
 
 void draw () {
   screen.show();

@@ -28,13 +28,13 @@ class Player {
   
   void createPlayer () {
     String data [] = new String [] {
-      str(hash(pass)),
-      "1",                // current round
-      "0",                // money
-      "20",               // max health default
-      "0",                // weapon list: 0 = hand stone, 1 = hand shuriken, ...
-      "",                 // obj list: true false true false...  --> enable new obj buttons in playscreen
-      "//>> sth here"     // upgrade
+      str(hash(pass)),                     // pass
+      "1",                                 // current round
+      "0",                                 // money
+      "20",                                // max health default
+      "0",                                 // weapon list: 0 = hand stone, 1 = hand shuriken, ...
+      "false false false false false",     // obj list: true false true false...  --> enable new obj buttons in playscreen
+      "//>> sth here"                      // upgrade
     };
     
     saveStrings("./Players/" + name + ".txt", data);

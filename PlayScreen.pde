@@ -6,7 +6,6 @@ class PlayScreen extends Screen {
       new NewObjButton(100, 0, 200, 100, 1),
       new NewObjButton(200, 0, 300, 100, 2),
       new NewObjButton(0, 100, 100, 200, 3),
-      new NewObjButton(100, 100, 200, 200, 4),
     };
     
     infoList = new Info [] {

@@ -47,7 +47,6 @@ abstract class Bullet {
     }
     
     // draw
-    println(this);
     image(img, x, y, 20, 20);
   }   
   
@@ -78,7 +77,6 @@ class Grenade extends Bullet {
     super(x, y, vx, vy);
     damage = 1;
     img = grenadePic;
-    println(img);
     weight = 1;
     hitRadius = 5;
   }
