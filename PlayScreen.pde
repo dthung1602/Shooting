@@ -117,7 +117,7 @@ class PlayScreen extends Screen {
     }
     
     // check if player has win 
-    if (currentRound == MAX_ROUND) 
+    if (currentRound > MAX_ROUND)
       screen = winScreen;
   }
   

@@ -32,7 +32,7 @@ class NewObjButton extends Button {
     shooter.currentObj = newObj();
   }
   
-  Obj newObj () {
+  private Obj newObj () {
     switch (objNum) {
       case 0: return new Wall (mouseX, mouseY);
       case 1: return new BigWall (mouseX, mouseY);

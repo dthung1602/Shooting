@@ -3,6 +3,7 @@ class Info {
   int x, y;
   color cl;
   PFont font;
+  boolean hiden = false;
   
   Info (String message, int x, int y, color cl, PFont font) {
     this.message = message;
@@ -15,6 +16,13 @@ class Info {
   void show () {
     textFont(font);
     fill(cl);
-    text(message, x, y);
+    if (!hiden)
+      text(message, x, y);
+    else {
+      String s = "";
+      for (int i=0; i<message.length(); i++) 
+        s += '*';
+      text(s, x, y);
+    }
   }
 }

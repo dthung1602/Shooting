@@ -3,7 +3,7 @@ float GROUND_HEIGHT  = 50;
 float GRAVITY        = 0.5;
 int DEFAULT_HEALTH   = 10;
 int DEFAULT_MONEY    = 100;
-int MAX_ROUND        = 16;
+int MAX_ROUND        = 3;
 int ENEMY_LIST_SIZE  = 500;
 int BULLET_LIST_SIZE = 1000;
 int EFFECT_LIST_SIZE = 500;
@@ -16,6 +16,7 @@ color WHITE = color(100, 100, 100, 100);
 color RED   = color(255, 0, 0, 100);
 color BLUE  = color(0, 150, 250, 100);
 color CLEAR_BLUE  = color(50, 180, 250, 70);
+color BOLD_RED    = color(255, 0, 0);
 
 //------------------------------ variables---------------------------------//
 Screen screen;
@@ -25,7 +26,7 @@ int killCount;                             // how many enemy kiled
 int enemyCount;                            // how many enemy in current round
 int bulletCount;                           // how many weapon in current round 
 int effectCount;                           // number of effect in current round
-int objCount;                            // number of obj in current round
+int objCount;                              // number of obj in current round
 
 boolean starting = false;                  // true: player start a round;    false: round if finished
 boolean pausing = true;                    // true: menu;                    false: in game
@@ -38,18 +39,19 @@ int messageTime = 0;                       // how long the message will stay on 
 
 
 //--------------------------constant objects--------------------------------//
+Player player              = new Player ();
 Shooter shooter            = new Shooter();
 Enemy enemyList []         = new Enemy [ENEMY_LIST_SIZE];
 Bullet bulletList []       = new Bullet [BULLET_LIST_SIZE];
 VisualEffect effectList [] = new VisualEffect [EFFECT_LIST_SIZE];
-Obj objList []         = new Obj [STUFF_LIST_SIZE];
+Obj objList []             = new Obj [STUFF_LIST_SIZE];
 
 // screens
 Screen menuScreen;
-Screen highScoreScreen;
+HighScoreScreen highScoreScreen;
 Screen choosingRoundScreen;
 Screen settingScreen;
-Screen changeUserScreen;
+ChangeUserScreen changeUserScreen;
 PlayScreen playScreen;
 Screen upgradeScreen;
 Screen pauseScreen;
@@ -145,7 +147,7 @@ void setup () {
   PImage bg;
   Button buttonList [];
 
-  // menu screen-
+  // menu screen
   bg = loadImage("./Pic/menu.jpg");
   buttonList = new Button[] {
     new ContinueButton(15, 440, 250, 480), 
@@ -202,7 +204,7 @@ void setup () {
   menuScreen = new Screen(bg, buttonList);
   
   // create win screen
-  bg = loadImage("./Pic/win.jpg");
+  bg = loadImage("./Pic/wind.jpg");
   buttonList = new Button[] {
     new MenuButton(415, 310, 495, 370)
   };
