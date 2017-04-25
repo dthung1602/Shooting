@@ -140,14 +140,35 @@ class FreezeGun extends Weapon {
 
 
 class LaserGun extends Weapon {
+  int blNum = 5;
+  
   LaserGun () {
-    bullet = new Stone(0, 0, 0, 0);
-    defaultDelay = 25;
+    bullet = new Laser(0, 0, 0, 0);
+    defaultDelay = 5;
     defaultSpecialDelay = 500;
     img = laserGunPic;
-    speed = 15;
+    speed = 30;
     bulletLeft = -1;
     specialAbilityPrice = 1000; 
     price = 900;
+  }
+  
+  void shoot() {
+    // do nothing when delay is not over or out of bullet
+    if (delay * shooter.uWeaponDelay > 0 || bulletLeft == 0)
+      return;
+    
+    // shoot!
+    float d = dist(shooter.x, shooter.y, mouseX, mouseY);
+    float vx = shooter.uWeaponSpeed * speed * (mouseX - shooter.x) / d;          // x speed
+    float vy = shooter.uWeaponSpeed * speed * (mouseY - shooter.y) / d;          // y speed
+    for (int i=0; i<blNum; i++) {
+      bulletList[bulletCount + i] = newBullet(vx, vy);
+      bulletList[bulletCount + i].x += vx * i * 5;
+      bulletList[bulletCount + i].y += vy * i * 5;
+    }
+    delay = defaultDelay;
+    bulletLeft -= blNum;
+    bulletCount += blNum;
   }
 }

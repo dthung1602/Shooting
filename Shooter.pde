@@ -68,8 +68,6 @@ class Shooter extends CanBeAttacked {
     // move the point to create the path
     while (tmpy < height - GROUND_HEIGHT && tmpy > 0 && tmpx < width && tmpx > 0) {        // still in screen
       line(px, py, tmpx, tmpy);             // draw a line
-      if (currentWeapon instanceof LaserGun)                                      // destroy if using laser gun
-        laserDestroy(tmpx, tmpy);
       px = tmpx;                                       // update prev x 
       py = tmpy;                                       // update prev y
       vy += GRAVITY * currentWeapon.bullet.weight;     // effect of gravity
@@ -83,8 +81,6 @@ class Shooter extends CanBeAttacked {
     translate(x, y);
     rotate(angle);
     image(currentWeapon.img, 0, 0, 100, 75);
-    if (currentWeapon instanceof LaserGun)
-      image(laserPic, 70, -5, 70, 50);
     rotate(-angle);
     translate(-x, -y);
     currentWeapon.delay -= 1;
@@ -100,19 +96,6 @@ class Shooter extends CanBeAttacked {
       bulletList[bulletCount].x = (int) random(50, width-50);
       bulletList[bulletCount].y = (int) random(1, 100);
       bulletCount++;
-    }
-  }
-  
-  private void laserDestroy (float tmpx, float tmpy) {
-    for (int i=0; i<enemyCount; i++) {
-      
-      // skip dead enemy
-      if (enemyList[i].health > 0) 
-        continue;
-        
-      // check if laser hit any enemy
-      //if (dist(tmpx, tmpy, enemyList[i].x, enemyList[i].y) < enemyList[i].size) 
-       // enemyList[i].hit(laserBullet);
     }
   }
 }

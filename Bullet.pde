@@ -130,7 +130,8 @@ class Ice extends Bullet {
 class Laser extends Bullet {
   Laser (float x, float y, float vx, float vy) {
     super(x, y, vx, vy);
+    damage = 15;
+    img = laserPic;
     weight = 0;
   }
-  void move(){};
 }
