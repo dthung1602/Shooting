@@ -84,7 +84,7 @@ class Grenade extends Bullet {
   void action () {
     // explode
     for (int i=0; i<enemyCount; i++) {
-      if (enemyList[i].health > 0 && dist(enemyList[i].x, enemyList[i].y, x, y) < explosiveRadius)
+      if (enemyList[i].health > 0 && dist(enemyList[i].x, enemyList[i].y, x, y) < explosiveRadius * shooter.uExplodeRadius)
         enemyList[i].hit(this);
     }
     

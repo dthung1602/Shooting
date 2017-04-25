@@ -23,7 +23,7 @@ void keyPressed () {
         break;
       case 's':
       case 'S':
-        shooter.special();
+        shooter.specialAbility();
       default:
         screen.info.message = "Invalid key!";
         screen.info.time = 50;

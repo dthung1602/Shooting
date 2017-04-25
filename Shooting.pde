@@ -1,9 +1,10 @@
 //----------------------------- constant-----------------------------------//
+float SELL_PERCENT   = 0.8;
 float GROUND_HEIGHT  = 50;
 float GRAVITY        = 0.5;
 int DEFAULT_HEALTH   = 10;
 int DEFAULT_MONEY    = 100;
-int MAX_ROUND        = 3;
+int MAX_ROUND        = 50;
 int ENEMY_LIST_SIZE  = 500;
 int BULLET_LIST_SIZE = 1000;
 int EFFECT_LIST_SIZE = 500;

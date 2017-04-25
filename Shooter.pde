@@ -13,7 +13,9 @@ class Shooter extends CanBeAttacked {
   Weapon currentWeapon;
   Obj currentObj;
   
-  //upgrade  
+  //upgrade
+  boolean aim = false;
+  int maxHealth = DEFAULT_HEALTH;
   /*this wp list is tmp*/
   Weapon weaponList [] = new Weapon [] {
     new HandStone(),
@@ -22,9 +24,14 @@ class Shooter extends CanBeAttacked {
     new Bow(),
     new FreezeGun()
   };
-  boolean aim = false;
-  int maxHealth = DEFAULT_HEALTH;
-  //>> add new upgrade here
+  float uWeaponDelay = 1;        // * how long before weapon can shoot again
+  float uWeaponSpeed = 1;        // * how fast bullet is
+  float uBonusMoney  = 1;        // * how much more money / an enemy
+  float uSpecialWeaponDelay = 1; // * how long before weapon can use it special ability
+  float uSpecialPrice = 1;       // * how much special ability cost 
+  float uBonusDamage = 0;        // + how much extra damage bullet cause
+  float uExplodeRadius = 1;      // * how large explosion radius is
+  int uWallExtraHealth = 0;      // + wall extra health
   
   Shooter () {
     super();
@@ -51,12 +58,12 @@ class Shooter extends CanBeAttacked {
     
     // create a point that move in the same path of the bullet
     float d = dist(x, y, mouseX, mouseY);
-    float vx = currentWeapon.speed * (mouseX - x) / d;          // x speed
-    float vy = currentWeapon.speed * (mouseY - y) / d;          // y speed
-    float tmpx = x + vx;                 // current x pos
-    float tmpy = y + vy + GRAVITY * currentWeapon.bullet.weight;       // curretn y pos
-    float px = x;                        // prev x pos
-    float py = y;                        // prev y pos
+    float vx = shooter.uWeaponSpeed * currentWeapon.speed * (mouseX - x) / d;          // x speed
+    float vy = shooter.uWeaponSpeed * currentWeapon.speed * (mouseY - y) / d;          // y speed
+    float tmpx = x + vx;                                                              // current x pos
+    float tmpy = y + vy + GRAVITY * currentWeapon.bullet.weight;                      // curretn y pos
+    float px = x;                                                                     // prev x pos
+    float py = y;                                                                     // prev y pos
     
     // move the point to create the path
     while (tmpy < height - GROUND_HEIGHT && tmpy > 0 && tmpx < width && tmpx > 0) {        // still in screen
@@ -83,11 +90,11 @@ class Shooter extends CanBeAttacked {
     currentWeapon.delay -= 1;
   }
   
-  void special () {
-    if (money < -1)
+  void specialAbility () {
+    if (money < uSpecialPrice)
       return;
     
-    money -= 1000;
+    money -= uSpecialPrice * currentWeapon.specialAbilityPrice;
     for (int i=0; i<10; i++) {
       bulletList[bulletCount] = currentWeapon.newBullet(0, 15);
       bulletList[bulletCount].x = (int) random(50, width-50);
