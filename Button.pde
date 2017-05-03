@@ -51,6 +51,16 @@ class ContinueButton extends Button {
   }
 
   void action() {
+    // ask player to log in
+    if (player.name == null) {
+      screen.info.message = "Please login!";
+      screen.info.time = 75;
+      return;
+    }
+    
+    screen = playScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
+    resetRound();
   }
 }
 
@@ -60,6 +70,19 @@ class UpGradeButton extends Button {
   }
 
   void action() {
+    screen = upgradeScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
+  }
+}
+
+class DataButton extends Button {
+  DataButton(int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action() {
+    screen = dataScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
   }
 }
 
@@ -69,17 +92,32 @@ class ChangePlayerButton extends Button {
   }
 
   void action() {
+    screen = changePlayerScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
   }
 }
 
-class HighScoreButton extends Button {
+class NewPlayerButton extends Button {
+  NewPlayerButton(int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action() {
+    screen = newPlayerScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
+  }
+}
+
+/*class HighScoreButton extends Button {
   HighScoreButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
   }
 
   void action() {
+    screen = highScoreScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
   }
-}
+}*/
 
 class SettingButton extends Button {
   SettingButton(int x1, int y1, int x2, int y2) {
@@ -87,6 +125,8 @@ class SettingButton extends Button {
   }
 
   void action() {
+    screen = settingScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
   }
 }
 
@@ -109,17 +149,8 @@ class MenuButton extends Button {
 
   void action() {
     screen = menuScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
   }
-}
-
-class ResumeButton extends Button {
-  ResumeButton(int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action() {
-    screen = playScreen;
-  } 
 }
 
 class ChoosingRoundMenuButton extends Button {
@@ -129,6 +160,7 @@ class ChoosingRoundMenuButton extends Button {
   
   void action() {
     screen = choosingRoundScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
   }
 }
 
@@ -170,13 +202,70 @@ class SoundButton extends Button {
 }
 
 //----------------------buttons in other menu---------------------
-
-class NewPlayerButton extends Button {
-  NewPlayerButton (int x1, int y1, int x2, int y2) {
+class IncreaseUpgadeButton extends Button {
+  int mode;
+  
+  IncreaseUpgadeButton (int x1, int y1, int x2, int y2, int mode) {
     super(x1, y1, x2, y2);
+    this.mode = mode;
   }
   
   void action () {
-    player.createPlayer();
+    //----------mode 0: aim-------------------------
+    if (mode == 0) {
+      if (shooter.aim)
+        alreadyBought();
+      else if (shooter.money < 100)
+        notEnough();
+      else
+        shooter.aim = true;        
+    }
+    
+    //--------- mode 1-->9: buy weapon--------------
+    if (1 <= mode && mode <= 9) {
+      //skip if already bought
+      if (shooter.weaponList[mode-1].enable) {
+        alreadyBought();
+        return;
+      }        
+      
+      // save price of all weapon
+      int weaponPrice [] = new int [] {200, 300, 400, 500, 600, 700};
+    
+      // check if enough money
+      if (shooter.money < weaponPrice[mode-1]) {
+        notEnough();
+        return;
+      }
+      
+      // buy weapon
+      shooter.money -= weaponPrice[mode-1];
+      shooter.weaponList[mode-1].enable = true;
+      return;
+    }
+   
+    /*
+    float uWeaponDelay = 1;        // * how long before weapon can shoot again
+  float uWeaponSpeed = 1;        // * how fast bullet is
+  float uBonusMoney  = 1;        // * how much more money / an enemy
+  float uSpecialWeaponDelay = 1; // * how long before weapon can use it special ability
+  float uSpecialPrice = 1;       // * how much special ability cost 
+  float uBonusDamage = 0;        // + how much extra damage bullet cause
+  float uExplodeRadius = 1;      // * how large explosion radius is
+  int uWallExtraHealth = 0;      // + wall extra health
+    */
+    
+    //-----------------mode >= 10: others upgrades-------------------
+    //if (mode == 11)
+  }
+  
+  private void alreadyBought() {
+    screen.info.message = "Already bought!";
+    screen.info.time = 75;
+  }
+  
+  private void notEnough() {
+    screen.info.message = "Not enough money!";
+    screen.info.time = 75;
   }
 }

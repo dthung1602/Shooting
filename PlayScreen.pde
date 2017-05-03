@@ -9,9 +9,9 @@ class PlayScreen extends Screen {
     };
     
     infoList = new Info [] {
-      new Info("Health " + str(shooter.health), 50, 450, color(255,0,0), fontSmall),
-      new Info("Money  " + str(shooter.money), 50, 475, color(255,0,0), fontSmall),
-      new Info("Round  " + str(currentRound), 50, 500, color(255,0,0), fontSmall),
+      new Info("" + str(shooter.health), 50, 450, color(255,0,0), fontSmall),
+      new Info("" + str(shooter.money), 50, 475, color(255,0,0), fontSmall),
+      new Info("" + str(currentRound), 50, 500, color(255,0,0), fontSmall),
     };    
   }
   
@@ -112,12 +112,15 @@ class PlayScreen extends Screen {
     // check if player has lost
     if (shooter.health <= 0) {
       screen = loseScreen;
+      surface.setSize(screen.bg.width, screen.bg.height);
+      resetRound();
       return;
     }
     
     // check if player has win 
     if (currentRound > MAX_ROUND)
       screen = winScreen;
+      surface.setSize(screen.bg.width, screen.bg.height);
   }
   
   private void checkFinishRound() {
@@ -130,12 +133,18 @@ class PlayScreen extends Screen {
     currentRound++;
     totalEnemyInRound *= DIFICULTLY;
     screen = upgradeScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
     
     // save game, unlock new round & check highscore
     //>>>>>>>
   }
   
   private void showInfo() {
+    // update health, round and money
+    infoList[0].message = "Health: " + str(shooter.health);
+    infoList[1].message = "Money : " + str(shooter.money);
+    infoList[2].message = "Round : " + str(currentRound);
+    
     for (int i=0; i<infoList.length; i++) 
       infoList[i].show();
     info.show();

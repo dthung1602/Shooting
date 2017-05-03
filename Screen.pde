@@ -36,6 +36,7 @@ class Screen {
   }
 }
 
+
 class HighScoreScreen extends Screen {
   HighScoreScreen () {
     bg = loadImage("./Pic/highscore.jpg");
@@ -51,14 +52,15 @@ class HighScoreScreen extends Screen {
   }
 }
 
+
 class ChangePlayerScreen extends Screen {
   int status = 0;  // 0: user name, 1: password
   
   ChangePlayerScreen () {
-    bg = loadImage("./Pic/highscore.jpg");
+    bg = loadImage("./Pic/login.png");
     buttonList = new Button[] {
-      new MenuButton(0, 0, 100, 100),
-      new NewPlayerButton(100, 0, 200, 100),
+      new MenuButton(157, 25, 235, 100),
+      //>> new LoginButton(455, 615, 725, 675),
     };
     
     // load data from file

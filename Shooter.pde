@@ -15,15 +15,15 @@ class Shooter extends CanBeAttacked {
   
   //upgrade
   boolean aim = false;
-  int maxHealth = DEFAULT_HEALTH;
-  /*this wp list is tmp*/
   Weapon weaponList [] = new Weapon [] {
     new HandStone(),
     new HandShuriken(),
-    new HandGrenade(),
     new Bow(),
-    new FreezeGun()
+    new HandGrenade(),
+    new FreezeGun(),
+    new LaserGun(),
   };
+  int maxHealth = DEFAULT_HEALTH;
   float uWeaponDelay = 1;        // * how long before weapon can shoot again
   float uWeaponSpeed = 1;        // * how fast bullet is
   float uBonusMoney  = 1;        // * how much more money / an enemy
@@ -33,14 +33,25 @@ class Shooter extends CanBeAttacked {
   float uExplodeRadius = 1;      // * how large explosion radius is
   int uWallExtraHealth = 0;      // + wall extra health
   
-  Shooter () {
-    super();
-  }
+  Shooter () {}
 
   void show () {
     showShooter();
     showAim();
     showWeapon();
+  }
+
+  void specialAbility () {
+    if (money < uSpecialPrice)
+      return;
+    
+    money -= uSpecialPrice * currentWeapon.specialAbilityPrice;
+    for (int i=0; i<10; i++) {
+      bulletList[bulletCount] = currentWeapon.newBullet(0, 15);
+      bulletList[bulletCount].x = (int) random(50, width-50);
+      bulletList[bulletCount].y = (int) random(1, 100);
+      bulletCount++;
+    }
   }
 
   private void showShooter() {
@@ -86,16 +97,25 @@ class Shooter extends CanBeAttacked {
     currentWeapon.delay -= 1;
   }
   
-  void specialAbility () {
-    if (money < uSpecialPrice)
-      return;
+  class Upgrade {
+    float value;              // hold value of upgrade
+    float defaultValue;       // hold defaut value of upgrade
+    float increase;           // how much value can increase
+    float max = 5;
+    float min = 0;
     
-    money -= uSpecialPrice * currentWeapon.specialAbilityPrice;
-    for (int i=0; i<10; i++) {
-      bulletList[bulletCount] = currentWeapon.newBullet(0, 15);
-      bulletList[bulletCount].x = (int) random(50, width-50);
-      bulletList[bulletCount].y = (int) random(1, 100);
-      bulletCount++;
+    Upgrade (float value, float defaultValue, float increase, float max, float min) {
+      this.value = value;
+      this.defaultValue = defaultValue;
+      this.increase = increase;
+      this.max = max;
+      this.min = min;
+    }
+    
+    Upgrade (float value, float defaultValue, float increase) {
+      this.value = value;
+      this.defaultValue = defaultValue;
+      this.increase = increase;
     }
   }
 }

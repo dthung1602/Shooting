@@ -15,6 +15,7 @@ void resetRound() {
   shooter.health = shooter.maxHealth;
   oldFrame       = frameCount;
   newEnemyDelay  = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);
+  totalEnemyInRound = (int) (DEFAULT_ENEMY_NUM * pow(DIFICULTLY, currentRound));
 }
 
 void resetUpgrade() {

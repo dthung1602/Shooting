@@ -146,7 +146,7 @@ class FlyEnemy extends Enemy {
 class StrongEnemy extends Enemy {
   StrongEnemy (int x, int y) {
     super(x, y);
-    health = 1;
+    health = 1000;
     speed  = 2;
     damage = 5;
     size = 20;

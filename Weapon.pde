@@ -9,7 +9,7 @@ abstract class Weapon {
   float speed;                   // how fast the bullet is
   boolean enable;                // can shooter use it or not
   int specialAbilityPrice;       // how much special ability using this weapon cost
-  int price;                     // how much this weapon cost
+  int blNum = 1;                 // number of buttlet per shot
   
   void shoot() {
     // do nothing when delay is not over or out of bullet
@@ -20,10 +20,14 @@ abstract class Weapon {
     float d = dist(shooter.x, shooter.y, mouseX, mouseY);
     float vx = shooter.uWeaponSpeed * speed * (mouseX - shooter.x) / d;          // x speed
     float vy = shooter.uWeaponSpeed * speed * (mouseY - shooter.y) / d;          // y speed
-    bulletList[bulletCount] = newBullet(vx, vy);
+    for (int i=0; i<blNum; i++) {
+      bulletList[bulletCount + i] = newBullet(vx, vy);
+      bulletList[bulletCount + i].x += vx * i * 2;
+      bulletList[bulletCount + i].y += vy * i * 2;
+    }
     delay = defaultDelay;
-    bulletLeft -= 1;
-    bulletCount += 1;
+    bulletLeft -= blNum;
+    bulletCount += blNum;
   }
   
   Bullet newBullet (float vx, float vy) {
@@ -43,8 +47,11 @@ abstract class Weapon {
       
     if (wp instanceof FreezeGun)
       return new Ice(shooter.x, shooter.y, vx, vy);
+    
+    if (wp instanceof LaserGun)
+      return new Laser(shooter.x, shooter.y, vx, vy);
       
-    return new Grenade(shooter.x, shooter.y, vx, vy);
+    return null;
   }
   
   void special () {
@@ -78,7 +85,6 @@ class HandStone extends Weapon {
     speed = 20;
     bulletLeft = -1;
     specialAbilityPrice = 300; 
-    price = 0;
   }    
 }
 
@@ -91,8 +97,7 @@ class HandGrenade extends Weapon {
     img = handPic;  
     speed = 15;
     bulletLeft = 5;
-    specialAbilityPrice = 900; 
-    price = 750;
+    specialAbilityPrice = 900;
   }
 }
 
@@ -106,7 +111,6 @@ class HandShuriken extends Weapon{
     speed = 20;
     bulletLeft = -1;
     specialAbilityPrice = 300; 
-    price = 400;
   }  
 }
 
@@ -120,7 +124,6 @@ class Bow extends Weapon {
     speed = 25;
     bulletLeft = -1;
     specialAbilityPrice = 400; 
-    price = 600;
   }  
 }
 
@@ -134,14 +137,11 @@ class FreezeGun extends Weapon {
     speed = 25;
     bulletLeft = 20;
     specialAbilityPrice = 350; 
-    price = 650;
   }  
 }
 
 
-class LaserGun extends Weapon {
-  int blNum = 5;
-  
+class LaserGun extends Weapon { 
   LaserGun () {
     bullet = new Laser(0, 0, 0, 0);
     defaultDelay = 5;
@@ -150,25 +150,6 @@ class LaserGun extends Weapon {
     speed = 30;
     bulletLeft = -1;
     specialAbilityPrice = 1000; 
-    price = 900;
-  }
-  
-  void shoot() {
-    // do nothing when delay is not over or out of bullet
-    if (delay * shooter.uWeaponDelay > 0 || bulletLeft == 0)
-      return;
-    
-    // shoot!
-    float d = dist(shooter.x, shooter.y, mouseX, mouseY);
-    float vx = shooter.uWeaponSpeed * speed * (mouseX - shooter.x) / d;          // x speed
-    float vy = shooter.uWeaponSpeed * speed * (mouseY - shooter.y) / d;          // y speed
-    for (int i=0; i<blNum; i++) {
-      bulletList[bulletCount + i] = newBullet(vx, vy);
-      bulletList[bulletCount + i].x += vx * i * 5;
-      bulletList[bulletCount + i].y += vy * i * 5;
-    }
-    delay = defaultDelay;
-    bulletLeft -= blNum;
-    bulletCount += blNum;
+    blNum = 5;
   }
 }

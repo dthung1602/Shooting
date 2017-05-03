@@ -43,6 +43,9 @@ class Player {
     if (taken) {
       screen.info.message = "Username has been used.\nPlease choose another";
       screen.info.time = 75;
+      changePlayerScreen.infoList[0].message = "";
+      changePlayerScreen.infoList[1].message = "";
+      changePlayerScreen.status = 0;
       return;
     }
       
@@ -51,8 +54,8 @@ class Player {
       "1",                                 // current round
       "0",                                 // money
       "20",                                // max health default
-      "true true",                         // weapon list: true false false ... --> enable wp in shooter.weaponList
-      "false false false false false",     // obj list: true false true false...  --> enable new obj buttons in playscreen
+      "true false false false false false",// weapon list: true false false ... --> enable wp in shooter.weaponList
+      "false false false false false false",// obj list: true false true false...  --> enable new obj buttons in playscreen
       "//>> sth here"                      // upgrade
     };
     
@@ -60,6 +63,5 @@ class Player {
     
     // auto log in to new user
     loadPlayer();
-    
   } 
 }

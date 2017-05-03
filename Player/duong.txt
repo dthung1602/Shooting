@@ -1,1 +1,7 @@
 296351888
+14
+99999
+1000
+true true true true true true
+true true true true
+//upgrades here
