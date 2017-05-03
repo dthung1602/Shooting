@@ -33,11 +33,19 @@ class Screen {
         
     // show time info
     info.show();
+    
+    // >>>show other components
+    if (screen == settingScreen) {
+      if (soundEnable) 
+        image(tickPic, 275, 315);
+      if (musicEnable)
+        image(tickPic, 275, 385);
+    }
   }
 }
 
 
-class HighScoreScreen extends Screen {
+/*class HighScoreScreen extends Screen {
   HighScoreScreen () {
     bg = loadImage("./Pic/highscore.jpg");
     buttonList = new Button[] {
@@ -50,7 +58,7 @@ class HighScoreScreen extends Screen {
       // a lot info here
     };
   }
-}
+}*/
 
 
 class ChangePlayerScreen extends Screen {
@@ -60,7 +68,7 @@ class ChangePlayerScreen extends Screen {
     bg = loadImage("./Pic/login.png");
     buttonList = new Button[] {
       new MenuButton(157, 25, 235, 100),
-      //>> new LoginButton(455, 615, 725, 675),
+      new LoginButton(455, 615, 725, 675),
     };
     
     // load data from file
@@ -68,13 +76,13 @@ class ChangePlayerScreen extends Screen {
     infoList = new Info [data.length + 2];  
     
     // info[0]: username, info[1]: password
-    infoList[0] = new Info("", width/2, 100, BOLD_RED, fontMedium);
-    infoList[1] = new Info("", width/2, 150, BOLD_RED, fontMedium);
+    infoList[0] = new Info("", 375, 370, BOLD_RED, fontMedium);
+    infoList[1] = new Info("", 375, 470, BOLD_RED, fontMedium);
     infoList[1].hiden = true;
     
     // all user names
     for (int i=0; i<data.length; i++) {
-      infoList[i+2] = new Info(str(i) + ". " + data[i], width/3, 200 + i * 50, BOLD_RED, fontSmall);
+      infoList[i+2] = new Info(data[i], 350, 200 + i * 50, BOLD_RED, fontSmall);
     }
   }
 }

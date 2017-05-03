@@ -5,7 +5,9 @@
  *  playscreen --> showShooter
  *  combine ~ button to 1 changing screen button
  *  class upgrade inside shooter
+ *  split new player & login to 2 screens
  *  serialization
+ *  disable resize screen
  */
 
 
@@ -42,7 +44,6 @@ int enemyCount;                            // how many enemy in current round
 int bulletCount;                           // how many weapon in current round 
 int effectCount;                           // number of effect in current round
 int objCount;                              // number of obj in current round
-
 int oldFrame        = 0;                   // save frame since the last time an enemy was created
 int newEnemyDelay = 25;                    // delay time between creation of two enemies; will receive random values in game
 
@@ -93,6 +94,10 @@ PImage freezeGunPic;
 
 // image of enemy
 PImage basicEnemyPic;
+//>>>>>
+
+// other image
+PImage tickPic;
 
 // fonts
 PFont fontSmall;
@@ -155,6 +160,10 @@ void setup () {
   
   // enemy image
   basicEnemyPic = loadImage("./Pic/dart_monkey.png");
+  //>>>
+  
+  // other image
+  tickPic = loadImage("./Pic/tick.png");
   
   // -----------------load important objects-------------------//
   player  = new Player();
@@ -196,7 +205,11 @@ void setup () {
   changePlayerScreen = new ChangePlayerScreen();
   
   // ------------------------- create new user screen-----------
-  //>>>>>>>>>>>>
+  bg = loadImage("./Pic/new_player.png");
+  buttonList = new Button [] {
+    new DataButton(155, 25, 235, 100),
+    // new CreateNewUser(460, 615, 725, 680);
+  };
   newPlayerScreen = new Screen(bg, buttonList);
   
   // ------------------create choosing round screen------------------------

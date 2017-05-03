@@ -34,6 +34,7 @@ void keyPressed () {
     }
   }
   
+  /*
   //------------------for choose round screen----------------
   if (screen == choosingRoundScreen) {
     // enter number
@@ -57,6 +58,7 @@ void keyPressed () {
       screen.infoList[0].message = s.substring(0, s.length()-1);
     }
   }
+  */
   
   //------------------for change user screen----------------
   if (screen == changePlayerScreen) {
@@ -81,41 +83,7 @@ void keyPressed () {
         
       // if entering pass, check validity
       } else {
-        
-        // check if username in list
-        boolean inList = false;
-        for (int i=2; i<changePlayerScreen.infoList.length; i++) {
-          if (split(changePlayerScreen.infoList[i].message, " ")[1].equals(changePlayerScreen.infoList[0].message)) {
-            inList = true;
-            break;
-          }
-        }
-        
-        // if not in list of existing users
-        if (!inList) {
-          changePlayerScreen.infoList[0].message = "";
-          changePlayerScreen.infoList[1].message = "";
-          changePlayerScreen.status = 0;
-          screen.info.message = "Invalid username!";
-          screen.info.time = 75;
-          return;
-        }
-        
-        // read player's file for pass
-        String data [] = loadStrings("./Player/" + changePlayerScreen.infoList[0].message + ".txt");
-        
-        // if wrong pass
-        if (hash(changePlayerScreen.infoList[1].message) != int(data[0])) {
-          changePlayerScreen.infoList[1].message = "";
-          screen.info.message = "Invalid password!";
-          screen.info.time = 75;
-          return;
-        }
-        
-        // pass is correct
-        screen = menuScreen;
-        surface.setSize(screen.bg.width, screen.bg.height);
-        player.loadPlayer();
+        login();
       }
     }
   }

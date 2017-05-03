@@ -172,13 +172,6 @@ class MusicButton extends Button {
   }
   
   void action () {
-    if (musicEnable) {
-      screen.info.message = "Music disabled";
-      screen.info.time = 50;
-    } else {
-      screen.info.message = "Music enabled";
-      screen.info.time = 50;
-    }
     musicEnable = !musicEnable;
   }
 }
@@ -190,14 +183,18 @@ class SoundButton extends Button {
   }
   
   void action () {
-    if (soundEnable) {
-      screen.info.message = "Sound effect disabled";
-      screen.info.time = 50;
-    } else {
-      screen.info.message = "Sound effect enabled";
-      screen.info.time = 50;
-    }
     soundEnable = !soundEnable;
+  }
+}
+
+
+class LoginButton extends Button {
+  LoginButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+  
+  void action () {
+    login();
   }
 }
 
