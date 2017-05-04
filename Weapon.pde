@@ -13,13 +13,13 @@ abstract class Weapon {
   
   void shoot() {
     // do nothing when delay is not over or out of bullet
-    if (delay * shooter.uWeaponDelay > 0 || bulletLeft == 0)
+    if (delay * shooter.upgradeList[2].value > 0 || bulletLeft == 0)
       return;
     
     // shoot!
     float d = dist(shooter.x, shooter.y, mouseX, mouseY);
-    float vx = shooter.uWeaponSpeed * speed * (mouseX - shooter.x) / d;          // x speed
-    float vy = shooter.uWeaponSpeed * speed * (mouseY - shooter.y) / d;          // y speed
+    float vx = shooter.upgradeList[3].value * speed * (mouseX - shooter.x) / d;          // x speed
+    float vy = shooter.upgradeList[3].value * speed * (mouseY - shooter.y) / d;          // y speed
     for (int i=0; i<blNum; i++) {
       bulletList[bulletCount + i] = newBullet(vx, vy);
       bulletList[bulletCount + i].x += vx * i * 2;
@@ -56,7 +56,7 @@ abstract class Weapon {
   
   void special () {
     // do nothing when delay is not over
-    if (delaySpecial * shooter.uSpecialWeaponDelay != 0)
+    if (delaySpecial * shooter.upgradeList[5].value != 0)
       return;
       
     delaySpecial = defaultSpecialDelay;
@@ -67,8 +67,8 @@ abstract class Weapon {
       
       // create one bullet for each enemy
       float d = dist(shooter.x, shooter.y, enemyList[i].x, enemyList[i].y);
-      float vx = shooter.uWeaponSpeed * speed * 2 * (enemyList[i].x - shooter.x) / d;          // x speed
-      float vy = shooter.uWeaponSpeed * speed * 2 * (enemyList[i].y - shooter.y) / d;          // y speed
+      float vx = shooter.upgradeList[3].value * speed * 2 * (enemyList[i].x - shooter.x) / d;          // x speed
+      float vy = shooter.upgradeList[3].value * speed * 2 * (enemyList[i].y - shooter.y) / d;          // y speed
       bulletList[bulletCount] = newBullet(vx, vy);
       bulletCount += 1;
     }

@@ -63,17 +63,17 @@ abstract class Enemy {
   }
   
   void hit (Bullet bl) {
-    health -= bl.damage + shooter.uBonusDamage;
+    health -= bl.damage + shooter.upgradeList[7].value;
     if (health <= 0) {
-      shooter.money += bonusMoney * shooter.uBonusMoney;
+      shooter.money += bonusMoney * shooter.upgradeList[4].value;
       killCount++;
     }
   }
   
   void hit (ExplosiveObj obj) {
-    health -= obj.damage + shooter.uBonusDamage;
+    health -= obj.damage + shooter.upgradeList[7].value;
     if (health <= 0) {
-      shooter.money += bonusMoney * shooter.uBonusMoney;
+      shooter.money += bonusMoney * shooter.upgradeList[4].value;
       killCount++;
     }
   }

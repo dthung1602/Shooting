@@ -77,7 +77,6 @@ class ChangePlayerScreen extends Screen {
   
   void show () {
     super.show();
-    println(status);
   }
   
   void updatePlayerList() {

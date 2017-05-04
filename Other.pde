@@ -12,7 +12,7 @@ void resetRound() {
   bulletCount    = 0;
   effectCount    = 0;
   objCount     = 0;
-  shooter.health = (int) shooter.maxHealth;
+  shooter.health = (int) shooter.upgradeList[1].value;
   oldFrame       = frameCount;
   newEnemyDelay  = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);
   totalEnemyInRound = (int) (DEFAULT_ENEMY_NUM * pow(DIFICULTLY, currentRound));
@@ -26,7 +26,7 @@ void resetAll() {
   resetUpgrade();
   shooter.money  = DEFAULT_MONEY;
   shooter.health = DEFAULT_HEALTH;
-  shooter.maxHealth = DEFAULT_HEALTH;
+  shooter.upgradeList[1].value = DEFAULT_HEALTH;
   currentRound = 1;
 }
 

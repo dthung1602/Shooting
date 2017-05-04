@@ -48,7 +48,7 @@ abstract class ExplosiveObj extends Obj{
   }
   
   private boolean touch (Enemy e) {
-    if (dist(e.x, e.y, x, y) < explosionRadius * shooter.uExplodeRadius)
+    if (dist(e.x, e.y, x, y) < explosionRadius * shooter.upgradeList[8].value)
       return true;
     return false;
   }
@@ -58,7 +58,7 @@ abstract class ExplosiveObj extends Obj{
 class Wall extends Obj {
   Wall (int x, int y) {
     super(x, y);
-    health = shooter.uWallExtraHealth + 50;
+    health = (int) shooter.upgradeList[9].value + 50;
     img = loadImage("./Pic/wall.png");
     size = 100;
     walkthrough = false;
@@ -68,7 +68,7 @@ class Wall extends Obj {
 class BigWall extends Obj {
   BigWall (int x, int y) {
     super(x, y);
-    health = shooter.uWallExtraHealth + 100;
+    health = (int) shooter.upgradeList[9].value + 100;
     img = loadImage("./Pic/wall.png");
     size = 150;
     walkthrough = false;

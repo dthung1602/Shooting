@@ -10,11 +10,11 @@ class Shooter extends CanBeAttacked {
   float y = 200;
   int money = 0;
   float angle = 0;
+  
   Weapon currentWeapon;
   Obj currentObj;
   
-  //upgrade
-  boolean aim = false;
+  // weapons
   Weapon weaponList [] = new Weapon [] {
     new HandStone(),
     new HandShuriken(),
@@ -23,21 +23,21 @@ class Shooter extends CanBeAttacked {
     new FreezeGun(),
     new LaserGun(),
   };
-  //(float value, float defaultValue, float increase, float max, float min, float price, float priceIncrease, int method)
+  
+  // upgrades
+  // (float value, float defaultValue, float increase, float max, float min, float price, float priceIncrease, int method)
   Upgrade upgradeList [] = new Upgrade [] {
-    new Upgrade(DEFAULT_HEALTH, DEFAULT_HEALTH, 50, 1000, DEFAULT_HEALTH, 100, 1.5, 1),  //max health
-    new Upgrade(1, 1, -0.15, 1, 0.1, 100, 1.5, 0),                                       //weapon delay
-    new Upgrade(1, 1, 0.2, 3, 1, 100, 1.5, 0),                                           //max health
+    new Upgrade(0, 1, 1, 0, 100, 1.5, 0),                                             //0 aim
+    new Upgrade(DEFAULT_HEALTH, 50, 1000, DEFAULT_HEALTH, 100, 1.5, 1),               //1 max health 
+    new Upgrade(1, -0.15, 1, 0.1, 100, 1.5, 0),                                       //2 weapon delay
+    new Upgrade(1, 0.1, 1.8, 1, 100, 1.5, 0),                                         //3 weapon speed
+    new Upgrade(1, 0.2, 3, 1, 100, 1.5, 0),                                           //4 bonus money
+    new Upgrade(1, -0.15, 1, 0.1, 100, 1.5, 0),                                       //5 special wp delay
+    new Upgrade(1, -0.1, 1, 0.7, 100, 1.5, 0),                                        //6 how much special ability cost
+    new Upgrade(0, 1, 8, 0, 500, 1.5, 0),                                             //7 bonus damage
+    new Upgrade(1, 0.2, 2.4, 1, 150, 1.5, 0),                                         //8 explosion radius
+    new Upgrade(0, 20, 100, 0, 180, 1.5, 0),                                          //9 wall extra health
   };
-  float maxHealth = DEFAULT_HEALTH;
-  float uWeaponDelay = 1;        // * how long before weapon can shoot again
-  float uWeaponSpeed = 1;        // * how fast bullet is
-  float uBonusMoney  = 1;        // * how much more money / an enemy
-  float uSpecialWeaponDelay = 1; // * how long before weapon can use it special ability
-  float uSpecialPrice = 1;       // * how much special ability cost 
-  float uBonusDamage = 0;        // + how much extra damage bullet cause
-  float uExplodeRadius = 1;      // * how large explosion radius is
-  int uWallExtraHealth = 0;      // + wall extra health
   
   Shooter () {}
 
@@ -48,10 +48,10 @@ class Shooter extends CanBeAttacked {
   }
 
   void specialAbility () {
-    if (money < uSpecialPrice)
+    if (money < upgradeList[6].value)
       return;
     
-    money -= uSpecialPrice * currentWeapon.specialAbilityPrice;
+    money -= upgradeList[6].value * currentWeapon.specialAbilityPrice;
     for (int i=0; i<10; i++) {
       bulletList[bulletCount] = currentWeapon.newBullet(0, 15);
       bulletList[bulletCount].x = (int) random(50, width-50);
@@ -66,7 +66,7 @@ class Shooter extends CanBeAttacked {
 
   private void showAim() {
     // skip this function when player does not have aim
-    if (!aim) 
+    if (shooter.upgradeList[0].value == 1) 
       return;
     
     // choose color red
@@ -75,8 +75,8 @@ class Shooter extends CanBeAttacked {
     
     // create a point that move in the same path of the bullet
     float d = dist(x, y, mouseX, mouseY);
-    float vx = shooter.uWeaponSpeed * currentWeapon.speed * (mouseX - x) / d;          // x speed
-    float vy = shooter.uWeaponSpeed * currentWeapon.speed * (mouseY - y) / d;          // y speed
+    float vx = shooter.upgradeList[3].value * currentWeapon.speed * (mouseX - x) / d;          // x speed
+    float vy = shooter.upgradeList[3].value * currentWeapon.speed * (mouseY - y) / d;          // y speed
     float tmpx = x + vx;                                                              // current x pos
     float tmpy = y + vy + GRAVITY * currentWeapon.bullet.weight;                      // curretn y pos
     float px = x;                                                                     // prev x pos
@@ -101,64 +101,5 @@ class Shooter extends CanBeAttacked {
     rotate(-angle);
     translate(-x, -y);
     currentWeapon.delay -= 1;
-  }
-  
-  class Upgrade {
-    float value;              // hold value of upgrade
-    float defaultValue;       // hold defaut value of upgrade
-    float increase;           // how much value can increase
-    float max = 5;
-    float min = 0;
-    float price;
-    float priceIncrease;
-    int method;               // 0 = +;  1 = *
-    
-    Upgrade (float value, float defaultValue, float increase, float max, float min, float price, float priceIncrease, int method) {
-      this.value = value;
-      this.defaultValue = defaultValue;
-      this.increase = increase;
-      this.max = max;
-      this.min = min;
-      this.price = price;
-      this.priceIncrease = priceIncrease;
-      this.method = method;
-    }
-    
-    void upgrade() {
-      // check if player has enough money
-      if (shooter.money < price) {
-        screen.info.message = "Not enough money!";
-        screen.info.time = 75;
-        return;
-      }
-      
-      // check if player reach max value
-      float tmp = (method == 1) ? value * increase : value + increase;
-      if (tmp > max) {
-        screen.info.message = "Max upgrade!";
-        screen.info.time = 75;
-        return; 
-      }
-      
-      // upgrade
-      shooter.money -= price;
-      price *= priceIncrease;
-      value = tmp;
-    }
-    
-    void downgrade () {
-      // check if player reach min value
-      float tmp = (method == 1) ? value / increase : value - increase;
-      if (tmp < min) {
-        screen.info.message = "Min downgrade!!";
-        screen.info.time = 75;
-        return; 
-      }
-      
-      // downgrade
-      shooter.money += price * SELL_PERCENT;
-      price /= priceIncrease;
-      value = tmp;
-    }
   }
 }

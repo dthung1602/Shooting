@@ -1,7 +1,0 @@
-310727488
-1
-100
-10
-true false false false false false
-false false false false
-// for upgrades

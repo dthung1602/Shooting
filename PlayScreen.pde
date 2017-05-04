@@ -137,6 +137,7 @@ class PlayScreen extends Screen {
     
     // save game, unlock new round & check highscore
     //>>>>>>>
+    player.savePlayer();
   }
   
   private void showInfo() {

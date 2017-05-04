@@ -227,7 +227,6 @@ class TextFieldButton extends Button {
     screen.infoList[screen.status].input = false;
     screen.status = fieldNum;
     screen.infoList[screen.status].input = true;
-    println("-------" + screen.status);
   }
 }
 
@@ -267,14 +266,14 @@ class IncreaseUpgadeButton extends Button {
   
   void action () {
     //----------mode 0: aim-------------------------
-    if (mode == 0) {
+    /*if (mode == 0) {
       if (shooter.aim)
         alreadyBought();
       else if (shooter.money < 100)
         notEnough();
       else
         shooter.aim = true;        
-    }
+    }*/
     
     //--------- mode 1-->9: buy weapon--------------
     if (1 <= mode && mode <= 9) {

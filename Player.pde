@@ -12,7 +12,7 @@ class Player {
     // copy info from file to game
     currentRound = int(data[1]); 
     shooter.money = int(data[2]);
-    shooter.maxHealth = int(data[3]);
+    shooter.upgradeList[1].value = int(data[3]);
 
     // create weapon list
     tmp = split(data[4], ' ');
@@ -23,6 +23,16 @@ class Player {
     tmp = split(data[5], ' ');
     for (int i=0; i<tmp.length; i++) 
       playScreen.buttonList[i].enable = boolean(tmp[i]);
+      
+    // load upgrades
+    // format: value&price value&price value&price ...
+    tmp = split(data[6], ' ');
+    String temp [];
+    for (int i=0; i<tmp.length; i++) {
+      temp = split(tmp[i], '&');
+      shooter.upgradeList[i].value = float(temp[0]);
+      shooter.upgradeList[i].price = float(temp[1]);
+    }
 
     // add wellcome in menu screen
     menuScreen.info =  new TimeInfo ("Welcome, " + name + "!", 500, 50, BOLD_RED, fontSmall, -1);
@@ -57,15 +67,13 @@ class Player {
 
     // save to player's own file
     s = new String [7];
-
-    s[0] = str(hash(newPlayerScreen.infoList[1].message));            // password
-    s[1] = "1";                                                       // current round
+    s[0] = str(hash(newPlayerScreen.infoList[1].message));                                          // password
+    s[1] = "1";                                                                                     // current round
     s[2] = str(DEFAULT_MONEY);
     s[3] = str(DEFAULT_HEALTH);
-    s[4] = "true false false false false false";                      // weapon
-    s[5] = "false false false false";                                 // obj
-    s[6] = "// for upgrades";  //>>>>>>>>>>>
-
+    s[4] = "true false false false false false";                                                    // weapon
+    s[5] = "false false false false";                                                               // obj
+    s[6] = "0&100 "+ str(DEFAULT_HEALTH) + "&100 1&100 1&100 1&100 1&100 1&100 0&500 1&150 0&180";  // upgrades
     saveStrings("./Player/" + newPlayerScreen.infoList[0].message + ".txt", s);
 
     // add player's name to playerlist
@@ -95,7 +103,7 @@ class Player {
     // copy info from game to data
     data[1] = str(currentRound); 
     data[2] = str(shooter.money);
-    data[3] = str(shooter.maxHealth);
+    data[3] = str(shooter.upgradeList[1].value);
 
     // save weapon list
     data[4] = "";
@@ -110,13 +118,17 @@ class Player {
       data[5] += str(playScreen.buttonList[i].enable) + " ";
     data[5] = data[5].substring(0, data[5].length()-1);        // remove trailing space
 
-    // >>> upgrade here data[6]
+    // save upgrades
+    // format: value&price value&price value&price ...
+    data[6] = "";
+    for (int i=0; i<shooter.upgradeList.length; i++) 
+      data[6] += str(shooter.upgradeList[i].value) + '&' + str(shooter.upgradeList[i].price) + ' '; 
+    data[6] = data[6].substring(0, data[6].length()-1);        // remove trailing space
 
     // save to file
     saveStrings("./Player/" + name + ".txt", data);
   }
   
-  //>>>>
   void deletePlayer () {
     // remove name from player list
     String data [] = loadStrings("./Player/" + name + ".txt");

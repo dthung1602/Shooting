@@ -4,7 +4,6 @@
  *  Player class --> create player --> upgrade
  *  playscreen --> showShooter
  *  combine ~ button to 1 changing screen button
- *  class upgrade inside shooter
  *  serialization
  *  disable resize screen
  *  max 12 player's name, del player
@@ -277,7 +276,7 @@ void setup () {
   screen = menuScreen;
   surface.setSize(screen.bg.width, screen.bg.height);
   shooter.currentWeapon = shooter.weaponList[0];
-  shooter.aim = true;
+  shooter.upgradeList[0].value = 1;
   resetRound();
 }
 
