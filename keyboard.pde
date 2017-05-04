@@ -129,7 +129,7 @@ void keyPressed () {
         
       // if entering re-pass, create new player
       } else {
-        newPlayer();
+        player.createPlayer();
       }
     }
   }

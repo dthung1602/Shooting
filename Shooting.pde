@@ -5,20 +5,20 @@
  *  playscreen --> showShooter
  *  combine ~ button to 1 changing screen button
  *  class upgrade inside shooter
- *  split new player & login to 2 screens
  *  serialization
  *  disable resize screen
- *  max 12 player's name
+ *  max 12 player's name, del player
  */
 
-
+//--------------------------- import libraries-----------------------------//
+import java.io.File;
 
 
 //----------------------------- constant-----------------------------------//
 float SELL_PERCENT   = 0.8;
 float GROUND_HEIGHT  = 50;
 float GRAVITY        = 0.5;
-int DEFAULT_HEALTH   = 10;
+int DEFAULT_HEALTH   = 50;
 int DEFAULT_MONEY    = 100;
 int DEFAULT_ENEMY_NUM= 5;        // how many enemy for 1st round
 int MAX_ROUND        = 50;
@@ -70,6 +70,7 @@ Screen menuScreen;
     ChangePlayerScreen changePlayerScreen;
     NewPlayerScreen newPlayerScreen;
   Screen settingScreen;
+  Screen quitScreen;
 
 // images of bullets
 PImage stonePic;
@@ -185,7 +186,7 @@ void setup () {
     new ContinueButton(245, 500, 580, 560),
     new SettingButton(620, 500, 950, 560),
     new DataButton(245, 590, 580, 650),
-    new QuitButton(620, 590, 950, 650),
+    new QuitScreenButton(620, 590, 950, 650),
     /*new HighScoreButton(555, 440, 785, 480),*/
   };
   menuScreen = new Screen(bg, buttonList);
@@ -260,6 +261,14 @@ void setup () {
     new MenuButton(580, 215, 655, 280),
   };
   loseScreen = new Screen(bg, buttonList);
+  
+  // ------------------------create quit screen----------------------------
+  bg = loadImage("./Pic/quit.png");
+  buttonList = new Button[] {
+    new QuitButton(250, 590, 580, 660),
+    new MenuButton(630, 590, 960, 660),
+  };
+  quitScreen = new Screen(bg, buttonList);
   
   //----------------------show menu--------------------------//
   

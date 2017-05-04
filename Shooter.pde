@@ -23,7 +23,13 @@ class Shooter extends CanBeAttacked {
     new FreezeGun(),
     new LaserGun(),
   };
-  int maxHealth = DEFAULT_HEALTH;
+  //(float value, float defaultValue, float increase, float max, float min, float price, float priceIncrease, int method)
+  Upgrade upgradeList [] = new Upgrade [] {
+    new Upgrade(DEFAULT_HEALTH, DEFAULT_HEALTH, 50, 1000, DEFAULT_HEALTH, 100, 1.5, 1),  //max health
+    new Upgrade(1, 1, -0.15, 1, 0.1, 100, 1.5, 0),                                       //weapon delay
+    new Upgrade(1, 1, 0.2, 3, 1, 100, 1.5, 0),                                           //max health
+  };
+  float maxHealth = DEFAULT_HEALTH;
   float uWeaponDelay = 1;        // * how long before weapon can shoot again
   float uWeaponSpeed = 1;        // * how fast bullet is
   float uBonusMoney  = 1;        // * how much more money / an enemy
@@ -103,19 +109,56 @@ class Shooter extends CanBeAttacked {
     float increase;           // how much value can increase
     float max = 5;
     float min = 0;
+    float price;
+    float priceIncrease;
+    int method;               // 0 = +;  1 = *
     
-    Upgrade (float value, float defaultValue, float increase, float max, float min) {
+    Upgrade (float value, float defaultValue, float increase, float max, float min, float price, float priceIncrease, int method) {
       this.value = value;
       this.defaultValue = defaultValue;
       this.increase = increase;
       this.max = max;
       this.min = min;
+      this.price = price;
+      this.priceIncrease = priceIncrease;
+      this.method = method;
     }
     
-    Upgrade (float value, float defaultValue, float increase) {
-      this.value = value;
-      this.defaultValue = defaultValue;
-      this.increase = increase;
+    void upgrade() {
+      // check if player has enough money
+      if (shooter.money < price) {
+        screen.info.message = "Not enough money!";
+        screen.info.time = 75;
+        return;
+      }
+      
+      // check if player reach max value
+      float tmp = (method == 1) ? value * increase : value + increase;
+      if (tmp > max) {
+        screen.info.message = "Max upgrade!";
+        screen.info.time = 75;
+        return; 
+      }
+      
+      // upgrade
+      shooter.money -= price;
+      price *= priceIncrease;
+      value = tmp;
+    }
+    
+    void downgrade () {
+      // check if player reach min value
+      float tmp = (method == 1) ? value / increase : value - increase;
+      if (tmp < min) {
+        screen.info.message = "Min downgrade!!";
+        screen.info.time = 75;
+        return; 
+      }
+      
+      // downgrade
+      shooter.money += price * SELL_PERCENT;
+      price /= priceIncrease;
+      value = tmp;
     }
   }
 }

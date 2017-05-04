@@ -94,6 +94,8 @@ class ChangePlayerButton extends Button {
   void action() {
     screen = changePlayerScreen;
     surface.setSize(screen.bg.width, screen.bg.height);
+    changePlayerScreen.infoList[0].input = true;
+    changePlayerScreen.infoList[1].input = false;
   }
 }
 
@@ -105,6 +107,9 @@ class NewPlayerButton extends Button {
   void action() {
     screen = newPlayerScreen;
     surface.setSize(screen.bg.width, screen.bg.height);
+    newPlayerScreen.infoList[0].input = true;
+    newPlayerScreen.infoList[1].input = false;
+    newPlayerScreen.infoList[2].input = false;
   }
 }
 
@@ -130,12 +135,23 @@ class SettingButton extends Button {
   }
 }
 
+class QuitScreenButton extends Button {
+  QuitScreenButton(int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action() {
+    screen = quitScreen;
+  }
+}
+
 class QuitButton extends Button {
   QuitButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
   }
 
   void action() {
+    player.savePlayer();
     exit();
   }
 }
@@ -236,7 +252,7 @@ class CreateNewUserButton extends Button {
   }
   
   void action () {
-    newPlayer();
+    player.createPlayer();
   }
 }
 

@@ -72,6 +72,15 @@ class ChangePlayerScreen extends Screen {
       new TextFieldButton(365, 425, 1000, 475, 1),
     };
     
+    updatePlayerList();
+  }
+  
+  void show () {
+    super.show();
+    println(status);
+  }
+  
+  void updatePlayerList() {
     // load data from file
     String data [] = loadStrings("./Player/player.txt");
     infoList = new Info [data.length + 2];  
@@ -85,11 +94,6 @@ class ChangePlayerScreen extends Screen {
     for (int i=0; i<data.length; i++) {
       infoList[i+2] = new Info(data[i], 200 + 210 * (i / 3), 150 + (i % 3) * 50, BOLD_RED, fontMedium);
     }
-  }
-  
-  void show () {
-    super.show();
-    println(status);
   }
 }
 
