@@ -4,6 +4,7 @@ class Info {
   color cl;
   PFont font;
   boolean hiden = false;
+  boolean input = false;
   
   Info (String message, int x, int y, color cl, PFont font) {
     this.message = message;
@@ -16,14 +17,20 @@ class Info {
   void show () {
     textFont(font);
     fill(cl);
-    if (!hiden)
-      text(message, x, y);
-    else {
-      String s = "";
+    String s = message;
+    
+    // if hiden, turn content into ***
+    if (hiden) {
+      s = "";
       for (int i=0; i<message.length(); i++) 
         s += '*';
-      text(s, x, y);
     }
+    
+    // add | at the end
+    if (input) 
+      s += "|";
+    
+    text(s, x, y);
   }
 }
 

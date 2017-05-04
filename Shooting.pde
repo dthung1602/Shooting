@@ -8,6 +8,7 @@
  *  split new player & login to 2 screens
  *  serialization
  *  disable resize screen
+ *  max 12 player's name
  */
 
 
@@ -67,7 +68,7 @@ Screen menuScreen;
     Screen loseScreen;
   Screen dataScreen;
     ChangePlayerScreen changePlayerScreen;
-    Screen newPlayerScreen;
+    NewPlayerScreen newPlayerScreen;
   Screen settingScreen;
 
 // images of bullets
@@ -205,12 +206,7 @@ void setup () {
   changePlayerScreen = new ChangePlayerScreen();
   
   // ------------------------- create new user screen-----------
-  bg = loadImage("./Pic/new_player.png");
-  buttonList = new Button [] {
-    new DataButton(155, 25, 235, 100),
-    // new CreateNewUser(460, 615, 725, 680);
-  };
-  newPlayerScreen = new Screen(bg, buttonList);
+  newPlayerScreen = new NewPlayerScreen();
   
   // ------------------create choosing round screen------------------------
   bg = loadImage("./Pic/highscore.jpg");
@@ -244,10 +240,10 @@ void setup () {
   upgradeScreen = new Screen (bg, buttonList);
   
   // --------------------------create pause screen--------------------------
-  bg = loadImage("./Pic/menu.jpg");
+  bg = loadImage("./Pic/pausing.png");
   buttonList = new Button[] {
-    new ContinueButton(15, 440, 250, 480),
-    new MenuButton(15, 440, 250, 480),
+    new ResumeButton(250, 575, 580, 635),
+    new MenuButton(630, 575, 960, 635),
   };
   pauseScreen = new Screen(bg, buttonList);
   

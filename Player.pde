@@ -45,7 +45,9 @@ class Player {
       screen.info.time = 75;
       changePlayerScreen.infoList[0].message = "";
       changePlayerScreen.infoList[1].message = "";
+      changePlayerScreen.infoList[changePlayerScreen.status].input = false;
       changePlayerScreen.status = 0;
+      changePlayerScreen.infoList[changePlayerScreen.status].input = true;
       return;
     }
       

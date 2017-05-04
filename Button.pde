@@ -198,6 +198,48 @@ class LoginButton extends Button {
   }
 }
 
+
+class TextFieldButton extends Button {
+  int fieldNum;
+  
+  TextFieldButton (int x1, int y1, int x2, int y2, int fieldNum) {
+    super(x1, y1, x2, y2);
+    this.fieldNum = fieldNum;
+  }
+  
+  void action () {
+    screen.infoList[screen.status].input = false;
+    screen.status = fieldNum;
+    screen.infoList[screen.status].input = true;
+    println("-------" + screen.status);
+  }
+}
+
+
+class ResumeButton extends Button {
+  int feildNum;
+  
+  ResumeButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+  
+  void action () {
+    screen = playScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
+  }
+}
+
+
+class CreateNewUserButton extends Button {
+  CreateNewUserButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+  
+  void action () {
+    newPlayer();
+  }
+}
+
 //----------------------buttons in other menu---------------------
 class IncreaseUpgadeButton extends Button {
   int mode;
