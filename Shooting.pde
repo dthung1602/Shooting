@@ -7,6 +7,8 @@
  *  serialization
  *  disable resize screen
  *  max 12 player's name, del player
+ *  weapon price
+ *  button:  square/circle, color, change when mouse over or not
  */
 
 //--------------------------- import libraries-----------------------------//
@@ -62,6 +64,7 @@ Screen menuScreen;
   PlayScreen playScreen;
     Screen choosingRoundScreen;
     Screen upgradeScreen;
+    Screen buyScreen;
     Screen pauseScreen;
     Screen winScreen;
     Screen loseScreen;
@@ -232,12 +235,57 @@ void setup () {
   //-------------------------- create play screen--------------------------
   playScreen = new PlayScreen();
   
-  // --------------------------create upgrade screen--------------------------
+  //>> --------------------------create upgrade screen--------------------------
   bg = loadImage("./Pic/highscore.jpg");
   buttonList = new Button [] {
     new ContinueButton(0, 0, 100, 100),
+    new MenuButton(0, 0, 0, 0),
+    new MapButton(0, 0, 0, 0),
+    new BuyScreenButton(0, 0, 0, 0),
+    
+    new UpgradeButton(0, 0, 0, 0, 0),
+    new UpgradeButton(0, 0, 0, 0, 1),
+    new UpgradeButton(0, 0, 0, 0, 2),
+    new UpgradeButton(0, 0, 0, 0, 3),
+    new UpgradeButton(0, 0, 0, 0, 4),
+    new UpgradeButton(0, 0, 0, 0, 5),
+    new UpgradeButton(0, 0, 0, 0, 6),
+    new UpgradeButton(0, 0, 0, 0, 7),
+    new UpgradeButton(0, 0, 0, 0, 8),
+    new UpgradeButton(0, 0, 0, 0, 9),
+    
+    new DowngradeButton(0, 0, 0, 0, 0),
+    new DowngradeButton(0, 0, 0, 0, 1),
+    new DowngradeButton(0, 0, 0, 0, 2),
+    new DowngradeButton(0, 0, 0, 0, 3),
+    new DowngradeButton(0, 0, 0, 0, 4),
+    new DowngradeButton(0, 0, 0, 0, 5),
+    new DowngradeButton(0, 0, 0, 0, 6),
+    new DowngradeButton(0, 0, 0, 0, 7),
+    new DowngradeButton(0, 0, 0, 0, 8),
+    new DowngradeButton(0, 0, 0, 0, 9),
   };
   upgradeScreen = new Screen (bg, buttonList);
+  
+  //---------------------------create buy screen-------------------------------
+  bg = loadImage("./Pic/highscore.jpg");
+  buttonList = new Button [] {
+    new ContinueButton(0, 0, 100, 100),
+    new MenuButton(0, 0, 0, 0),
+    new MapButton(0, 0, 0, 0),
+    new UpGradeScreenButton(0, 0, 0, 0),
+    
+    new BuyWeaponButton(0, 0, 0, 0, 0),
+    new BuyWeaponButton(0, 0, 0, 0, 1),
+    new BuyWeaponButton(0, 0, 0, 0, 2),
+    new BuyWeaponButton(0, 0, 0, 0, 3),
+    new BuyWeaponButton(0, 0, 0, 0, 4),
+    new BuyWeaponButton(0, 0, 0, 0, 5),
+    new BuyWeaponButton(0, 0, 0, 0, 6),
+    new BuyWeaponButton(0, 0, 0, 0, 7),
+    new BuyWeaponButton(0, 0, 0, 0, 8),
+  };
+  buyScreen = new Screen (bg, buttonList);
   
   // --------------------------create pause screen--------------------------
   bg = loadImage("./Pic/pausing.png");
