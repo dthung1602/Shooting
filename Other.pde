@@ -16,6 +16,7 @@ void resetRound() {
   oldFrame       = frameCount;
   newEnemyDelay  = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);
   totalEnemyInRound = (int) (DEFAULT_ENEMY_NUM * pow(DIFICULTLY, currentRound));
+  //>> reset special abilities
 }
 
 void resetUpgrade() {
@@ -30,44 +31,7 @@ void resetAll() {
   currentRound = 1;
 }
 
-void login () {  
-  // check if username in list
-  boolean inList = false;
-  for (int i=2; i<changePlayerScreen.infoList.length; i++) {
-    if (changePlayerScreen.infoList[i].message.equals(changePlayerScreen.infoList[0].message)) {
-      inList = true;
-      break;
-    }
-  }
 
-  // if not in list of existing users
-  if (!inList) {
-    changePlayerScreen.infoList[0].message = "";
-    changePlayerScreen.infoList[1].message = "";
-    changePlayerScreen.infoList[1].input = false;
-    changePlayerScreen.status = 0;
-    changePlayerScreen.infoList[0].input = true;
-    screen.info.message = "Invalid username!";
-    screen.info.time = 75;
-    return;
-  }
-
-  // read player's file for pass
-  String data [] = loadStrings("./Player/" + changePlayerScreen.infoList[0].message + ".txt");
-
-  // if wrong pass
-  if (hash(changePlayerScreen.infoList[1].message) != int(data[0])) {
-    changePlayerScreen.infoList[1].message = "";
-    screen.info.message = "Wrong password!";
-    screen.info.time = 75;
-    return;
-  }
-
-  // pass is correct
-  screen = menuScreen;
-  surface.setSize(screen.bg.width, screen.bg.height);
-  player.loadPlayer();
-}
 
 void loadInfo() {
   //>>> load upgrade info

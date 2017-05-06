@@ -1,7 +1,8 @@
 class Player {
   String name;
 
-  Player() {}
+  Player() {
+  }
 
   void loadPlayer() {
     // load file
@@ -23,7 +24,7 @@ class Player {
     tmp = split(data[5], ' ');
     for (int i=0; i<tmp.length; i++) 
       playScreen.buttonList[i].enable = boolean(tmp[i]);
-      
+
     // load upgrades
     // format: value&price value&price value&price ...
     tmp = split(data[6], ' ');
@@ -80,7 +81,7 @@ class Player {
     s = loadStrings("./Player/player.txt");
     s = (String []) append(s, newPlayerScreen.infoList[0].message);
     saveStrings("./Player/player.txt", s);
-    
+
     // update player list in change player screen
     updatePlayerList();
 
@@ -96,7 +97,7 @@ class Player {
     // do not save if player hasn't log in yet
     if (player.name == null)
       return;
-    
+
     // load current data from file
     String data [] = loadStrings("./Player/" + name + ".txt");
 
@@ -128,7 +129,7 @@ class Player {
     // save to file
     saveStrings("./Player/" + name + ".txt", data);
   }
-  
+
   void deletePlayer () {
     // remove name from player list
     String data [] = loadStrings("./Player/" + name + ".txt");
@@ -137,12 +138,53 @@ class Player {
         data = (String []) concat(subset(data, 0, i), subset(data, i+1));
         break;
       }
-      
+
     // remove player data file
     File f = new File("./Player/" + name + ".txt");
     f.delete();
-      
+
     // update player list in change player screen
     updatePlayerList();
+    player.name = null;
+  }
+
+  int login () {  
+    // check if username in list
+    boolean inList = false;
+    for (int i=2; i<changePlayerScreen.infoList.length; i++) {
+      if (changePlayerScreen.infoList[i].message.equals(changePlayerScreen.infoList[0].message)) {
+        inList = true;
+        break;
+      }
+    }
+
+    // if not in list of existing users
+    if (!inList) {
+      changePlayerScreen.infoList[0].message = "";
+      changePlayerScreen.infoList[1].message = "";
+      changePlayerScreen.infoList[1].input = false;
+      changePlayerScreen.status = 0;
+      changePlayerScreen.infoList[0].input = true;
+      screen.info.message = "Invalid username!";
+      screen.info.time = 75;
+      return 1;
+    }
+
+    // read player's file for pass
+    String data [] = loadStrings("./Player/" + changePlayerScreen.infoList[0].message + ".txt");
+
+    // if wrong pass
+    if (hash(changePlayerScreen.infoList[1].message) != int(data[0])) {
+      changePlayerScreen.infoList[1].message = "";
+      screen.info.message = "Wrong password!";
+      screen.info.time = 75;
+      return 2;
+    }
+
+    // pass is correct
+    screen = menuScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
+    loadPlayer();
+    return 0;
   }
 }

@@ -99,7 +99,7 @@ void keyPressed () {
         
       // if entering pass, check validity
       } else {
-        login();
+        player.login();
       }
     }
   }

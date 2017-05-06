@@ -9,7 +9,7 @@ class Screen {
     this.bg = bg;
     this.buttonList = buttonList;
   }
-  
+
   Screen (PImage bg, Button buttonList[], Info infoList[]) {
     this.bg = bg;
     this.buttonList = buttonList;
@@ -17,6 +17,18 @@ class Screen {
   }
 
   Screen () {
+  }
+
+  void changeScreen(Screen newScreen) {
+    // check if screen size changes
+    if (screen.bg.width != newScreen.bg.width || screen.bg.height != newScreen.bg.height) {
+      surface.setResizable(true);
+      surface.setSize(newScreen.bg.width, newScreen.bg.height);
+      surface.setResizable(false);
+    }
+
+    // change screen
+    screen = newScreen;
   }
 
   void show () {

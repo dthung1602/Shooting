@@ -34,7 +34,46 @@ abstract class Button {
   }
 }
 
-// -----------------------New obj------------------------
+
+//---------------------------chage screen-----------------------------------------
+class ChangeScreenButton extends Button {
+  int screenNum;
+  
+
+  ChangeScreenButton (int x1, int y1, int x2, int y2, int screenNum) {
+    super(x1, y1, x2, y2);
+    this.screenNum = screenNum;
+  }
+
+  void action () {
+    println(screenList[screenNum]);
+    screen.changeScreen(screenList[screenNum]);
+  }
+}
+
+
+//----------------------menu screen----------------------
+class ContinueButton extends Button {
+  ContinueButton(int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action() {
+    // ask player to log in
+    if (player.name == null) {
+      screen.info.message = "Please login!";
+      screen.info.time = 75;
+      return;
+    }
+
+    screen = playScreen;
+    surface.setSize(screen.bg.width, screen.bg.height);
+    resetRound();
+  }
+}
+
+
+// -----------------------Play screen------------------------
 class NewObjButton extends Button {
   int objNum;
 
@@ -62,27 +101,7 @@ class NewObjButton extends Button {
 }
 
 
-
-//------------------------menu button----------------------
-class ContinueButton extends Button {
-  ContinueButton(int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action() {
-    // ask player to log in
-    if (player.name == null) {
-      screen.info.message = "Please login!";
-      screen.info.time = 75;
-      return;
-    }
-
-    screen = playScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
-    resetRound();
-  }
-}
-
+// -----------------------Upgrades-------------------------------------
 class UpgradeScreenButton extends Button {
   int num;
 
@@ -92,188 +111,7 @@ class UpgradeScreenButton extends Button {
   }
 
   void action() {
-    screen = upgradeScreens[num];
-    surface.setSize(screen.bg.width, screen.bg.height);
-  }
-}
-
-class DataButton extends Button {
-  DataButton(int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action() {
-    screen = dataScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
-  }
-}
-
-class ChangePlayerButton extends Button {
-  ChangePlayerButton(int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action() {
-    screen = changePlayerScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
-    changePlayerScreen.infoList[0].input = true;
-    changePlayerScreen.infoList[1].input = false;
-  }
-}
-
-class NewPlayerButton extends Button {
-  NewPlayerButton(int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action() {
-    screen = newPlayerScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
-    newPlayerScreen.infoList[0].input = true;
-    newPlayerScreen.infoList[1].input = false;
-    newPlayerScreen.infoList[2].input = false;
-  }
-}
-
-/*class HighScoreButton extends Button {
- HighScoreButton(int x1, int y1, int x2, int y2) {
- super(x1, y1, x2, y2);
- }
- 
- void action() {
- screen = highScoreScreen;
- surface.setSize(screen.bg.width, screen.bg.height);
- }
- }*/
-
-class SettingButton extends Button {
-  SettingButton(int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action() {
-    screen = settingScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
-  }
-}
-
-class QuitScreenButton extends Button {
-  QuitScreenButton(int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action() {
-    screen = quitScreen;
-  }
-}
-
-class QuitButton extends Button {
-  QuitButton(int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action() {
-    player.savePlayer();
-    exit();
-  }
-}
-
-
-//--------------------play screen buttons--------------
-class MenuButton extends Button {  
-  MenuButton(int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action() {
-    screen = menuScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
-  }
-}
-
-/*class ChoosingRoundMenuButton extends Button {
- ChoosingRoundMenuButton(int x1, int y1, int x2, int y2) {
- super(x1, y1, x2, y2);
- }
- 
- void action() {
- screen = mapScreen;
- surface.setSize(screen.bg.width, screen.bg.height);
- }
- }
- */
-
-//-------------sound buttons-------------------
-class MusicButton extends Button {
-  MusicButton (int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action () {
-    musicEnable = !musicEnable;
-  }
-}
-
-
-class SoundButton extends Button {
-  SoundButton (int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action () {
-    soundEnable = !soundEnable;
-  }
-}
-
-
-class LoginButton extends Button {
-  LoginButton (int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action () {
-    login();
-  }
-}
-
-
-class TextFieldButton extends Button {
-  int fieldNum;
-
-  TextFieldButton (int x1, int y1, int x2, int y2, int fieldNum) {
-    super(x1, y1, x2, y2);
-    this.fieldNum = fieldNum;
-  }
-
-  void action () {
-    screen.infoList[screen.status].input = false;
-    screen.status = fieldNum;
-    screen.infoList[screen.status].input = true;
-  }
-}
-
-
-class ResumeButton extends Button {
-  int feildNum;
-
-  ResumeButton (int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action () {
-    screen = playScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
-  }
-}
-
-
-class CreateNewUserButton extends Button {
-  CreateNewUserButton (int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action () {
-    player.createPlayer();
+    screen.changeScreen(upgradeScreens[num]);
   }
 }
 
@@ -364,44 +202,115 @@ class DowngradeButton extends Button {
 }
 
 
-class MapButton extends Button {
-  MapButton (int x1, int y1, int x2, int y2) {
+//--------------------------player screens--------------------------
+class ChangePlayerButton extends Button {
+  ChangePlayerButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
   }
 
-  void action () {
+  void action() {
+    screen.changeScreen(changePlayerScreen);
+    changePlayerScreen.infoList[0].input = true;
+    changePlayerScreen.infoList[1].input = false;
   }
 }
 
-class ChangeScreenButton extends Button {
-  int screenNum;
-  Screen screenList [] = new Screen [] {
-    menuScreen, 
-    playScreen,  
-    pauseScreen, 
-    winScreen, 
-    loseScreen, 
-    dataScreen, 
-    changePlayerScreen, 
-    newPlayerScreen, 
-    settingScreen, 
-    quitScreen,
-    upgradeScreens[0],
-    upgradeScreens[1],
-    upgradeScreens[2],
-    upgradeScreens[3],
-    mapScreen, 
-  };
 
-  ChangeScreenButton (int x1, int y1, int x2, int y2, int screenNum) {
+class NewPlayerButton extends Button {
+  NewPlayerButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
-    this.screenNum = screenNum;
+  }
+
+  void action() {
+    screen.changeScreen(newPlayerScreen);
+    newPlayerScreen.infoList[0].input = true;
+    newPlayerScreen.infoList[1].input = false;
+    newPlayerScreen.infoList[2].input = false;
+  }
+}
+
+
+class TextFieldButton extends Button {
+  int fieldNum;
+
+  TextFieldButton (int x1, int y1, int x2, int y2, int fieldNum) {
+    super(x1, y1, x2, y2);
+    this.fieldNum = fieldNum;
   }
 
   void action () {
-    screen = screenList[screenNum];
-    surface.setResizable(true);
-    surface.setSize(screen.bg.width, screen.bg.height);
-    surface.setResizable(false);
+    screen.infoList[screen.status].input = false;
+    screen.status = fieldNum;
+    screen.infoList[screen.status].input = true;
+  }
+}
+
+
+class LoginButton extends Button {
+  LoginButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action () {
+    player.login();
+  }
+}
+
+
+class CreateNewUserButton extends Button {
+  CreateNewUserButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action () {
+    player.createPlayer();
+  }
+}
+
+
+class DeletePlayerButton extends Button {
+  DeletePlayerButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action () {
+    if (player.login() == 0)
+      player.deletePlayer();
+  }
+}
+
+
+//-----------------------------setting buttons---------------------------------
+class MusicButton extends Button {
+  MusicButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action () {
+    musicEnable = !musicEnable;
+  }
+}
+
+
+class SoundButton extends Button {
+  SoundButton (int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action () {
+    soundEnable = !soundEnable;
+  }
+}
+
+
+//------------------------Other buttons---------------------------------
+class QuitButton extends Button {
+  QuitButton(int x1, int y1, int x2, int y2) {
+    super(x1, y1, x2, y2);
+  }
+
+  void action() {
+    player.savePlayer();
+    exit();
   }
 }

@@ -1,6 +1,6 @@
-10207
-2
-135
+323
+1
+100
 50.0
 true false false false false false
 false false false false
