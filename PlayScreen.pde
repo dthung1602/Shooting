@@ -111,16 +111,14 @@ class PlayScreen extends Screen {
   private void checkGameEnd() {
     // check if player has lost
     if (shooter.health <= 0) {
-      screen = loseScreen;
-      surface.setSize(screen.bg.width, screen.bg.height);
+      screen.changeScreen(loseScreen);
       resetRound();
       return;
     }
     
     // check if player has win 
     if (currentRound > MAX_ROUND)
-      screen = winScreen;
-      surface.setSize(screen.bg.width, screen.bg.height);
+      screen.changeScreen(winScreen);
   }
   
   private void checkFinishRound() {
@@ -132,8 +130,7 @@ class PlayScreen extends Screen {
     resetRound();
     currentRound++;
     totalEnemyInRound *= DIFICULTLY;
-    screen = upgradeScreens[0];
-    surface.setSize(screen.bg.width, screen.bg.height);
+    screen.changeScreen(upgradeScreens[0]);
     
     // save game, unlock new round & check highscore
     //>>>>>>>

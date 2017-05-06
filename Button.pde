@@ -46,7 +46,6 @@ class ChangeScreenButton extends Button {
   }
 
   void action () {
-    println(screenList[screenNum]);
     screen.changeScreen(screenList[screenNum]);
   }
 }
@@ -66,8 +65,7 @@ class ContinueButton extends Button {
       return;
     }
 
-    screen = playScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
+    screen.changeScreen(playScreen);
     resetRound();
   }
 }

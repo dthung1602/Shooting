@@ -88,8 +88,7 @@ class Player {
     // auto login and change to menu screen
     changePlayerScreen.infoList[0].message = newPlayerScreen.infoList[0].message;
     changePlayerScreen.infoList[1].message = newPlayerScreen.infoList[1].message;
-    screen = menuScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
+    screen.changeScreen(menuScreen);
     player.loadPlayer();
   } 
 
@@ -128,24 +127,33 @@ class Player {
 
     // save to file
     saveStrings("./Player/" + name + ".txt", data);
+    
+    // clear data
+    newPlayerScreen.infoList[0].message = "";
+    newPlayerScreen.infoList[1].message = "";
+    newPlayerScreen.infoList[2].message = "";
   }
 
   void deletePlayer () {
     // remove name from player list
-    String data [] = loadStrings("./Player/" + name + ".txt");
-    for (int i=0; i<data.length; i++)
+    String data [] = loadStrings("./Player/player.txt");
+    for (int i=0; i<data.length; i++) 
       if (data[i].equals(name)) {
         data = (String []) concat(subset(data, 0, i), subset(data, i+1));
+        saveStrings("./Player/player.txt", data);
         break;
       }
 
     // remove player data file
-    File f = new File("./Player/" + name + ".txt");
+    File f = new File(sketchPath() + "/Player/" + name + ".txt");
     f.delete();
-
+    
     // update player list in change player screen
     updatePlayerList();
+    
+    // remove other info
     player.name = null;
+    screen.info.time = 0;
   }
 
   int login () {  
@@ -182,8 +190,7 @@ class Player {
     }
 
     // pass is correct
-    screen = menuScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
+    screen.changeScreen(menuScreen);
     loadPlayer();
     return 0;
   }

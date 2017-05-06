@@ -11,13 +11,11 @@ void keyPressed () {
     switch (key) {
       case 'p':
       case 'P': 
-        screen = pauseScreen;
-        surface.setSize(screen.bg.width, screen.bg.height);
+        screen.changeScreen(pauseScreen);
         return;
       case 'm':
       case 'M':
-        screen = menuScreen;
-        surface.setSize(screen.bg.width, screen.bg.height);
+        screen.changeScreen(menuScreen);
         return;
       case 's':
       case 'S':
@@ -35,43 +33,16 @@ void keyPressed () {
     switch (key) {
       case 'p':
       case 'P': 
-        screen = playScreen;
-        break;
+        screen.changeScreen(playScreen);
+        return;
       case 'm':
       case 'M':
-        screen = menuScreen;
-        break;
+        screen.changeScreen(menuScreen);
+        return;
     }
-    surface.setSize(screen.bg.width, screen.bg.height);
-    return;
   }
   
-  /*
-  //------------------for choose round screen----------------
-  if (screen == mapScreen) {
-    // enter number
-    if ('0' > key || '9' < key)
-      screen.infoList[0].message += key;
-      
-    // enter enter
-    if (keyCode == 10) {
-      resetRound();
-      currentRound = int(screen.infoList[0].message);
-      screen.infoList[0].message = "";
-      screen = playScreen;
-      surface.setSize(screen.bg.width, screen.bg.height);
-    }
-    
-    // enter back space
-    if (keyCode == 8) {
-      String s = screen.infoList[0].message;
-      if (s.length() == 0) // prevent over del
-        return;
-      screen.infoList[0].message = s.substring(0, s.length()-1);
-    }
-    return;
-  }
-  */
+  
   
   //------------------for change player screen----------------
   if (screen == changePlayerScreen) {
