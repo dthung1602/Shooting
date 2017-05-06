@@ -10,6 +10,12 @@ abstract class Weapon {
   boolean enable;                // can shooter use it or not
   int specialAbilityPrice;       // how much special ability using this weapon cost
   int blNum = 1;                 // number of buttlet per shot
+  int price;
+  
+  String name;
+  String explaination;
+  int x, y;                      // pos of name in weapon screen
+  
   
   void shoot() {
     // do nothing when delay is not over or out of bullet

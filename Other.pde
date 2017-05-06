@@ -68,3 +68,31 @@ void login () {
   surface.setSize(screen.bg.width, screen.bg.height);
   player.loadPlayer();
 }
+
+void loadInfo() {
+  //>>> load upgrade info
+  //>>> load weapon info
+  //>>> load info to upgrade screens
+}
+
+Weapon weaponType(int wpNum) {
+  switch (wpNum) {
+    case 0: 
+      return new HandStone();
+    case 1: 
+      return new HandShuriken();
+    case 2: 
+      return new Bow();
+    case 3: 
+      return new HandGrenade();
+    case 4: 
+      return new FreezeGun();
+    default: 
+      return new LaserGun();
+  }
+}
+
+void changeScreen(Screen newScreen) {
+  screen = newScreen;
+  surface.setSize(screen.bg.width, screen.bg.height);
+}

@@ -7,8 +7,9 @@
  *  serialization
  *  disable resize screen
  *  max 12 player's name, del player
- *  weapon price
  *  button:  square/circle, color, change when mouse over or not
+ *  show upgrade name, price, explaination in ug screen
+ *  add sound
  */
 
 //--------------------------- import libraries-----------------------------//
@@ -63,8 +64,7 @@ Obj objList []             = new Obj [STUFF_LIST_SIZE];
 Screen menuScreen;
   PlayScreen playScreen;
     Screen choosingRoundScreen;
-    Screen upgradeScreen;
-    Screen buyScreen;
+    Screen upgradeScreens [];
     Screen pauseScreen;
     Screen winScreen;
     Screen loseScreen;
@@ -235,57 +235,102 @@ void setup () {
   //-------------------------- create play screen--------------------------
   playScreen = new PlayScreen();
   
-  //>> --------------------------create upgrade screen--------------------------
-  bg = loadImage("./Pic/highscore.jpg");
-  buttonList = new Button [] {
-    new ContinueButton(0, 0, 100, 100),
-    new MenuButton(0, 0, 0, 0),
-    new MapButton(0, 0, 0, 0),
-    new BuyScreenButton(0, 0, 0, 0),
-    
-    new UpgradeButton(0, 0, 0, 0, 0),
-    new UpgradeButton(0, 0, 0, 0, 1),
-    new UpgradeButton(0, 0, 0, 0, 2),
-    new UpgradeButton(0, 0, 0, 0, 3),
-    new UpgradeButton(0, 0, 0, 0, 4),
-    new UpgradeButton(0, 0, 0, 0, 5),
-    new UpgradeButton(0, 0, 0, 0, 6),
-    new UpgradeButton(0, 0, 0, 0, 7),
-    new UpgradeButton(0, 0, 0, 0, 8),
-    new UpgradeButton(0, 0, 0, 0, 9),
-    
-    new DowngradeButton(0, 0, 0, 0, 0),
-    new DowngradeButton(0, 0, 0, 0, 1),
-    new DowngradeButton(0, 0, 0, 0, 2),
-    new DowngradeButton(0, 0, 0, 0, 3),
-    new DowngradeButton(0, 0, 0, 0, 4),
-    new DowngradeButton(0, 0, 0, 0, 5),
-    new DowngradeButton(0, 0, 0, 0, 6),
-    new DowngradeButton(0, 0, 0, 0, 7),
-    new DowngradeButton(0, 0, 0, 0, 8),
-    new DowngradeButton(0, 0, 0, 0, 9),
-  };
-  upgradeScreen = new Screen (bg, buttonList);
+  //>> --------------------------create upgrade screens--------------------------
+  upgradeScreens = new Screen [4];
   
-  //---------------------------create buy screen-------------------------------
-  bg = loadImage("./Pic/highscore.jpg");
+  //-----------screen 0----------------
+  bg = loadImage("./Pic/upgrade0.png");
   buttonList = new Button [] {
-    new ContinueButton(0, 0, 100, 100),
-    new MenuButton(0, 0, 0, 0),
-    new MapButton(0, 0, 0, 0),
-    new UpGradeScreenButton(0, 0, 0, 0),
+    new MenuButton(168, 619, 432, 678),
+    new MapButton(459, 620, 724, 677),
+    new ContinueButton(751, 623, 1013, 677),
+    // new ResetButton(160, 31, 235, 100),
+    new UpgradeScreenButton(955, 29, 1028, 102, 1),
+        
+    new UpgradeButton(503, 242, 556, 290, 0),
+    new UpgradeButton(502, 363, 557, 411, 1),
+    new UpgradeButton(505, 482, 558, 527, 2),
+    new UpgradeButton(960, 242, 1013, 290, 3),
+    new UpgradeButton(960, 365, 1012, 412, 4),
+    new UpgradeButton(961, 482, 1014, 530, 5),
     
-    new BuyWeaponButton(0, 0, 0, 0, 0),
-    new BuyWeaponButton(0, 0, 0, 0, 1),
-    new BuyWeaponButton(0, 0, 0, 0, 2),
-    new BuyWeaponButton(0, 0, 0, 0, 3),
-    new BuyWeaponButton(0, 0, 0, 0, 4),
-    new BuyWeaponButton(0, 0, 0, 0, 5),
-    new BuyWeaponButton(0, 0, 0, 0, 6),
-    new BuyWeaponButton(0, 0, 0, 0, 7),
-    new BuyWeaponButton(0, 0, 0, 0, 8),
+    new DowngradeButton(184, 242, 241, 292, 0),
+    new DowngradeButton(186, 364, 240, 416, 1),
+    new DowngradeButton(185, 481, 241, 534, 2),
+    new DowngradeButton(640, 243, 697, 293, 3),
+    new DowngradeButton(642, 366, 697, 416, 4),
+    new DowngradeButton(641, 481, 699, 531, 5),
   };
-  buyScreen = new Screen (bg, buttonList);
+  upgradeScreens[0] = new Screen (bg, buttonList);
+  
+  //-----------screen 1----------------
+  bg = loadImage("./Pic/upgrade1.png");
+  buttonList = new Button [] {
+    new MenuButton(168, 619, 432, 678),
+    new MapButton(459, 620, 724, 677),
+    new ContinueButton(751, 623, 1013, 677),
+    // new ResetButton(160, 31, 235, 100),
+    new UpgradeScreenButton(859, 31, 933, 100, 0),
+    new UpgradeScreenButton(955, 29, 1028, 102, 2),
+        
+    new UpgradeButton(503, 242, 556, 290, 6),
+    new UpgradeButton(502, 363, 557, 411, 7),
+    new UpgradeButton(505, 482, 558, 527, 8),
+    new UpgradeButton(960, 242, 1013, 290, 9),
+    //new UpgradeButton(960, 365, 1012, 412, 10),
+    //new UpgradeButton(961, 482, 1014, 530, 11),
+    
+    new DowngradeButton(184, 242, 241, 292, 6),
+    new DowngradeButton(186, 364, 240, 416, 7),
+    new DowngradeButton(185, 481, 241, 534, 8),
+    new DowngradeButton(640, 243, 697, 293, 9),
+    //new DowngradeButton(642, 366, 697, 416, 10),
+    //new DowngradeButton(641, 481, 699, 531, 11),
+  };
+  upgradeScreens[1] = new Screen (bg, buttonList);
+  
+  //-----------screen 2----------------
+  bg = loadImage("./Pic/upgrade2.png");
+  buttonList = new Button [] {
+    new MenuButton(168, 619, 432, 678),
+    new MapButton(459, 620, 724, 677),
+    new ContinueButton(751, 623, 1013, 677),
+    // new ResetButton(160, 31, 235, 100),
+    new UpgradeScreenButton(859, 31, 933, 100, 1),
+    new UpgradeScreenButton(955, 29, 1028, 102, 3),
+    
+    new BuyWeaponButton(214, 263, 258, 300, 0),
+    new BuyWeaponButton(214, 346, 257, 387, 1),
+    new BuyWeaponButton(214, 433, 256, 473, 2),
+    new BuyWeaponButton(214, 517, 256, 558, 3),
+    
+    new BuyBulletButton(955, 269, 989, 297, 0),
+    new BuyBulletButton(956, 354, 988, 383, 1),
+    new BuyBulletButton(955, 442, 987, 470, 2),
+    new BuyBulletButton(954, 525, 987, 553, 3),   
+  };
+  upgradeScreens[2] = new Screen (bg, buttonList);
+  
+  //-----------screen 3----------------
+  bg = loadImage("./Pic/upgrade3.png");
+  buttonList = new Button [] {
+    new MenuButton(168, 619, 432, 678),
+    new MapButton(459, 620, 724, 677),
+    new ContinueButton(751, 623, 1013, 677),
+    // new ResetButton(160, 31, 235, 100),
+    new UpgradeScreenButton(955, 29, 1028, 102, 2),
+    
+    new BuyWeaponButton(214, 263, 258, 300, 4),
+    new BuyWeaponButton(214, 346, 257, 387, 5),
+    new BuyWeaponButton(214, 433, 256, 473, 6),
+    new BuyWeaponButton(214, 517, 256, 558, 7),
+    
+    new BuyBulletButton(955, 269, 989, 297, 4),
+    new BuyBulletButton(956, 354, 988, 383, 5),
+    new BuyBulletButton(955, 442, 987, 470, 6),
+    new BuyBulletButton(954, 525, 987, 553, 7),  
+  };
+  upgradeScreens[3] = new Screen (bg, buttonList);  
   
   // --------------------------create pause screen--------------------------
   bg = loadImage("./Pic/pausing.png");

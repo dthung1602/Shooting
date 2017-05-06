@@ -6,6 +6,7 @@ abstract class Bullet {
   int hitRadius;
   float weight;            // how much gravity affects bullet. 0 = no effect;
   PImage img;
+  int price = 0;
   
   Bullet (float x, float y, float vx, float vy) {
     this.x = x;
@@ -79,6 +80,7 @@ class Grenade extends Bullet {
     img = grenadePic;
     weight = 1;
     hitRadius = 5;
+    price = 50;
   }
   
   void action () {
@@ -133,5 +135,6 @@ class Laser extends Bullet {
     damage = 500;
     img = laserPic;
     weight = 0;
+    price = 5;
   }
 }

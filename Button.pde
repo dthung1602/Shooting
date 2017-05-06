@@ -69,13 +69,16 @@ class ContinueButton extends Button {
   }
 }
 
-class UpGradeScreenButton extends Button {
-  UpGradeScreenButton(int x1, int y1, int x2, int y2) {
+class UpgradeScreenButton extends Button {
+  int num;
+  
+  UpgradeScreenButton(int x1, int y1, int x2, int y2, int num) {
     super(x1, y1, x2, y2);
+    this.num = num;
   }
 
   void action() {
-    screen = upgradeScreen;
+    screen = upgradeScreens[num];
     surface.setSize(screen.bg.width, screen.bg.height);
   }
 }
@@ -174,7 +177,7 @@ class MenuButton extends Button {
   }
 }
 
-class ChoosingRoundMenuButton extends Button {
+/*class ChoosingRoundMenuButton extends Button {
   ChoosingRoundMenuButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
   }
@@ -184,7 +187,7 @@ class ChoosingRoundMenuButton extends Button {
     surface.setSize(screen.bg.width, screen.bg.height);
   }
 }
-
+*/
 
 //-------------sound buttons-------------------
 class MusicButton extends Button {
@@ -277,20 +280,45 @@ class BuyWeaponButton extends Button {
       return;
     }        
 
-    // >> save price of all weapon
-    int weaponPrice [] = new int [] {200, 300, 400, 500, 600, 700};
+    // price of weapon
+    int price = weaponType(wpNum).price;
 
     // check if enough money
-    if (shooter.money < weaponPrice[wpNum]) {
+    if (shooter.money < price) {
       screen.info.message = "Not enough money!";
       screen.info.time = 75;
       return;
     }
 
     // buy weapon
-    shooter.money -= weaponPrice[wpNum];
+    shooter.money -= price;
     shooter.weaponList[wpNum].enable = true;
-    return;
+  }
+}
+
+
+class BuyBulletButton extends Button {
+  int wpNum;
+
+  BuyBulletButton (int x1, int y1, int x2, int y2, int wpNum) {
+    super(x1, y1, x2, y2);
+    this.wpNum = wpNum;
+  }
+
+  void action () {
+    // price of weapon
+    int price = weaponType(wpNum).bullet.price;
+
+    // check if enough money
+    if (shooter.money < price) {
+      screen.info.message = "Not enough money!";
+      screen.info.time = 75;
+      return;
+    }
+
+    // buy bullet
+    shooter.money -= price;
+    shooter.weaponList[wpNum].bulletLeft += 1;
   }
 }
 
@@ -328,19 +356,6 @@ class MapButton extends Button {
   }
 
   void action () {
-    screen = choosingRoundScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
-  }
-}
-
-
-class BuyScreenButton extends Button {
-  BuyScreenButton (int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action () {
-    screen = buyScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
+    changeScreen(choosingRoundScreen);    
   }
 }

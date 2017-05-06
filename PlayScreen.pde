@@ -132,7 +132,7 @@ class PlayScreen extends Screen {
     resetRound();
     currentRound++;
     totalEnemyInRound *= DIFICULTLY;
-    screen = upgradeScreen;
+    screen = upgradeScreens[0];
     surface.setSize(screen.bg.width, screen.bg.height);
     
     // save game, unlock new round & check highscore
