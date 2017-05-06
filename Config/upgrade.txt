@@ -1,0 +1,10 @@
+aim_bla bla bla
+max health_bla bla bla
+weapon delay_bla bla bla
+weapon speed_bla bla bla
+bonus money_bla bla bla
+special wp delay_bla bla bla
+special ability const_bla bla bla
+bonus damage_bla bla bla
+exp radius_bla bla bla
+wall health_bla bla bla

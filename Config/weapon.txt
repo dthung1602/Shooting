@@ -1,0 +1,6 @@
+Stone_The weakest weapon
+Shuriken_The weakest weapon
+Bow_The weakest weapon
+Grenade_The weakest weapon
+Freeze Gun_The weakest weapon
+Laser Gun_The weakest weapon

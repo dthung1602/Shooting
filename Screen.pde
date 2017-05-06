@@ -47,7 +47,8 @@ class Screen {
     // show info
     if (infoList != null)
       for (int i=0; i<infoList.length; i++) 
-        infoList[i].show();
+        if (infoList[i] != null)
+          infoList[i].show();
 
     // show time info
     info.show();

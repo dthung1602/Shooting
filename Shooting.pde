@@ -6,8 +6,6 @@
  *  max 12 player's name
  *  show upgrade name, price, explaination in ug screen
  *  add sound
- *  buttons coordinates
- *  confirm delete player screen
  */
 
 //--------------------------- import libraries-----------------------------//
@@ -33,8 +31,11 @@ int MAX_ENEMY_DELAY  = 30;
 color WHITE = color(100, 100, 100, 100);   
 color RED   = color(255, 0, 0, 100);
 color BLUE  = color(0, 150, 250, 100);
-color CLEAR_BLUE  = color(50, 180, 250, 70);
-color BOLD_RED    = color(255, 0, 0);
+color CLEAR_BLUE   = color(50, 180, 250, 70);
+color BOLD_RED     = color(255, 0, 0);
+color BROWN        = color(178, 111, 0);
+color YELLOW_BOLD  = color(242, 207, 92);
+color YELLOW_WHITE = color(231, 219, 142); 
 
 //------------------------------ variables---------------------------------//
 Screen screen;
@@ -409,9 +410,10 @@ void setup () {
     confirmScreen, // 10
   };
 
+  loadInfo();
 
   //--------------------------- tmp----------------------------
-  screen = menuScreen;
+  screen = upgradeScreens[2];
   surface.setResizable(true);
   surface.setSize(screen.bg.width, screen.bg.height);
   surface.setResizable(false);

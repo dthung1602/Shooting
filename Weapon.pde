@@ -13,9 +13,7 @@ abstract class Weapon {
   int price;
   
   String name;
-  String explaination;
-  int x, y;                      // pos of name in weapon screen
-  
+  String explaination;  
   
   void shoot() {
     // do nothing when delay is not over or out of bullet
