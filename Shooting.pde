@@ -208,7 +208,7 @@ void setup () {
   buttonList = new Button[] {
     new ChangeScreenButton(158, 30, 232, 102, 5), // data screen
     new LoginButton(678, 617, 944, 678), 
-    new DeletePlayerButton(281, 620, 547, 679), 
+    new ChangeScreenButton(281, 620, 547, 679, 10), 
     new TextFieldButton(365, 330, 1000, 384, 0), 
     new TextFieldButton(365, 420, 1000, 477, 1), 
 
@@ -389,7 +389,7 @@ void setup () {
   bg = loadImage("./Pic/confirm.png");
   buttonList = new Button[] { 
     new ChangeScreenButton(315, 620, 579, 678, 6), // change player screen
-    new DeletePlayerButton(607, 624, 870, 677), 
+    new DeletePlayerButton(603, 624, 870, 677), 
   };
   confirmScreen = new Screen(bg, buttonList);
 
@@ -406,6 +406,7 @@ void setup () {
     newPlayerScreen, 
     settingScreen, //8
     quitScreen, 
+    confirmScreen, // 10
   };
 
 
