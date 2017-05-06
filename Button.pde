@@ -2,12 +2,26 @@ abstract class Button {
   int x1, y1;                      // upper left corner
   int x2, y2;                      // lower right corner
   boolean enable = true;
+  boolean circle = false;
+  boolean highlight = true;
 
   Button(int x1, int y1, int x2, int y2) {
     this.x1 = x1;
     this.y1 = y1;
     this.x2 = x2;
     this.y2 = y2;
+  }
+
+  void show() {
+    if (!highlight) 
+      return;
+    noStroke();
+    fill(CLEAR_BLUE);
+    if (circle) {
+      ellipse(x1, y1, x2, y2);
+    } else {
+      rect(x1, y1, x2, y2);
+    }
   }
 
   boolean containPoint(float x, float y) {
@@ -71,7 +85,7 @@ class ContinueButton extends Button {
 
 class UpgradeScreenButton extends Button {
   int num;
-  
+
   UpgradeScreenButton(int x1, int y1, int x2, int y2, int num) {
     super(x1, y1, x2, y2);
     this.num = num;
@@ -178,16 +192,16 @@ class MenuButton extends Button {
 }
 
 /*class ChoosingRoundMenuButton extends Button {
-  ChoosingRoundMenuButton(int x1, int y1, int x2, int y2) {
-    super(x1, y1, x2, y2);
-  }
-
-  void action() {
-    screen = choosingRoundScreen;
-    surface.setSize(screen.bg.width, screen.bg.height);
-  }
-}
-*/
+ ChoosingRoundMenuButton(int x1, int y1, int x2, int y2) {
+ super(x1, y1, x2, y2);
+ }
+ 
+ void action() {
+ screen = mapScreen;
+ surface.setSize(screen.bg.width, screen.bg.height);
+ }
+ }
+ */
 
 //-------------sound buttons-------------------
 class MusicButton extends Button {
@@ -356,6 +370,38 @@ class MapButton extends Button {
   }
 
   void action () {
-    changeScreen(choosingRoundScreen);    
+  }
+}
+
+class ChangeScreenButton extends Button {
+  int screenNum;
+  Screen screenList [] = new Screen [] {
+    menuScreen, 
+    playScreen,  
+    pauseScreen, 
+    winScreen, 
+    loseScreen, 
+    dataScreen, 
+    changePlayerScreen, 
+    newPlayerScreen, 
+    settingScreen, 
+    quitScreen,
+    upgradeScreens[0],
+    upgradeScreens[1],
+    upgradeScreens[2],
+    upgradeScreens[3],
+    mapScreen, 
+  };
+
+  ChangeScreenButton (int x1, int y1, int x2, int y2, int screenNum) {
+    super(x1, y1, x2, y2);
+    this.screenNum = screenNum;
+  }
+
+  void action () {
+    screen = screenList[screenNum];
+    surface.setResizable(true);
+    surface.setSize(screen.bg.width, screen.bg.height);
+    surface.setResizable(false);
   }
 }

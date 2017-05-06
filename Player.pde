@@ -82,7 +82,7 @@ class Player {
     saveStrings("./Player/player.txt", s);
     
     // update player list in change player screen
-    changePlayerScreen.updatePlayerList();
+    updatePlayerList();
 
     // auto login and change to menu screen
     changePlayerScreen.infoList[0].message = newPlayerScreen.infoList[0].message;
@@ -143,6 +143,6 @@ class Player {
     f.delete();
       
     // update player list in change player screen
-    changePlayerScreen.updatePlayerList();
+    updatePlayerList();
   }
 }

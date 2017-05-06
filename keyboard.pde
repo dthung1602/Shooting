@@ -48,7 +48,7 @@ void keyPressed () {
   
   /*
   //------------------for choose round screen----------------
-  if (screen == choosingRoundScreen) {
+  if (screen == mapScreen) {
     // enter number
     if ('0' > key || '9' < key)
       screen.infoList[0].message += key;
