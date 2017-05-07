@@ -32,7 +32,7 @@ class Screen {
 
     // change screen
     screen = newScreen;
-    
+
     // set count down for play screen
     if (screen == playScreen) 
       playScreen.countDown = (int) frameRate * 3;
@@ -61,11 +61,39 @@ class Screen {
     info.show();
 
     // >>>show other components
+    // tick sound & music in setting screen
     if (screen == settingScreen) {
       if (soundEnable) 
         image(tickPic, 275, 315);
       if (musicEnable)
         image(tickPic, 275, 385);
+      return;
+    }
+
+    // tick bought weapon in upgrade screens
+    for (int i=2; i<4; i++) 
+      if (screen == upgradeScreens[i]) {
+        for (int j=0; j<4; j++)
+          if (j + (i-2)*4 < shooter.weaponList.length  && shooter.weaponList[j + (i-2)*4].enable)
+            image(tickPic, 240, 270 + (j) * 87);
+        return;
+      }
+
+    // cross out lock worlds
+    for (int i=0; i<2; i++) 
+      if (screen == mapScreens[i]) {
+        for (int j=0; j<6; j++)
+          if (j + i * 6 > player.maxWorld)
+            image(lockPic, 250 + j%3 * 355, 250 + j/3 * 295);
+        return;
+      }
+
+    // cross out lock rounds
+    if (screen == chooseRoundScreen && currentWorld == player.maxWorld) {
+      for (int j=0; j<8; j++)
+        if (j > player.maxRound)
+          image(lockPic, 270 + j%4 * 207, 220 + j/4 * 160);
+      return;
     }
   }
 }

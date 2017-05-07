@@ -20,6 +20,9 @@ class PlayScreen extends Screen {
   void show() {
     background(screen.bg);
     
+    if (checkGameEnd())
+      return;
+    
     if (countDown())
       return;
     
@@ -30,7 +33,6 @@ class PlayScreen extends Screen {
     drawEffect();
     shooter.show();
     
-    checkGameEnd();
     checkFinishRound();
     showInfo();
     drawMouse();
@@ -46,6 +48,8 @@ class PlayScreen extends Screen {
     textFont(fontLarge);
     
     // show text
+    text("ROUND " + currentRound+1, width/2-75, height/2-75);
+    
     if (countDown < (int) frameRate)
       text("1...", width/2, height/2);
     else if (countDown < (int) frameRate * 2)
@@ -134,17 +138,24 @@ class PlayScreen extends Screen {
       bulletList[i].show();
   }
   
-  private void checkGameEnd() {
+  private boolean checkGameEnd() {
     // check if player has lost
     if (shooter.health <= 0) {
       screen.changeScreen(loseScreen);
       resetRound();
-      return;
+      return true;
     }
     
     // check if player has win 
-    if (currentRound > MAX_ROUND)
+    if (currentRound > MAX_ROUND) {
+      player.maxWorld++;
+      player.maxRound = 0;
+      // >> check if win all world
       screen.changeScreen(winScreen);
+      return true;
+    }
+    
+    return false;
   }
   
   private void checkFinishRound() {
@@ -159,8 +170,9 @@ class PlayScreen extends Screen {
     screen.changeScreen(upgradeScreens[0]);
     screen.infoList[12].message = str(shooter.money);
     
-    // save game, unlock new round & check highscore
-    //>>>>>>>
+    // save game, unlock new round
+    if (currentWorld == player.maxWorld)
+      player.maxRound++;
     player.savePlayer();
   }
   

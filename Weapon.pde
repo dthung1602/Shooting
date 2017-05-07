@@ -90,6 +90,7 @@ class HandStone extends Weapon {
     speed = 20;
     bulletLeft = -1;
     specialAbilityPrice = 300; 
+    price = 0;
   }    
 }
 
@@ -103,6 +104,7 @@ class HandGrenade extends Weapon {
     speed = 15;
     bulletLeft = 5;
     specialAbilityPrice = 900;
+    price = 500;
   }
 }
 
@@ -116,6 +118,7 @@ class HandShuriken extends Weapon{
     speed = 20;
     bulletLeft = -1;
     specialAbilityPrice = 300; 
+    price = 100;
   }  
 }
 
@@ -129,6 +132,7 @@ class Bow extends Weapon {
     speed = 25;
     bulletLeft = -1;
     specialAbilityPrice = 400; 
+    price = 300;
   }  
 }
 
@@ -142,6 +146,7 @@ class FreezeGun extends Weapon {
     speed = 25;
     bulletLeft = 20;
     specialAbilityPrice = 350; 
+    price = 400;
   }  
 }
 
@@ -156,5 +161,6 @@ class LaserGun extends Weapon {
     bulletLeft = -1;
     specialAbilityPrice = 1000; 
     blNum = 5;
+    price = 600;
   }
 }

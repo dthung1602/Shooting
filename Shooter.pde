@@ -50,10 +50,11 @@ class Shooter extends CanBeAttacked {
   }
 
   void specialAbility () {
-    if (money < upgradeList[6].value)
+    int price = (int) (upgradeList[6].value * currentWeapon.specialAbilityPrice);
+    if (money < price)
       return;
 
-    money -= upgradeList[6].value * currentWeapon.specialAbilityPrice;
+    money -= price;
     for (int i=0; i<10; i++) {
       bulletList[bulletCount] = currentWeapon.newBullet(0, 15);
       bulletList[bulletCount].x = (int) random(50, width-50);

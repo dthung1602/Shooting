@@ -311,6 +311,13 @@ class MapScreenButton extends Button {
   }
 
   void action() {
+    // ask player to log in
+    if (player.name == null) {
+      screen.info.message = "Please login!";
+      screen.info.time = 75;
+      return;
+    }
+    
     screen.changeScreen(mapScreens[num]);
   }
 }
@@ -325,10 +332,18 @@ class ChooseWorldButton extends Button {
   }
   
   void action () {
+    // check if world is unlocked
+    if (worldNum > player.maxWorld) {
+      screen.info.message = "World is not unlocked yet!";
+      screen.info.time = 80;
+      return;
+    }
+    
     //>>> load enemy type of each kind;
     playScreen.bg = loadImage("./Pic/World/world" + worldNum + ".png");
     
     // change to choose round screen
+    currentWorld = worldNum;
     screen.changeScreen(chooseRoundScreen);
   }
 }
@@ -343,6 +358,13 @@ class ChooseRoundButton extends Button {
   }
   
   void action () {
+    // check if round is unlocked
+    if (roundNum > player.maxRound && currentWorld == player.maxWorld) {
+      screen.info.message = "Round is not unlocked yet!";
+      screen.info.time = 80;
+      return;
+    }
+    
     currentRound = roundNum;
     resetRound();
     screen.changeScreen(playScreen);

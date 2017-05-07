@@ -1,6 +1,8 @@
 class Player {
   String name;
-
+  int maxWorld;  // max world player can play
+  int maxRound;  // max round in that world player can play
+  
   Player() {
   }
 
@@ -11,7 +13,9 @@ class Player {
     String tmp [];
 
     // copy info from file to game
-    currentRound = int(data[1]); 
+    tmp = split(data[1], ' ');
+    maxWorld = int(tmp[0]);
+    maxRound = int(tmp[1]);
     shooter.money = int(data[2]);
     shooter.upgradeList[1].value = int(data[3]);
 
@@ -77,7 +81,7 @@ class Player {
     // save to player's own file
     s = new String [7];
     s[0] = str(hash(newPlayerScreen.infoList[1].message));                                          // password
-    s[1] = "1";                                                                                     // current round
+    s[1] = "0 0";                                                                                    // max round , max world
     s[2] = str(DEFAULT_MONEY);
     s[3] = str(DEFAULT_HEALTH);
     s[4] = "true false false false false false";                                                    // weapon
@@ -109,7 +113,7 @@ class Player {
     String data [] = loadStrings("./Player/" + name + ".txt");
 
     // copy info from game to data
-    data[1] = str(currentRound); 
+    data[1] = maxWorld + " " + maxRound; 
     data[2] = str(shooter.money);
     data[3] = str(shooter.upgradeList[1].value);
 

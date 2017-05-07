@@ -19,7 +19,7 @@ float GRAVITY        = 0.5;
 int DEFAULT_HEALTH   = 50;
 int DEFAULT_MONEY    = 100;
 int DEFAULT_ENEMY_NUM= 5;        // how many enemy for 1st round
-int MAX_ROUND        = 50;
+int MAX_ROUND        = 9;
 int ENEMY_LIST_SIZE  = 500;
 int BULLET_LIST_SIZE = 1000;
 int EFFECT_LIST_SIZE = 500;
@@ -40,6 +40,7 @@ color YELLOW_WHITE = color(231, 219, 142);
 //------------------------------ variables---------------------------------//
 Screen screen;
 int currentRound;    
+int currentWorld;
 int totalEnemyInRound;                     // how many enemy will be created in this round 
 int killCount;                             // how many enemy kiled
 int enemyCount;                            // how many enemy in current round
@@ -102,6 +103,7 @@ PImage basicEnemyPic;
 
 // other image
 PImage tickPic;
+PImage lockPic;
 
 // fonts
 PFont fontSmall;
@@ -166,6 +168,7 @@ void setup () {
 
   // other image
   tickPic = loadImage("./Pic/tick.png");
+  lockPic = loadImage("./Pic/lock.png");
 
   // -----------------load important objects-------------------//
   player  = new Player();
@@ -184,11 +187,11 @@ void setup () {
   // -------------menu screen------------------------------
   bg = loadImage("./Pic/menu.png");
   buttonList = new Button[] {
-    new ContinueButton(245, 525, 580, 590), 
+    new MapScreenButton(245, 525, 580, 590, 0), 
     new ChangeScreenButton(615, 525, 950, 590, 8), // setting screen
     new ChangeScreenButton(245, 615, 580, 680, 5), // data screen
     new ChangeScreenButton(615, 615, 950, 680, 9), // quit screen
-        //>>
+    //>>
     new UpgradeScreenButton(0, 0, 100, 100, 0),
   /*new HighScoreButton(555, 440, 785, 480),*/
   };
@@ -274,7 +277,7 @@ void setup () {
   //----------------------------create choose round screen--------------------
   bg = loadImage("./Pic/choose_round.png");
   buttonList = new Button  [] {
-    new ChangeScreenButton (59, 31, 134, 103, 0), // menu screen
+    new MapScreenButton (59, 31, 134, 103, 0), // map screen
     
     new ChooseRoundButton (246, 168, 342, 249, 0),
     new ChooseRoundButton (451, 171, 546, 250, 1),
@@ -329,6 +332,7 @@ void setup () {
     new DowngradeButton(641, 481, 699, 531, 5), 
   };
   upgradeScreens[0] = new Screen (bg, buttonList);
+  upgradeScreens[0].status = 0;
   
 
   //-----------screen 1----------------
@@ -356,6 +360,7 @@ void setup () {
     //new DowngradeButton(641, 481, 699, 531, 11),
   };
   upgradeScreens[1] = new Screen (bg, buttonList);
+  upgradeScreens[1].status = 1;
 
   //-----------screen 2----------------
   bg = loadImage("./Pic/upgrade2.png");
@@ -378,6 +383,7 @@ void setup () {
     new BuyBulletButton(954, 525, 987, 553, 3), 
   };
   upgradeScreens[2] = new Screen (bg, buttonList);
+  upgradeScreens[2].status = 2;
 
   //-----------screen 3----------------
   bg = loadImage("./Pic/upgrade3.png");
@@ -399,6 +405,7 @@ void setup () {
     //new BuyBulletButton(954, 525, 987, 553, 7),  
   };
   upgradeScreens[3] = new Screen (bg, buttonList);  
+  upgradeScreens[3].status = 3;
 
   // --------------------------create pause screen--------------------------
   bg = loadImage("./Pic/pausing.png");
@@ -467,7 +474,4 @@ void setup () {
 
 void draw () {
   screen.show();
-  print(shooter.currentWeapon.delay + " ");
-  print(shooter.currentWeapon.defaultDelay + " ");
-  println(shooter.upgradeList[2].value);
 }
