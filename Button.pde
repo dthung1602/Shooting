@@ -301,6 +301,39 @@ class SoundButton extends Button {
 }
 
 
+//------------------------Map screen buttons----------------------------
+class MapScreenButton extends Button {
+  int num;
+
+  MapScreenButton(int x1, int y1, int x2, int y2, int num) {
+    super(x1, y1, x2, y2);
+    this.num = num;
+  }
+
+  void action() {
+    screen.changeScreen(mapScreens[num]);
+  }
+}
+
+
+class ChooseWorldButton extends Button {
+  int worldNum;
+  
+  ChooseWorldButton(int x1, int y1, int x2, int y2, int worldNum) {
+    super(x1, y1, x2, y2);
+    this.worldNum = worldNum;
+  }
+  
+  void action () {
+    //>>> load enemy type of each kind;
+    playScreen.bg = loadImage("./Pic/World/world" + worldNum + ".png");
+    
+    // change to choose round screen
+    screen.changeScreen(chooseRoundScreen);
+  }
+}
+
+
 //------------------------Other buttons---------------------------------
 class QuitButton extends Button {
   QuitButton(int x1, int y1, int x2, int y2) {

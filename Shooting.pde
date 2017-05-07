@@ -61,7 +61,7 @@ Obj objList []             = new Obj [STUFF_LIST_SIZE];
 // screens
 Screen menuScreen;
 PlayScreen playScreen;
-Screen mapScreen;
+Screen mapScreens [];
 Screen upgradeScreens [];
 Screen pauseScreen;
 Screen winScreen;
@@ -72,6 +72,7 @@ Screen newPlayerScreen;
 Screen confirmScreen;
 Screen settingScreen;
 Screen quitScreen;
+Screen chooseRoundScreen;
 
 // images of bullets
 PImage stonePic;
@@ -237,15 +238,39 @@ void setup () {
   infoList[2].hiden = true;
   newPlayerScreen = new Screen(bg, buttonList, infoList);
 
-  //>>> ------------------create map screen------------------------
-  bg = loadImage("./Pic/highscore.jpg");
-  buttonList = new Button[] {
-    new ChangeScreenButton(580, 215, 655, 280, 0), // menu screen
+  //>>> ------------------create map screens------------------------
+  mapScreens = new Screen [2];
+  
+  // -------map screen 0---------
+  bg = loadImage("./Pic/map0.png");
+  buttonList = new Button  [] {
+    new ChangeScreenButton (67, 28, 141, 99, 0),
+    new MapScreenButton (1064, 30, 1138, 100, 1),
+ 
+    new ChooseWorldButton (102, 138, 404, 338, 0),
+    new ChooseWorldButton (456, 138, 757, 338, 1),
+    new ChooseWorldButton (807, 138, 1106, 338, 2),
+    new ChooseWorldButton (102, 420, 404, 620, 3),
+    new ChooseWorldButton (456, 420, 757, 620, 4),
+    new ChooseWorldButton (807, 420, 1106, 620, 5),
   };
-  mapScreen = new Screen(bg, buttonList);
-  mapScreen.infoList = new Info [] {
-    new Info("", 500, 400, color(200, 255, 0), fontSmall), 
+  mapScreens[0] = new Screen(bg, buttonList);
+  
+  // -------map screen 1---------
+  bg = loadImage("./Pic/map1.png");
+  buttonList = new Button  [] {
+    new ChangeScreenButton (67, 28, 141, 100, 0),
+    new MapScreenButton (969, 30, 1043, 100, 0),
+ 
+    new ChooseWorldButton (102, 138, 404, 338, 6),
+    new ChooseWorldButton (456, 138, 757, 338, 7),
+    new ChooseWorldButton (807, 138, 1106, 338, 8),
+    new ChooseWorldButton (102, 420, 404, 620, 9),
+    new ChooseWorldButton (456, 420, 757, 620, 10),
+    new ChooseWorldButton (807, 420, 1106, 620, 11),
   };
+  mapScreens[1] = new Screen(bg, buttonList);
+  
 
   // --------------------------create setting screen--------------------------
   bg = loadImage("./Pic/option.png");
@@ -268,7 +293,7 @@ void setup () {
   bg = loadImage("./Pic/upgrade0.png");
   buttonList = new Button [] {
     new ChangeScreenButton(168, 619, 432, 678, 0), // menu screen
-    new ChangeScreenButton(459, 620, 724, 677, 1), // map screen
+    new MapScreenButton(459, 620, 724, 677, 0), // map screen
     new ContinueButton(751, 623, 1013, 677), 
     // new ResetButton(160, 31, 235, 100),
     new UpgradeScreenButton(955, 29, 1028, 102, 1), 
@@ -294,7 +319,7 @@ void setup () {
   bg = loadImage("./Pic/upgrade1.png");
   buttonList = new Button [] {
     new ChangeScreenButton(168, 619, 432, 678, 0), // menu screen
-    new ChangeScreenButton(459, 620, 724, 677, 1), // map screen
+    new MapScreenButton(459, 620, 724, 677, 0), // map screen
     new ContinueButton(751, 623, 1013, 677), 
     // new ResetButton(160, 31, 235, 100),
     new UpgradeScreenButton(859, 31, 933, 100, 0), 
@@ -320,7 +345,7 @@ void setup () {
   bg = loadImage("./Pic/upgrade2.png");
   buttonList = new Button [] {
     new ChangeScreenButton(168, 619, 432, 678, 0), // menu screen
-    new ChangeScreenButton(459, 620, 724, 677, 1), // map screen
+    new MapScreenButton(459, 620, 724, 677, 0), // map screen
     new ContinueButton(751, 623, 1013, 677), 
     // new ResetButton(160, 31, 235, 100),
     new UpgradeScreenButton(859, 31, 933, 100, 1), 
@@ -342,7 +367,7 @@ void setup () {
   bg = loadImage("./Pic/upgrade3.png");
   buttonList = new Button [] {
     new ChangeScreenButton(168, 619, 432, 678, 0), // menu screen
-    new ChangeScreenButton(459, 620, 724, 677, 1), // map screen
+    new MapScreenButton(459, 620, 724, 677, 0), // map screen
     new ContinueButton(751, 623, 1013, 677), 
     // new ResetButton(160, 31, 235, 100),
     new UpgradeScreenButton(955, 29, 1028, 102, 2), 
@@ -400,7 +425,7 @@ void setup () {
   // ------------------------ create object list -------------------------
   screenList = new Screen []{
     menuScreen, //0
-    mapScreen, 
+    chooseRoundScreen, 
     pauseScreen, //2 
     winScreen, 
     loseScreen, //4
