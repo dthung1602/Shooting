@@ -32,6 +32,10 @@ class Screen {
 
     // change screen
     screen = newScreen;
+    
+    // set count down for play screen
+    if (screen == playScreen) 
+      playScreen.countDown = (int) frameRate * 3;
   }
 
   void show () {

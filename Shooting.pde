@@ -271,6 +271,20 @@ void setup () {
   };
   mapScreens[1] = new Screen(bg, buttonList);
   
+  //----------------------------create choose round screen--------------------
+  // -------map screen 1---------
+  bg = loadImage("./Pic/map1.png");
+  buttonList = new Button  [] {
+    new ChangeScreenButton (67, 28, 141, 100, 0), // menu screen
+ 
+    new ChooseWorldButton (102, 138, 404, 338, 6),
+    new ChooseWorldButton (456, 138, 757, 338, 7),
+    new ChooseWorldButton (807, 138, 1106, 338, 8),
+    new ChooseWorldButton (102, 420, 404, 620, 9),
+    new ChooseWorldButton (456, 420, 757, 620, 10),
+    new ChooseWorldButton (807, 420, 1106, 620, 11),
+  };
+  mapScreens[1] = new Screen(bg, buttonList);
 
   // --------------------------create setting screen--------------------------
   bg = loadImage("./Pic/option.png");

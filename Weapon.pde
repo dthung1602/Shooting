@@ -31,7 +31,6 @@ abstract class Weapon {
       bulletList[bulletCount + i].y += vy * i * 2;
     }
     delay = (int) (defaultDelay * shooter.upgradeList[2].value);
-    println("--------" + delay);
     bulletLeft -= blNum;
     bulletCount += blNum;
   }

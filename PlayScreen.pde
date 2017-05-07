@@ -1,4 +1,6 @@
 class PlayScreen extends Screen {
+  int countDown;
+  
   PlayScreen () {
     bg = loadImage("./Pic/map0.jpg");
     buttonList = new Button [] {
@@ -17,8 +19,11 @@ class PlayScreen extends Screen {
   
   void show() {
     background(screen.bg);
-    createEnemy();
     
+    if (countDown())
+      return;
+    
+    createEnemy();
     drawObj();
     drawEnemy();
     drawBullet();
@@ -29,6 +34,27 @@ class PlayScreen extends Screen {
     checkFinishRound();
     showInfo();
     drawMouse();
+  }
+  
+  private boolean countDown() {
+    // do nothing when finish count down
+    if (countDown == 0) 
+      return false;
+    
+    // adjust text
+    fill(BOLD_RED);
+    textFont(fontLarge);
+    
+    // show text
+    if (countDown < (int) frameRate)
+      text("1...", width/2, height/2);
+    else if (countDown < (int) frameRate * 2)
+      text("2...", width/2, height/2);
+    else
+      text("3...", width/2, height/2);
+      
+    countDown--;
+    return true;
   }
   
   private void createEnemy() {

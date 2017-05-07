@@ -334,6 +334,22 @@ class ChooseWorldButton extends Button {
 }
 
 
+class ChooseRoundButton extends Button {
+  int roundNum;
+  
+  ChooseRoundButton(int x1, int y1, int x2, int y2, int roundNum) {
+    super(x1, y1, x2, y2);
+    this.roundNum = roundNum;
+  }
+  
+  void action () {
+    currentRound = roundNum;
+    resetRound();
+    screen.changeScreen(playScreen);
+  }
+}
+
+
 //------------------------Other buttons---------------------------------
 class QuitButton extends Button {
   QuitButton(int x1, int y1, int x2, int y2) {
