@@ -46,9 +46,20 @@ class Player {
       upg = shooter.upgradeList[i];
       upgradeScreens[i/6].infoList[i%6+6] = new Info((int) upg.level + "/" + (int) upg.maxLevel, 330 + 470 * (i%6 / 3), 322 + (i%6 % 3) * 120, BROWN, fontMedium);
     }
+    
+    for (int i=0; i<shooter.upgradeList.length/6 + 1; i++)
+      upgradeScreens[i].infoList[12].message = str(shooter.money);
+          
+    for (int i=0; i<shooter.weaponList.length/4 + 1; i++) 
+      upgradeScreens[i + shooter.upgradeList.length/6 + 1].infoList[8].message = str(shooter.money);
+    
 
     // add wellcome in menu screen
     menuScreen.info =  new TimeInfo ("Welcome, " + name + "!", 500, 50, BOLD_RED, fontSmall, -1);
+    
+    // set playscreen to latest round
+    currentRound = maxRound;
+    loadWorld(maxWorld);
   }
 
   void createPlayer () {
@@ -168,7 +179,7 @@ class Player {
     screen.info.time = 0;
   }
 
-  int login () {  
+  int login () {
     // check if username in list
     boolean inList = false;
     for (int i=2; i<changePlayerScreen.infoList.length; i++) {
@@ -198,7 +209,7 @@ class Player {
       changePlayerScreen.infoList[1].message = "";
       screen.info.message = "Wrong password!";
       screen.info.time = 75;
-      return 2;
+      return 1;
     }
 
     // pass is correct

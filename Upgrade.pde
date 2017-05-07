@@ -41,9 +41,7 @@ class Upgrade {
     level++;
     
     // change screen info
-    screen.info.time = 0;
-    screen.infoList[12].message = str(shooter.money);
-    screen.infoList[num%6 + 6].message = level + "/" + maxLevel;
+    updateInfo(num);
   }
 
   void downgrade (int num) {
@@ -61,8 +59,15 @@ class Upgrade {
     level--;
     
     // change screen info
+    updateInfo(num);
+  }
+  
+  private void updateInfo (int num) {
     screen.info.time = 0;
-    screen.infoList[12].message = str(shooter.money);
     screen.infoList[num%6 + 6].message = level + "/" + maxLevel;
+    upgradeScreens[0].infoList[12].message = str(shooter.money);
+    upgradeScreens[1].infoList[12].message = str(shooter.money);
+    upgradeScreens[2].infoList[8].message = str(shooter.money);
+    upgradeScreens[3].infoList[8].message = str(shooter.money);
   }
 }

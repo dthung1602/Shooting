@@ -34,8 +34,17 @@ class Screen {
     screen = newScreen;
 
     // set count down for play screen
-    if (screen == playScreen) 
+    if (screen == playScreen && enemyCount == 0) 
       playScreen.countDown = (int) frameRate * 3;
+      
+    // focus on correct input field
+    if (screen == changePlayerScreen || screen == newPlayerScreen) {
+      for (int i=0; i<screen.infoList.length; i++) {
+        screen.infoList[i].input = false;
+      }
+      screen.infoList[screen.status].input = true;
+      println(screen.status);
+    }   
   }
 
   void show () {
@@ -84,7 +93,7 @@ class Screen {
       if (screen == mapScreens[i]) {
         for (int j=0; j<6; j++)
           if (j + i * 6 > player.maxWorld)
-            image(lockPic, 250 + j%3 * 355, 250 + j/3 * 295);
+            image(lockWorldPic, 250 + j%3 * 355, 235 + j/3 * 285);
         return;
       }
 
@@ -92,7 +101,9 @@ class Screen {
     if (screen == chooseRoundScreen && currentWorld == player.maxWorld) {
       for (int j=0; j<8; j++)
         if (j > player.maxRound)
-          image(lockPic, 270 + j%4 * 207, 220 + j/4 * 160);
+          image(lockRoundPic, 340 + j%4 * 207, 240 + j/4 * 160);
+      if (player.maxRound < 8) 
+        image(lockRoundPic, 720, 615);
       return;
     }
   }

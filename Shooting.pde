@@ -4,7 +4,6 @@
  *  playscreen --> showShooter
  *  serialization
  *  max 12 player's name
- *  show upgrade name, price, explaination in ug screen
  *  add sound
  */
 
@@ -103,7 +102,8 @@ PImage basicEnemyPic;
 
 // other image
 PImage tickPic;
-PImage lockPic;
+PImage lockRoundPic;
+PImage lockWorldPic;
 
 // fonts
 PFont fontSmall;
@@ -168,7 +168,9 @@ void setup () {
 
   // other image
   tickPic = loadImage("./Pic/tick.png");
-  lockPic = loadImage("./Pic/lock.png");
+  lockRoundPic = loadImage("./Pic/lock_round.png");
+  lockWorldPic = loadImage("./Pic/lock_world.png");
+  
 
   // -----------------load important objects-------------------//
   player  = new Player();
@@ -187,12 +189,10 @@ void setup () {
   // -------------menu screen------------------------------
   bg = loadImage("./Pic/menu.png");
   buttonList = new Button[] {
-    new MapScreenButton(245, 525, 580, 590, 0), 
+    new MapScreenButton(245, 525, 580, 590, 0),    // map screen
     new ChangeScreenButton(615, 525, 950, 590, 8), // setting screen
     new ChangeScreenButton(245, 615, 580, 680, 5), // data screen
     new ChangeScreenButton(615, 615, 950, 680, 9), // quit screen
-    //>>
-    new UpgradeScreenButton(0, 0, 100, 100, 0),
   /*new HighScoreButton(555, 440, 785, 480),*/
   };
   menuScreen = new Screen(bg, buttonList);
@@ -247,8 +247,9 @@ void setup () {
   // -------map screen 0---------
   bg = loadImage("./Pic/map0.png");
   buttonList = new Button  [] {
-    new ChangeScreenButton (67, 28, 141, 99, 0),
+    new ChangeScreenButton (67, 28, 140, 100, 0),  // menu screen
     new MapScreenButton (1064, 30, 1138, 100, 1),
+    new UpgradeScreenButton(167, 28, 240, 100, 0),
  
     new ChooseWorldButton (102, 138, 404, 338, 0),
     new ChooseWorldButton (456, 138, 757, 338, 1),
@@ -262,8 +263,9 @@ void setup () {
   // -------map screen 1---------
   bg = loadImage("./Pic/map1.png");
   buttonList = new Button  [] {
-    new ChangeScreenButton (67, 28, 141, 100, 0),
+    new ChangeScreenButton (67, 28, 141, 100, 0),  // menu screen
     new MapScreenButton (969, 30, 1043, 100, 0),
+    new UpgradeScreenButton(167, 28, 240, 100, 0),
  
     new ChooseWorldButton (102, 138, 404, 338, 6),
     new ChooseWorldButton (456, 138, 757, 338, 7),

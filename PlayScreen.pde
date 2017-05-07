@@ -48,7 +48,7 @@ class PlayScreen extends Screen {
     textFont(fontLarge);
     
     // show text
-    text("ROUND " + currentRound+1, width/2-75, height/2-75);
+    text("ROUND " + (currentRound+1), width/2-75, height/2-75);
     
     if (countDown < (int) frameRate)
       text("1...", width/2, height/2);

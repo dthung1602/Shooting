@@ -143,6 +143,17 @@ class BuyWeaponButton extends Button {
     // buy weapon
     shooter.money -= price;
     shooter.weaponList[wpNum].enable = true;
+    
+    // update info
+    upgradeScreens[0].infoList[12].message = str(shooter.money);
+    upgradeScreens[1].infoList[12].message = str(shooter.money);
+    upgradeScreens[2].infoList[8].message = str(shooter.money);
+    upgradeScreens[3].infoList[8].message = str(shooter.money);
+  }
+  
+  void show() {
+    super.show();
+    screen.infoList[9].message = shooter.weaponList[wpNum].explaination;   // explain wp
   }
 }
 
@@ -169,6 +180,17 @@ class BuyBulletButton extends Button {
     // buy bullet
     shooter.money -= price;
     shooter.weaponList[wpNum].bulletLeft += 1;
+    
+    // update info
+    upgradeScreens[0].infoList[12].message = str(shooter.money);
+    upgradeScreens[1].infoList[12].message = str(shooter.money);
+    upgradeScreens[2].infoList[8].message = str(shooter.money);
+    upgradeScreens[3].infoList[8].message = str(shooter.money);
+  }
+  
+  void show() {
+    super.show();
+    screen.infoList[9].message = "$" + weaponType(wpNum).bullet.price;  // show price of bullet
   }
 }
 
@@ -184,6 +206,11 @@ class UpgradeButton extends Button {
   void action () {
     shooter.upgradeList[ugNum].upgrade(ugNum);
   }
+  
+  void show() {
+    super.show();
+    screen.infoList[13].message = shooter.upgradeList[ugNum].explaination;  // explain upgrade
+  }
 }
 
 class DowngradeButton extends Button {
@@ -196,6 +223,11 @@ class DowngradeButton extends Button {
 
   void action () {
     shooter.upgradeList[dgNum].downgrade(dgNum);
+  }
+  
+  void show() {
+    super.show();
+    screen.infoList[13].message = shooter.upgradeList[dgNum].explaination;  // explain upgrade
   }
 }
 
@@ -339,8 +371,8 @@ class ChooseWorldButton extends Button {
       return;
     }
     
-    //>>> load enemy type of each kind;
-    playScreen.bg = loadImage("./Pic/World/world" + worldNum + ".png");
+    //load world
+    loadWorld(worldNum);
     
     // change to choose round screen
     currentWorld = worldNum;
