@@ -272,19 +272,21 @@ void setup () {
   mapScreens[1] = new Screen(bg, buttonList);
   
   //----------------------------create choose round screen--------------------
-  // -------map screen 1---------
-  bg = loadImage("./Pic/map1.png");
+  bg = loadImage("./Pic/choose_round.png");
   buttonList = new Button  [] {
-    new ChangeScreenButton (67, 28, 141, 100, 0), // menu screen
- 
-    new ChooseWorldButton (102, 138, 404, 338, 6),
-    new ChooseWorldButton (456, 138, 757, 338, 7),
-    new ChooseWorldButton (807, 138, 1106, 338, 8),
-    new ChooseWorldButton (102, 420, 404, 620, 9),
-    new ChooseWorldButton (456, 420, 757, 620, 10),
-    new ChooseWorldButton (807, 420, 1106, 620, 11),
+    new ChangeScreenButton (59, 31, 134, 103, 0), // menu screen
+    
+    new ChooseRoundButton (246, 168, 342, 249, 0),
+    new ChooseRoundButton (451, 171, 546, 250, 1),
+    new ChooseRoundButton (660, 170, 756, 252, 2),
+    new ChooseRoundButton (860, 174, 956, 253, 3),
+    new ChooseRoundButton (247, 332, 343, 412, 4),
+    new ChooseRoundButton (451, 334, 547, 414, 5),
+    new ChooseRoundButton (660, 333, 757, 413, 6),
+    new ChooseRoundButton (862, 334, 956, 416, 7),
+    new ChooseRoundButton (482, 487, 722, 629, 8), // boss
   };
-  mapScreens[1] = new Screen(bg, buttonList);
+  chooseRoundScreen = new Screen(bg, buttonList);
 
   // --------------------------create setting screen--------------------------
   bg = loadImage("./Pic/option.png");
@@ -465,4 +467,7 @@ void setup () {
 
 void draw () {
   screen.show();
+  print(shooter.currentWeapon.delay + " ");
+  print(shooter.currentWeapon.defaultDelay + " ");
+  println(shooter.upgradeList[2].value);
 }

@@ -102,5 +102,6 @@ class Shooter extends CanBeAttacked {
     image(currentWeapon.img, 0, 0, 100, 75);
     rotate(-angle);
     translate(-x, -y);
+    currentWeapon.delay--;
   }
 }
