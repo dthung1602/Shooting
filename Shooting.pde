@@ -127,8 +127,8 @@ Screen screenList [];
 
 void setup () {
   //----------------loading screen---------------//
-  size(346, 346);
-  image(loadImage("./Pic/loading.gif"), 0, 0);
+  size(1200, 700);
+  background(loadImage("./Pic/loading.png"));
 
   //--------------basic--------------------------//
   frameRate(20);
@@ -187,6 +187,8 @@ void setup () {
     new ChangeScreenButton(615, 525, 950, 590, 8), // setting screen
     new ChangeScreenButton(245, 615, 580, 680, 5), // data screen
     new ChangeScreenButton(615, 615, 950, 680, 9), // quit screen
+        //>>
+    new UpgradeScreenButton(0, 0, 100, 100, 0),
   /*new HighScoreButton(555, 440, 785, 480),*/
   };
   menuScreen = new Screen(bg, buttonList);
@@ -286,6 +288,7 @@ void setup () {
     new DowngradeButton(641, 481, 699, 531, 5), 
   };
   upgradeScreens[0] = new Screen (bg, buttonList);
+  
 
   //-----------screen 1----------------
   bg = loadImage("./Pic/upgrade1.png");
@@ -394,7 +397,6 @@ void setup () {
   };
   confirmScreen = new Screen(bg, buttonList);
 
-
   // ------------------------ create object list -------------------------
   screenList = new Screen []{
     menuScreen, //0
@@ -413,12 +415,11 @@ void setup () {
   loadInfo();
 
   //--------------------------- tmp----------------------------
-  screen = upgradeScreens[2];
+  screen = menuScreen;
   surface.setResizable(true);
   surface.setSize(screen.bg.width, screen.bg.height);
   surface.setResizable(false);
   shooter.currentWeapon = shooter.weaponList[0];
-  shooter.upgradeList[0].value = 1;
   resetRound();
 }
 

@@ -131,6 +131,7 @@ class PlayScreen extends Screen {
     currentRound++;
     totalEnemyInRound *= DIFICULTLY;
     screen.changeScreen(upgradeScreens[0]);
+    screen.infoList[12].message = str(shooter.money);
     
     // save game, unlock new round & check highscore
     //>>>>>>>

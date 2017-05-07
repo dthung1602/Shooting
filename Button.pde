@@ -182,20 +182,20 @@ class UpgradeButton extends Button {
   }
 
   void action () {
-    shooter.upgradeList[ugNum].upgrade();
+    shooter.upgradeList[ugNum].upgrade(ugNum);
   }
 }
 
 class DowngradeButton extends Button {
-  int ugNum;
+  int dgNum;
 
-  DowngradeButton (int x1, int y1, int x2, int y2, int ugNum) {
+  DowngradeButton (int x1, int y1, int x2, int y2, int dgNum) {
     super(x1, y1, x2, y2);
-    this.ugNum = ugNum;
+    this.dgNum = dgNum;
   }
 
   void action () {
-    shooter.upgradeList[ugNum].downgrade();
+    shooter.upgradeList[dgNum].downgrade(dgNum);
   }
 }
 

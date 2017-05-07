@@ -27,6 +27,9 @@ class Screen {
       surface.setResizable(false);
     }
 
+    // delete old message
+    screen.info.time = 0;
+
     // change screen
     screen = newScreen;
   }

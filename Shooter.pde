@@ -1,6 +1,7 @@
 abstract class CanBeAttacked {
   int health;
-  CanBeAttacked () {}
+  CanBeAttacked () {
+  }
 }
 
 
@@ -10,36 +11,37 @@ class Shooter extends CanBeAttacked {
   float y = 200;
   int money = 0;
   float angle = 0;
-  
+
   Weapon currentWeapon;
   Obj currentObj;
-  
+
   // weapons
   Weapon weaponList [] = new Weapon [] {
-    new HandStone(),
-    new HandShuriken(),
-    new Bow(),
-    new HandGrenade(),
-    new FreezeGun(),
-    new LaserGun(),
+    new HandStone(), 
+    new HandShuriken(), 
+    new Bow(), 
+    new HandGrenade(), 
+    new FreezeGun(), 
+    new LaserGun(), 
   };
-  
+
   // upgrades
-  // (float value, float defaultValue, float increase, float max, float min, float price, float priceIncrease, int method)
+  // (float value, float increase, float maxLevel, float price, float priceIncrease, int method)
   Upgrade upgradeList [] = new Upgrade [] {
-    new Upgrade(0, 1, 1, 0, 100, 1.5, 0),                                             //0 aim
-    new Upgrade(DEFAULT_HEALTH, 50, 1000, DEFAULT_HEALTH, 100, 1.5, 1),               //1 max health 
-    new Upgrade(1, -0.15, 1, 0.1, 100, 1.5, 0),                                       //2 weapon delay
-    new Upgrade(1, 0.1, 1.8, 1, 100, 1.5, 0),                                         //3 weapon speed
-    new Upgrade(1, 0.2, 3, 1, 100, 1.5, 0),                                           //4 bonus money
-    new Upgrade(1, -0.15, 1, 0.1, 100, 1.5, 0),                                       //5 special wp delay
-    new Upgrade(1, -0.1, 1, 0.7, 100, 1.5, 0),                                        //6 how much special ability cost
-    new Upgrade(0, 1, 8, 0, 500, 1.5, 0),                                             //7 bonus damage
-    new Upgrade(1, 0.2, 2.4, 1, 150, 1.5, 0),                                         //8 explosion radius
-    new Upgrade(0, 20, 100, 0, 180, 1.5, 0),                                          //9 wall extra health
+    new Upgrade(0, 1, 1, 100, 1.5, 0),               //0 aim
+    new Upgrade(DEFAULT_HEALTH, 50, 5, 100, 1.5, 1), //1 max health 
+    new Upgrade(1, -0.15, 6, 100, 1.5, 0),           //2 weapon delay
+    new Upgrade(1, 0.1, 5, 100, 1.5, 0),             //3 weapon speed
+    new Upgrade(1, 0.2, 5, 100, 1.5, 0),             //4 bonus money
+    new Upgrade(1, -0.15, 8, 100, 1.5, 0),           //5 special wp delay
+    new Upgrade(1, -0.1, 3, 100, 1.5, 0),            //6 how much special ability cost
+    new Upgrade(0, 1, 8, 500, 1.5, 0),               //7 bonus damage
+    new Upgrade(1, 0.2, 6, 150, 1.5, 0),             //8 explosion radius
+    new Upgrade(0, 20, 5, 180, 1.5, 0),              //9 wall extra health
   };
-  
-  Shooter () {}
+
+  Shooter () {
+  }
 
   void show () {
     showShooter();
@@ -50,7 +52,7 @@ class Shooter extends CanBeAttacked {
   void specialAbility () {
     if (money < upgradeList[6].value)
       return;
-    
+
     money -= upgradeList[6].value * currentWeapon.specialAbilityPrice;
     for (int i=0; i<10; i++) {
       bulletList[bulletCount] = currentWeapon.newBullet(0, 15);
@@ -66,13 +68,13 @@ class Shooter extends CanBeAttacked {
 
   private void showAim() {
     // skip this function when player does not have aim
-    if (shooter.upgradeList[0].value == 1) 
+    if (shooter.upgradeList[0].value == 0) 
       return;
-    
+
     // choose color red
     fill(255, 0, 0);
     stroke(255, 0, 0);
-    
+
     // create a point that move in the same path of the bullet
     float d = dist(x, y, mouseX, mouseY);
     float vx = shooter.upgradeList[3].value * currentWeapon.speed * (mouseX - x) / d;          // x speed
@@ -81,7 +83,7 @@ class Shooter extends CanBeAttacked {
     float tmpy = y + vy + GRAVITY * currentWeapon.bullet.weight;                      // curretn y pos
     float px = x;                                                                     // prev x pos
     float py = y;                                                                     // prev y pos
-    
+
     // move the point to create the path
     while (tmpy < height - GROUND_HEIGHT && tmpy > 0 && tmpx < width && tmpx > 0) {        // still in screen
       line(px, py, tmpx, tmpy);             // draw a line
@@ -92,7 +94,7 @@ class Shooter extends CanBeAttacked {
       tmpy += vy;                                      // new curr y
     }
   }
-    
+
   private void showWeapon () {
     angle = - atan2(y-mouseY, mouseX-x);
     translate(x, y);
@@ -100,6 +102,6 @@ class Shooter extends CanBeAttacked {
     image(currentWeapon.img, 0, 0, 100, 75);
     rotate(-angle);
     translate(-x, -y);
-    currentWeapon.delay -= 1;
+    println(currentWeapon.delay--);
   }
 }

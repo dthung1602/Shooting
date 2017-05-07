@@ -1,8 +1,8 @@
 class Upgrade {
   float value;              // hold value of upgrade
   float increase;           // how much value can increase
-  float max = 5;
-  float min = 0;
+  int maxLevel;
+  int level = 0;
   float price;
   float priceIncrease;
   int method;               // 0 = +;  1 = *
@@ -10,50 +10,59 @@ class Upgrade {
   String name;              // name of upgrade
   String explaination;           // explaination of upgrade
 
-  Upgrade (float value, float increase, float max, float min, float price, float priceIncrease, int method) {
+  Upgrade (float value, float increase, int maxLevel, float price, float priceIncrease, int method) {
     this.value = value;
     this.increase = increase;
-    this.max = max;
-    this.min = min;
+    this.maxLevel = maxLevel;
     this.price = price;
     this.priceIncrease = priceIncrease;
     this.method = method;
   }
 
-  void upgrade() {
+  void upgrade(int num) {
+    // check if player reach max level
+    if (level == maxLevel) {
+      screen.info.message = "Max upgrade!";
+      screen.info.time = 75;
+      return;
+    }
+    
     // check if player has enough money
     if (shooter.money < price) {
       screen.info.message = "Not enough money!";
       screen.info.time = 75;
       return;
-    }
-
-    // check if player reach max value
-    float tmp = (method == 1) ? value * increase : value + increase;
-    if (tmp > max) {
-      screen.info.message = "Max upgrade!";
-      screen.info.time = 75;
-      return;
-    }
+    }  
 
     // upgrade
     shooter.money -= price;
     price *= priceIncrease;
-    value = tmp;
+    value = (method == 1) ? value * increase : value + increase;
+    level++;
+    
+    // change screen info
+    screen.info.time = 0;
+    screen.infoList[12].message = str(shooter.money);
+    screen.infoList[num%6 + 6].message = level + "/" + maxLevel;
   }
 
-  void downgrade () {
-    // check if player reach min value
-    float tmp = (method == 1) ? value / increase : value - increase;
-    if (tmp < min) {
+  void downgrade (int num) {
+    // check if player reach min level
+    if (level == 0) {
       screen.info.message = "Min downgrade!!";
       screen.info.time = 75;
       return;
     }
 
     // downgrade
-    shooter.money += price / priceIncrease * SELL_PERCENT;
     price /= priceIncrease;
-    value = tmp;
+    shooter.money += price * SELL_PERCENT;
+    value = (method == 1) ? value / increase : value - increase;
+    level--;
+    
+    // change screen info
+    screen.info.time = 0;
+    screen.infoList[12].message = str(shooter.money);
+    screen.infoList[num%6 + 6].message = level + "/" + maxLevel;
   }
 }

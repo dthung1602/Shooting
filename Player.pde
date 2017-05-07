@@ -26,13 +26,21 @@ class Player {
       playScreen.buttonList[i].enable = boolean(tmp[i]);
 
     // load upgrades
-    // format: value&price value&price value&price ...
+    // format: level&value&price level&value&price level&value&price ...
     tmp = split(data[6], ' ');
     String temp [];
     for (int i=0; i<tmp.length; i++) {
       temp = split(tmp[i], '&');
-      shooter.upgradeList[i].value = float(temp[0]);
-      shooter.upgradeList[i].price = float(temp[1]);
+      shooter.upgradeList[i].level = int(temp[0]);
+      shooter.upgradeList[i].value = float(temp[1]);
+      shooter.upgradeList[i].price = float(temp[2]);
+    }
+
+    // load info to upgrade screens
+    Upgrade upg;
+    for (int i=0; i<shooter.upgradeList.length; i++) {
+      upg = shooter.upgradeList[i];
+      upgradeScreens[i/6].infoList[i%6+6] = new Info((int) upg.level + "/" + (int) upg.maxLevel, 330 + 470 * (i%6 / 3), 322 + (i%6 % 3) * 120, BROWN, fontMedium);
     }
 
     // add wellcome in menu screen
@@ -74,7 +82,7 @@ class Player {
     s[3] = str(DEFAULT_HEALTH);
     s[4] = "true false false false false false";                                                    // weapon
     s[5] = "false false false false";                                                               // obj
-    s[6] = "0&100 "+ str(DEFAULT_HEALTH) + "&100 1&100 1&100 1&100 1&100 1&100 0&500 1&150 0&180";  // upgrades
+    s[6] = "0&0&100 0&"+ str(DEFAULT_HEALTH) + "&100 0&1&100 0&1&100 0&1&100 0&1&100 0&1&100 0&0&500 0&1&150 0&0&180";  // upgrades
     saveStrings("./Player/" + newPlayerScreen.infoList[0].message + ".txt", s);
 
     // add player's name to playerlist
@@ -122,12 +130,12 @@ class Player {
     // format: value&price value&price value&price ...
     data[6] = "";
     for (int i=0; i<shooter.upgradeList.length; i++) 
-      data[6] += str(shooter.upgradeList[i].value) + '&' + str(shooter.upgradeList[i].price) + ' '; 
+      data[6] += str(shooter.upgradeList[i].level) + '&' + str(shooter.upgradeList[i].value) + '&' + str(shooter.upgradeList[i].price) + ' '; 
     data[6] = data[6].substring(0, data[6].length()-1);        // remove trailing space
 
     // save to file
     saveStrings("./Player/" + name + ".txt", data);
-    
+
     // clear data
     newPlayerScreen.infoList[0].message = "";
     newPlayerScreen.infoList[1].message = "";
@@ -147,10 +155,10 @@ class Player {
     // remove player data file
     File f = new File(sketchPath() + "/Player/" + name + ".txt");
     f.delete();
-    
+
     // update player list in change player screen
     updatePlayerList();
-    
+
     // remove other info
     player.name = null;
     screen.info.time = 0;

@@ -15,9 +15,10 @@ abstract class Weapon {
   String name;
   String explaination;  
   
+  int count = 0;
   void shoot() {
     // do nothing when delay is not over or out of bullet
-    if (delay * shooter.upgradeList[2].value > 0 || bulletLeft == 0)
+    if (delay > 0 || bulletLeft == 0)
       return;
     
     // shoot!
@@ -29,7 +30,8 @@ abstract class Weapon {
       bulletList[bulletCount + i].x += vx * i * 2;
       bulletList[bulletCount + i].y += vy * i * 2;
     }
-    delay = defaultDelay;
+    delay = (int) (defaultDelay * shooter.upgradeList[2].value);
+    println("--------" + delay);
     bulletLeft -= blNum;
     bulletCount += blNum;
   }

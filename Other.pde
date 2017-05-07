@@ -54,19 +54,20 @@ void loadInfo() {
   }
   
   //>>> load info to upgrade screens
-  upgradeScreens[0].infoList = new Info [8];
-  upgradeScreens[1].infoList = new Info [8];
-  for (int i=0; i<shooter.upgradeList.length; i++) 
+  upgradeScreens[0].infoList = new Info [14];
+  upgradeScreens[1].infoList = new Info [14];
+  for (int i=0; i<shooter.upgradeList.length; i++)
     upgradeScreens[i/6].infoList[i%6] = new Info(shooter.upgradeList[i].name, 250 + 470 * (i%6 / 3), 275 + (i%6 % 3) * 120, YELLOW_BOLD, fontMedium);
-  upgradeScreens[0].infoList[6] = upgradeScreens[1].infoList[6] = new Info("money", 340, 178, BROWN, fontMedium);
-  upgradeScreens[0].infoList[7] = upgradeScreens[1].infoList[7] = new Info("explain", 600, 145, BROWN, fontMedium);
+  upgradeScreens[0].infoList[12] = upgradeScreens[1].infoList[12] = new Info("money", 340, 178, BROWN, fontMedium);
+  upgradeScreens[0].infoList[13] = upgradeScreens[1].infoList[13] = new Info("explain", 600, 145, BROWN, fontMedium);
   
-  upgradeScreens[2].infoList = new Info [6];
-  upgradeScreens[3].infoList = new Info [6];
+  //>>> load weapon info to upgrade screens
+  upgradeScreens[2].infoList = new Info [10];
+  upgradeScreens[3].infoList = new Info [10];
   for (int i=0; i<shooter.weaponList.length; i++) 
     upgradeScreens[i/4 + 2].infoList[i%4] = new Info(shooter.weaponList[i].name, 290, 290 + (i % 4) * 87, BROWN, fontMedium);
-  upgradeScreens[2].infoList[4] = upgradeScreens[3].infoList[4] = new Info("money", 340, 178, BROWN, fontMedium);
-  upgradeScreens[2].infoList[5] = upgradeScreens[3].infoList[5] = new Info("explain", 600, 145, BROWN, fontMedium);
+  upgradeScreens[2].infoList[8] = upgradeScreens[3].infoList[8] = new Info("money", 340, 178, BROWN, fontMedium);
+  upgradeScreens[2].infoList[9] = upgradeScreens[3].infoList[9] = new Info("explain", 600, 145, BROWN, fontMedium);
 }
 
 Weapon weaponType(int wpNum) {
