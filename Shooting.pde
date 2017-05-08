@@ -418,16 +418,20 @@ void setup () {
   pauseScreen = new Screen(bg, buttonList);
 
   // --------------------------create win screen--------------------------
-  bg = loadImage("./Pic/win.jpg");
+  bg = loadImage("./Pic/win.png");
   buttonList = new Button[] {
-    new ChangeScreenButton(415, 310, 495, 370, 0)  // menu screen
+    new MapScreenButton(315, 620, 578, 680, 0),
+    new ChangeScreenButton(415, 310, 495, 370, 0)  // menu scree
   };
   winScreen = new Screen(bg, buttonList);
 
   // --------------------------create lose screen--------------------------
   bg = loadImage("./Pic/lose.jpg");
   buttonList = new Button[] {
-    new ChangeScreenButton(580, 215, 655, 280, 0), // menu screen
+    new ContinueButton(257, 317, 354, 397),        // play again
+    new UpgradeScreenButton(257, 435, 354, 517, 0),// upgrade
+    new MapScreenButton(315, 620, 578, 680, 0),    // map
+    new ChangeScreenButton(415, 310, 495, 370, 0)  // menu scree
   };
   loseScreen = new Screen(bg, buttonList);
 
