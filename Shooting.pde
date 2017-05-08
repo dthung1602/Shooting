@@ -18,7 +18,7 @@ float GRAVITY        = 0.5;
 int DEFAULT_HEALTH   = 50;
 int DEFAULT_MONEY    = 100;
 int DEFAULT_ENEMY_NUM= 5;        // how many enemy for 1st round
-int MAX_ROUND        = 9;
+int MAX_ROUND        = 10;
 int ENEMY_LIST_SIZE  = 500;
 int BULLET_LIST_SIZE = 1000;
 int EFFECT_LIST_SIZE = 500;
@@ -101,6 +101,7 @@ PImage basicEnemyPic;
 //>>>>>
 
 // other image
+PImage playPic;
 PImage tickPic;
 PImage lockRoundPic;
 PImage lockWorldPic;
@@ -167,6 +168,7 @@ void setup () {
   //>>>
 
   // other image
+  playPic = loadImage("./Pic/play.png");
   tickPic = loadImage("./Pic/tick.png");
   lockRoundPic = loadImage("./Pic/lock_round.png");
   lockWorldPic = loadImage("./Pic/lock_world.png");
@@ -421,17 +423,17 @@ void setup () {
   bg = loadImage("./Pic/win.png");
   buttonList = new Button[] {
     new MapScreenButton(315, 620, 578, 680, 0),
-    new ChangeScreenButton(415, 310, 495, 370, 0)  // menu scree
+    new ChangeScreenButton(605, 620, 867, 680, 0)  // menu scree
   };
   winScreen = new Screen(bg, buttonList);
 
   // --------------------------create lose screen--------------------------
-  bg = loadImage("./Pic/lose.jpg");
+  bg = loadImage("./Pic/lose.png");
   buttonList = new Button[] {
     new ContinueButton(257, 317, 354, 397),        // play again
     new UpgradeScreenButton(257, 435, 354, 517, 0),// upgrade
-    new MapScreenButton(315, 620, 578, 680, 0),    // map
-    new ChangeScreenButton(415, 310, 495, 370, 0)  // menu scree
+    new MapScreenButton(315, 620, 578, 680, 0),
+    new ChangeScreenButton(605, 620, 867, 680, 0)  // menu scree
   };
   loseScreen = new Screen(bg, buttonList);
 

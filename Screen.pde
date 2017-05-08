@@ -43,7 +43,6 @@ class Screen {
         screen.infoList[i].input = false;
       }
       screen.infoList[screen.status].input = true;
-      println(screen.status);
     }   
   }
 
