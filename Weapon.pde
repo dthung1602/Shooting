@@ -31,7 +31,8 @@ abstract class Weapon {
       bulletList[bulletCount + i].y += vy * i * 2;
     }
     delay = (int) (defaultDelay * shooter.upgradeList[2].value);
-    bulletLeft -= blNum;
+    if (bulletLeft > 0)
+      bulletLeft -= blNum;
     bulletCount += blNum;
   }
   
@@ -61,10 +62,10 @@ abstract class Weapon {
   
   void special () {
     // do nothing when delay is not over
-    if (delaySpecial * shooter.upgradeList[5].value != 0)
+    if (delaySpecial > 0)
       return;
       
-    delaySpecial = defaultSpecialDelay;
+    delaySpecial = (int) (defaultSpecialDelay * shooter.upgradeList[5].value);
     for (int i=0; i<enemyCount; i++) {
       // skip dead enemy
       if (enemyList[i].health <= 0) 
@@ -88,7 +89,7 @@ class HandStone extends Weapon {
     defaultSpecialDelay = 250;
     img = handPic;  
     speed = 20;
-    bulletLeft = -1;
+    bulletLeft = Integer.MIN_VALUE;
     specialAbilityPrice = 300; 
     price = 0;
   }    

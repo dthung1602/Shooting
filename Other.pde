@@ -35,23 +35,24 @@ void resetAll() {
 void loadInfo() {
   String data [];
   String tmp [];
-  
+
   //>>> load weapon info
   data = loadStrings("./Config/weapon.txt");
   for (int i=0; i<data.length; i++) {
     tmp = split(data[i], '_');
     shooter.weaponList[i].name = tmp[0];
-    shooter.weaponList[i].explaination = tmp[1].replace("\\n","\n");
+    shooter.weaponList[i].explaination = tmp[1].replace("\\n", "\n");
   }
-  
+
   //>>> load upgrade info
   data = loadStrings("./Config/upgrade.txt");
   for (int i=0; i<data.length; i++) {
     tmp = split(data[i], '_');
     shooter.upgradeList[i].name = tmp[0];
-    shooter.upgradeList[i].explaination = tmp[1].replace("\\n","\n");;
+    shooter.upgradeList[i].explaination = tmp[1].replace("\\n", "\n");
+    ;
   }
-  
+
   //>>> load upgrade info to upgrade screens
   upgradeScreens[0].infoList = new Info [14];
   upgradeScreens[1].infoList = new Info [14];
@@ -59,7 +60,7 @@ void loadInfo() {
     upgradeScreens[i/6].infoList[i%6] = new Info(shooter.upgradeList[i].name, 250 + 470 * (i%6 / 3), 275 + (i%6 % 3) * 120, YELLOW_BOLD, fontMedium);
   upgradeScreens[0].infoList[12] = upgradeScreens[1].infoList[12] = new Info("", 340, 178, BROWN, fontMedium);
   upgradeScreens[0].infoList[13] = upgradeScreens[1].infoList[13] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontMedium);
-  
+
   //>>> load weapon info to upgrade screens
   upgradeScreens[2].infoList = new Info [10];
   upgradeScreens[3].infoList = new Info [10];
@@ -105,4 +106,12 @@ void updatePlayerList() {
 void loadWorld (int worldNum) {
   playScreen.bg = loadImage("./Pic/World/world" + worldNum + ".png");
   //>> load more pic
+}
+
+void updateBars() {
+  playScreen.barList[0].max = shooter.upgradeList[1].value;
+  playScreen.barList[1].max = shooter.currentWeapon.defaultSpecialDelay * shooter.upgradeList[5].value;
+  playScreen.barList[2].max = shooter.currentWeapon.defaultDelay * shooter.upgradeList[2].value;
+  playScreen.barList[3].max = shooter.currentWeapon.bulletLeft;
+  println();
 }

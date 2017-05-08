@@ -1,5 +1,6 @@
 class PlayScreen extends Screen {
   int countDown;
+  Bar barList[];
   
   PlayScreen () {
     bg = loadImage("./Pic/map0.jpg");
@@ -11,10 +12,17 @@ class PlayScreen extends Screen {
     };
     
     infoList = new Info [] {
-      new Info("" + str(shooter.health), 50, 450, color(255,0,0), fontSmall),
-      new Info("" + str(shooter.money), 50, 475, color(255,0,0), fontSmall),
-      new Info("" + str(currentRound), 50, 500, color(255,0,0), fontSmall),
-    };    
+      new Info("", 20, 25, GREEN, fontSmall), // health
+      new Info("", 20, 50, GREEN, fontSmall), // money
+      new Info("", 580, 25, GREEN, fontSmall), // bulet left
+    };
+    
+    barList = new Bar [] {
+      new Bar(110, 7, color(255, 127, 127), BOLD_RED),        // health
+      new Bar(800, 5, color(255, 127, 127), BOLD_RED, true),  // weapon special delay
+      new Bar(800, 30, color(255, 127, 127), BOLD_RED, true),  // wp delay
+      new Bar(500, 5, color(255, 127, 127), BOLD_RED, true),  // bullet left
+    };
   }
   
   void show() {
@@ -173,11 +181,22 @@ class PlayScreen extends Screen {
   }
   
   private void showInfo() {
-    // update health, round and money
-    infoList[0].message = "Health: " + str(shooter.health);
-    infoList[1].message = "Money : " + str(shooter.money);
-    infoList[2].message = "Round : " + str(currentRound);
+    // update info
+    infoList[0].message = "Health                  " + shooter.health + "/" + int(shooter.upgradeList[1].value);
+    infoList[1].message = "Money       $" + shooter.money;
+    infoList[2].message = (shooter.currentWeapon.bulletLeft < 0) ? "Infinity" : shooter.currentWeapon.bulletLeft + "/" + (int) barList[3].max;
     
+    // update bar
+    barList[0].value = shooter.health;
+    barList[1].value = shooter.currentWeapon.delaySpecial;
+    barList[2].value = shooter.currentWeapon.delay;
+    barList[3].value = shooter.currentWeapon.bulletLeft;    
+       
+    // show bars
+    for (int i=0; i<barList.length; i++) 
+      barList[i].show();
+    
+    // show info
     for (int i=0; i<infoList.length; i++) 
       infoList[i].show();
     info.show();
@@ -201,6 +220,51 @@ class PlayScreen extends Screen {
       shooter.currentObj.x = mouseX;
       shooter.currentObj.y = mouseY;
       image(shooter.currentObj.img, mouseX, mouseY, 100, 100);
+    }
+  }
+  
+  private class Bar {
+    int x, y;
+    color bgColor, fgColor;
+    float max;
+    float value;
+    int w = 20, l = 250;
+    boolean reverse = false;
+    
+    Bar (int x, int y, color bgColor, color fgColor) {
+      this.x = x;
+      this.y = y;
+      this.bgColor = bgColor;
+      this.fgColor = fgColor;
+    }
+    
+    Bar (int x, int y, color bgColor, color fgColor, boolean reverse) {
+      this.x = x;
+      this.y = y;
+      this.bgColor = bgColor;
+      this.fgColor = fgColor;
+      this.reverse = reverse;
+    }
+    
+    void show() {
+      rectMode(CORNERS);
+      noStroke();
+      fill(bgColor);
+      
+      int percent;
+      if (value < 0)
+        percent = l;
+      else if (max == 0)
+        percent = 0;
+      else
+        percent = (int) map(value, 0, max, 0, l);
+      
+      rect(x, y, x + l, y + w);
+      fill(fgColor);
+      if (reverse)
+        rect(x + l - percent, y, x + l, y + w);
+      else 
+        rect(x, y, x + percent, y + w);
     }
   }
 }

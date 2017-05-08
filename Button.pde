@@ -65,6 +65,9 @@ class ContinueButton extends Button {
       return;
     }
 
+    // update bars max values
+    updateBars();
+
     screen.changeScreen(playScreen);
     resetRound();
   }
@@ -396,6 +399,9 @@ class ChooseRoundButton extends Button {
       screen.info.time = 80;
       return;
     }
+    
+    // update bars max values
+    updateBars();
     
     currentRound = roundNum;
     resetRound();

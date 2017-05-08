@@ -35,6 +35,8 @@ color BOLD_RED     = color(255, 0, 0);
 color BROWN        = color(178, 111, 0);
 color YELLOW_BOLD  = color(242, 207, 92);
 color YELLOW_WHITE = color(231, 219, 142); 
+color DARK_BLUE    = color(0, 20, 128);
+color GREEN = color(0, 128, 16);
 
 //------------------------------ variables---------------------------------//
 Screen screen;
