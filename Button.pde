@@ -75,31 +75,7 @@ class ContinueButton extends Button {
 
 
 // -----------------------Play screen------------------------
-class NewObjButton extends Button {
-  int objNum;
 
-  NewObjButton (int x1, int y1, int x2, int y2, int objNum) {
-    super(x1, y1, x2, y2);
-    this.objNum = objNum;
-  }
-
-  void action () {
-    shooter.currentObj = newObj();
-  }
-
-  private Obj newObj () {
-    switch (objNum) {
-    case 0: 
-      return new Wall (mouseX, mouseY);
-    case 1: 
-      return new BigWall (mouseX, mouseY);
-    case 2: 
-      return new Barrel (mouseX, mouseY);
-    default: 
-      return new ToxicBarrel (mouseX, mouseY);
-    }
-  }
-}
 
 
 // -----------------------Upgrades-------------------------------------

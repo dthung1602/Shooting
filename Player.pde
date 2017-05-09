@@ -27,7 +27,7 @@ class Player {
     // enalbe new obj buttons
     tmp = split(data[5], ' ');
     for (int i=0; i<tmp.length; i++) 
-      playScreen.buttonList[i].enable = boolean(tmp[i]);
+      newObjList[i].enable = boolean(tmp[i]);
 
     // load upgrades
     // format: level&value&price level&value&price level&value&price ...
@@ -134,11 +134,10 @@ class Player {
       data[4] += str(shooter.weaponList[i].enable) + " ";
     data[4] = data[4].substring(0, data[4].length()-1);        // remove trailing space
 
-    // enalbe new obj buttons
-    // >>>>buttonlis.length
+    // enalbe new obj
     data[5] = "";
-    for (int i=0; i<playScreen.buttonList.length; i++) 
-      data[5] += str(playScreen.buttonList[i].enable) + " ";
+    for (int i=0; i<newObjList.length; i++) 
+      data[5] += str(newObjList[i].enable) + " ";
     data[5] = data[5].substring(0, data[5].length()-1);        // remove trailing space
 
     // save upgrades

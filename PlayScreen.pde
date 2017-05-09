@@ -5,13 +5,7 @@ class PlayScreen extends Screen {
   PlayScreen () {
     bg = loadImage("./Pic/map0.jpg");
     buttonList = new Button [] {
-      new ChangeScreenButton(1135, 1, 1190, 55, 0), // menu
-      new UpgradeScreenButton(1075, 1, 1130, 55, 0),
-      
-      new NewObjButton(0, 0, 100, 100, 0),
-      new NewObjButton(100, 0, 200, 100, 1),
-      new NewObjButton(200, 0, 300, 100, 2),
-      new NewObjButton(0, 100, 100, 200, 3),
+      new ChangeScreenButton(1135, 1, 1190, 55, 12), // menu
     };
     
     infoList = new Info [] {

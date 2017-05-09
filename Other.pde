@@ -113,5 +113,4 @@ void updateBars() {
   playScreen.barList[1].max = shooter.currentWeapon.defaultSpecialDelay * shooter.upgradeList[5].value;
   playScreen.barList[2].max = shooter.currentWeapon.defaultDelay * shooter.upgradeList[2].value;
   playScreen.barList[3].max = shooter.currentWeapon.bulletLeft;
-  println();
 }

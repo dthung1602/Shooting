@@ -4,13 +4,15 @@ abstract class Obj extends CanBeAttacked {
   PImage img;
   int size;
   boolean walkthrough;
-  
+  int price;
+  boolean enable;
+
   Obj (int x, int y) {
     super();
     this.x = x;
     this.y = y;
   }
-    
+
   void show () {
     x += vx;
     y += vy;    
@@ -18,24 +20,29 @@ abstract class Obj extends CanBeAttacked {
       vy += GRAVITY;                      // effect of gravity
     image(img, x, y, size, size);
   }
-  
+
   boolean containPoint (float xx, float yy) {
     if (x-size/2<=xx && xx<x+size/2 && y-size/2<yy && yy<y+size/2)
       return true;
     return false;
   }
-  
-  void action () {}
+
+  Obj clone () {
+    return this;
+  }
+
+  void action () {
+  }
 }
 
 
-abstract class ExplosiveObj extends Obj{
+abstract class ExplosiveObj extends Obj {
   int damage;
   int explosionRadius;
   ExplosiveObj (int x, int y) {
     super(x, y);
   }
-  
+
   void action () {
     health = 0;
     effectList[effectCount] = new ExplosionEffect(x, y);
@@ -46,7 +53,7 @@ abstract class ExplosiveObj extends Obj{
       }
     }
   }
-  
+
   private boolean touch (Enemy e) {
     if (dist(e.x, e.y, x, y) < explosionRadius * shooter.upgradeList[8].value)
       return true;
@@ -62,7 +69,16 @@ class Wall extends Obj {
     img = loadImage("./Pic/wall.png");
     size = 100;
     walkthrough = false;
+    price = 20;
   }  
+
+  Obj clone () {
+    if (enable && shooter.money > price ) {
+      shooter.money -= price;
+      return new Wall(mouseX, mouseY);
+    } else
+      return null;
+  }
 }
 
 class BigWall extends Obj {
@@ -72,7 +88,16 @@ class BigWall extends Obj {
     img = loadImage("./Pic/wall.png");
     size = 150;
     walkthrough = false;
+    price = 40;
   }  
+
+  Obj clone () {
+    if (enable && shooter.money > price ) {
+      shooter.money -= price;
+      return new BigWall(mouseX, mouseY);
+    } else
+      return null;
+  }
 }
 
 
@@ -85,7 +110,16 @@ class Barrel extends ExplosiveObj {
     damage = 1;
     explosionRadius = 100;
     walkthrough = true;
+    price = 60;
   }  
+
+  Obj clone () {
+    if (enable && shooter.money > price ) {
+      shooter.money -= price;
+      return new Barrel(mouseX, mouseY);
+    } else
+      return null;
+  }
 }
 
 
@@ -98,5 +132,14 @@ class ToxicBarrel extends ExplosiveObj {
     damage = 2;
     explosionRadius = 100;
     walkthrough = true;
-  }  
+    price = 80;
+  }
+
+  Obj clone () {
+    if (enable && shooter.money > price ) {
+      shooter.money -= price;
+      return new ToxicBarrel(mouseX, mouseY);
+    } else
+      return null;
+  }
 }

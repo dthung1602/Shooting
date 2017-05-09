@@ -33,12 +33,14 @@ class Shooter extends CanBeAttacked {
     new Upgrade(1, -0.15, 6, 100, 1.5, 0),           //2 weapon delay
     new Upgrade(1, 0.1, 5, 100, 1.5, 0),             //3 weapon speed
     new Upgrade(1, 0.2, 5, 100, 1.5, 0),             //4 bonus money
-    new Upgrade(1, -0.15, 8, 100, 1.5, 0),           //5 special wp delay
+    new Upgrade(1, -0.15, 3, 100, 1.5, 0),           //5 special wp delay
     new Upgrade(1, -0.1, 3, 100, 1.5, 0),            //6 how much special ability cost
     new Upgrade(0, 1, 8, 500, 1.5, 0),               //7 bonus damage
     new Upgrade(1, 0.2, 6, 150, 1.5, 0),             //8 explosion radius
     new Upgrade(0, 20, 5, 180, 1.5, 0),              //9 wall extra health
   };
+  
+  
 
   Shooter () {
   }

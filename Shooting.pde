@@ -3,6 +3,8 @@
  *  serialization
  *  max 12 player's name
  *  add sound
+ ask to leave game
+ 
  */
 
 //--------------------------- import libraries-----------------------------//
@@ -30,7 +32,7 @@ color RED          = color(255, 0, 0);
 color PINK         = color(255, 127, 127);
 color BROWN        = color(178, 111, 0);
 color YELLOW_BOLD  = color(242, 207, 92);
-color CLEAR_BLUE   = color(50, 180, 250, 70);
+color CLEAR_BLUE   = color(50, 180, 250, 40);
 color DARK_BLUE    = color(0, 20, 128);
 color BLUE         = color(20, 110, 160);
 color DARK_GREEN   = color(20, 100, 0);
@@ -57,6 +59,7 @@ Enemy enemyList []         = new Enemy [ENEMY_LIST_SIZE];
 Bullet bulletList []       = new Bullet [BULLET_LIST_SIZE];
 VisualEffect effectList [] = new VisualEffect [EFFECT_LIST_SIZE];
 Obj objList []             = new Obj [STUFF_LIST_SIZE];
+Obj newObjList [];
 
 // screens
 Screen menuScreen;
@@ -73,6 +76,7 @@ Screen confirmScreen;
 Screen settingScreen;
 Screen quitScreen;
 Screen chooseRoundScreen;
+Screen leaveGameScreen;
 
 // images of bullets
 PImage stonePic;
@@ -195,7 +199,6 @@ void setup () {
     new ChangeScreenButton(615, 525, 950, 590, 8), // setting screen
     new ChangeScreenButton(245, 615, 580, 680, 5), // data screen
     new ChangeScreenButton(615, 615, 950, 680, 9), // quit screen
-  /*new HighScoreButton(555, 440, 785, 480),*/
   };
   menuScreen = new Screen(bg, buttonList);
 
@@ -303,8 +306,6 @@ void setup () {
     new MusicButton(245, 372, 290, 413), 
   };
   settingScreen = new Screen(bg, buttonList);
-
-
 
   //-------------------------- create play screen--------------------------
   playScreen = new PlayScreen();
@@ -453,6 +454,14 @@ void setup () {
   };
   confirmScreen = new Screen(bg, buttonList);
 
+  // --------------------------create leave game screen-------------------
+  bg = loadImage("./Pic/leave_game.png");
+  buttonList = new Button[] {
+    new ChangeScreenButton(315, 620, 579, 678, 11), // change player screen
+    new ChangeScreenButton(603, 624, 870, 677, 0), 
+  };
+  leaveGameScreen = new Screen(bg, buttonList);
+
   // ------------------------ create object list -------------------------
   screenList = new Screen []{
     menuScreen, //0
@@ -466,8 +475,17 @@ void setup () {
     settingScreen, //8
     quitScreen, 
     confirmScreen, // 10
+    playScreen,
+    leaveGameScreen, // 12
   };
-
+  
+  newObjList = new Obj [] {
+    new Wall(0, 0),
+    new BigWall(0, 0),
+    new Barrel(0, 0),
+    new ToxicBarrel(0, 0)
+  };
+  
   loadInfo();
 
   //--------------------------- tmp----------------------------
