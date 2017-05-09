@@ -55,7 +55,7 @@ class Player {
     
 
     // add wellcome in menu screen
-    menuScreen.info =  new TimeInfo ("Welcome, " + name + "!", 500, 50, BOLD_RED, fontSmall, -1);
+    menuScreen.info =  new TimeInfo ("Welcome, " + name + "!", 500, 50, RED, fontSmall, -1);
     
     // set playscreen to latest round
     currentRound = maxRound;

@@ -5,6 +5,9 @@ class PlayScreen extends Screen {
   PlayScreen () {
     bg = loadImage("./Pic/map0.jpg");
     buttonList = new Button [] {
+      new ChangeScreenButton(1135, 1, 1190, 55, 0), // menu
+      new UpgradeScreenButton(1075, 1, 1130, 55, 0),
+      
       new NewObjButton(0, 0, 100, 100, 0),
       new NewObjButton(100, 0, 200, 100, 1),
       new NewObjButton(200, 0, 300, 100, 2),
@@ -12,16 +15,16 @@ class PlayScreen extends Screen {
     };
     
     infoList = new Info [] {
-      new Info("", 20, 25, GREEN, fontSmall), // health
-      new Info("", 20, 50, GREEN, fontSmall), // money
-      new Info("", 580, 25, GREEN, fontSmall), // bulet left
+      new Info("", 20, 25, WHITE, fontSmall), // health
+      new Info("", 20, 50, WHITE, fontSmall), // money
+      new Info("", 590, 22, WHITE, fontSmall), // bulet left
     };
     
     barList = new Bar [] {
-      new Bar(110, 7, color(255, 127, 127), BOLD_RED),        // health
-      new Bar(800, 5, color(255, 127, 127), BOLD_RED, true),  // weapon special delay
-      new Bar(800, 30, color(255, 127, 127), BOLD_RED, true),  // wp delay
-      new Bar(500, 5, color(255, 127, 127), BOLD_RED, true),  // bullet left
+      new Bar(110, 7, PINK, RED),        // health
+      new Bar(800, 5, BLUE, DARK_BLUE, true),  // weapon special delay
+      new Bar(800, 30, BLUE, DARK_BLUE, true),  // wp delay
+      new Bar(500, 5, DARK_GREEN, GREEN, true),  // bullet left
     };
   }
   
@@ -51,7 +54,7 @@ class PlayScreen extends Screen {
       return false;
     
     // adjust text
-    fill(BOLD_RED);
+    fill(RED);
     textFont(fontLarge);
     
     // show text
@@ -262,7 +265,7 @@ class PlayScreen extends Screen {
       rect(x, y, x + l, y + w);
       fill(fgColor);
       if (reverse)
-        rect(x + l - percent, y, x + l, y + w);
+        rect(x + percent, y, x + l, y + w);
       else 
         rect(x, y, x + percent, y + w);
     }

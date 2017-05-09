@@ -1,7 +1,5 @@
 /*            TO DO
- *  play screen -> finish round --> unlock new round
  *  reset upgrade
- *  playscreen --> showShooter
  *  serialization
  *  max 12 player's name
  *  add sound
@@ -27,16 +25,16 @@ float DIFICULTLY     = 1.2;
 int MIN_ENEMY_DELAY  = 10;
 int MAX_ENEMY_DELAY  = 30;
 
-color WHITE = color(100, 100, 100, 100);   
-color RED   = color(255, 0, 0, 100);
-color BLUE  = color(0, 150, 250, 100);
-color CLEAR_BLUE   = color(50, 180, 250, 70);
-color BOLD_RED     = color(255, 0, 0);
+color WHITE        = color(255);
+color RED          = color(255, 0, 0);
+color PINK         = color(255, 127, 127);
 color BROWN        = color(178, 111, 0);
 color YELLOW_BOLD  = color(242, 207, 92);
-color YELLOW_WHITE = color(231, 219, 142); 
+color CLEAR_BLUE   = color(50, 180, 250, 70);
 color DARK_BLUE    = color(0, 20, 128);
-color GREEN = color(0, 128, 16);
+color BLUE         = color(20, 110, 160);
+color DARK_GREEN   = color(20, 100, 0);
+color GREEN        = color(100, 160, 40);
 
 //------------------------------ variables---------------------------------//
 Screen screen;
@@ -174,7 +172,7 @@ void setup () {
   tickPic = loadImage("./Pic/tick.png");
   lockRoundPic = loadImage("./Pic/lock_round.png");
   lockWorldPic = loadImage("./Pic/lock_world.png");
-  
+
 
   // -----------------load important objects-------------------//
   player  = new Player();
@@ -193,7 +191,7 @@ void setup () {
   // -------------menu screen------------------------------
   bg = loadImage("./Pic/menu.png");
   buttonList = new Button[] {
-    new MapScreenButton(245, 525, 580, 590, 0),    // map screen
+    new MapScreenButton(245, 525, 580, 590, 0), // map screen
     new ChangeScreenButton(615, 525, 950, 590, 8), // setting screen
     new ChangeScreenButton(245, 615, 580, 680, 5), // data screen
     new ChangeScreenButton(615, 615, 950, 680, 9), // quit screen
@@ -237,9 +235,9 @@ void setup () {
     new TextFieldButton(205, 522, 840, 577, 2), 
   };
   infoList = new Info [] {
-    new Info("", 220, 332, BOLD_RED, fontMedium), 
-    new Info("", 220, 488, BOLD_RED, fontMedium), 
-    new Info("", 220, 558, BOLD_RED, fontMedium), 
+    new Info("", 220, 332, RED, fontMedium), 
+    new Info("", 220, 488, RED, fontMedium), 
+    new Info("", 220, 558, RED, fontMedium), 
   };
   infoList[1].hiden = true;
   infoList[2].hiden = true;
@@ -247,52 +245,52 @@ void setup () {
 
   //>>> ------------------create map screens------------------------
   mapScreens = new Screen [2];
-  
+
   // -------map screen 0---------
   bg = loadImage("./Pic/map0.png");
   buttonList = new Button  [] {
-    new ChangeScreenButton (67, 28, 140, 100, 0),  // menu screen
-    new MapScreenButton (1064, 30, 1138, 100, 1),
-    new UpgradeScreenButton(167, 28, 240, 100, 0),
- 
-    new ChooseWorldButton (102, 138, 404, 338, 0),
-    new ChooseWorldButton (456, 138, 757, 338, 1),
-    new ChooseWorldButton (807, 138, 1106, 338, 2),
-    new ChooseWorldButton (102, 420, 404, 620, 3),
-    new ChooseWorldButton (456, 420, 757, 620, 4),
-    new ChooseWorldButton (807, 420, 1106, 620, 5),
+    new ChangeScreenButton (67, 28, 140, 100, 0), // menu screen
+    new MapScreenButton (1064, 30, 1138, 100, 1), 
+    new UpgradeScreenButton(167, 28, 240, 100, 0), 
+
+    new ChooseWorldButton (102, 138, 404, 338, 0), 
+    new ChooseWorldButton (456, 138, 757, 338, 1), 
+    new ChooseWorldButton (807, 138, 1106, 338, 2), 
+    new ChooseWorldButton (102, 420, 404, 620, 3), 
+    new ChooseWorldButton (456, 420, 757, 620, 4), 
+    new ChooseWorldButton (807, 420, 1106, 620, 5), 
   };
   mapScreens[0] = new Screen(bg, buttonList);
-  
+
   // -------map screen 1---------
   bg = loadImage("./Pic/map1.png");
   buttonList = new Button  [] {
-    new ChangeScreenButton (67, 28, 141, 100, 0),  // menu screen
-    new MapScreenButton (969, 30, 1043, 100, 0),
-    new UpgradeScreenButton(167, 28, 240, 100, 0),
- 
-    new ChooseWorldButton (102, 138, 404, 338, 6),
-    new ChooseWorldButton (456, 138, 757, 338, 7),
-    new ChooseWorldButton (807, 138, 1106, 338, 8),
-    new ChooseWorldButton (102, 420, 404, 620, 9),
-    new ChooseWorldButton (456, 420, 757, 620, 10),
-    new ChooseWorldButton (807, 420, 1106, 620, 11),
+    new ChangeScreenButton (67, 28, 141, 100, 0), // menu screen
+    new MapScreenButton (969, 30, 1043, 100, 0), 
+    new UpgradeScreenButton(167, 28, 240, 100, 0), 
+
+    new ChooseWorldButton (102, 138, 404, 338, 6), 
+    new ChooseWorldButton (456, 138, 757, 338, 7), 
+    new ChooseWorldButton (807, 138, 1106, 338, 8), 
+    new ChooseWorldButton (102, 420, 404, 620, 9), 
+    new ChooseWorldButton (456, 420, 757, 620, 10), 
+    new ChooseWorldButton (807, 420, 1106, 620, 11), 
   };
   mapScreens[1] = new Screen(bg, buttonList);
-  
+
   //----------------------------create choose round screen--------------------
   bg = loadImage("./Pic/choose_round.png");
   buttonList = new Button  [] {
     new MapScreenButton (59, 31, 134, 103, 0), // map screen
-    
-    new ChooseRoundButton (246, 168, 342, 249, 0),
-    new ChooseRoundButton (451, 171, 546, 250, 1),
-    new ChooseRoundButton (660, 170, 756, 252, 2),
-    new ChooseRoundButton (860, 174, 956, 253, 3),
-    new ChooseRoundButton (247, 332, 343, 412, 4),
-    new ChooseRoundButton (451, 334, 547, 414, 5),
-    new ChooseRoundButton (660, 333, 757, 413, 6),
-    new ChooseRoundButton (862, 334, 956, 416, 7),
+
+    new ChooseRoundButton (246, 168, 342, 249, 0), 
+    new ChooseRoundButton (451, 171, 546, 250, 1), 
+    new ChooseRoundButton (660, 170, 756, 252, 2), 
+    new ChooseRoundButton (860, 174, 956, 253, 3), 
+    new ChooseRoundButton (247, 332, 343, 412, 4), 
+    new ChooseRoundButton (451, 334, 547, 414, 5), 
+    new ChooseRoundButton (660, 333, 757, 413, 6), 
+    new ChooseRoundButton (862, 334, 956, 416, 7), 
     new ChooseRoundButton (482, 487, 722, 629, 8), // boss
   };
   chooseRoundScreen = new Screen(bg, buttonList);
@@ -339,7 +337,7 @@ void setup () {
   };
   upgradeScreens[0] = new Screen (bg, buttonList);
   upgradeScreens[0].status = 0;
-  
+
 
   //-----------screen 1----------------
   bg = loadImage("./Pic/upgrade1.png");
@@ -424,7 +422,7 @@ void setup () {
   // --------------------------create win screen--------------------------
   bg = loadImage("./Pic/win.png");
   buttonList = new Button[] {
-    new MapScreenButton(315, 620, 578, 680, 0),
+    new MapScreenButton(315, 620, 578, 680, 0), 
     new ChangeScreenButton(605, 620, 867, 680, 0)  // menu scree
   };
   winScreen = new Screen(bg, buttonList);
@@ -432,9 +430,9 @@ void setup () {
   // --------------------------create lose screen--------------------------
   bg = loadImage("./Pic/lose.png");
   buttonList = new Button[] {
-    new ContinueButton(257, 317, 354, 397),        // play again
-    new UpgradeScreenButton(257, 435, 354, 517, 0),// upgrade
-    new MapScreenButton(315, 620, 578, 680, 0),
+    new ContinueButton(257, 317, 354, 397), // play again
+    new UpgradeScreenButton(257, 435, 354, 517, 0), // upgrade
+    new MapScreenButton(315, 620, 578, 680, 0), 
     new ChangeScreenButton(605, 620, 867, 680, 0)  // menu scree
   };
   loseScreen = new Screen(bg, buttonList);

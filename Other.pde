@@ -93,13 +93,13 @@ void updatePlayerList() {
   changePlayerScreen.infoList = new Info [data.length + 2];  
 
   // info[0]: username, info[1]: password
-  changePlayerScreen.infoList[0] = new Info("", 375, 370, BOLD_RED, fontMedium);
-  changePlayerScreen.infoList[1] = new Info("", 375, 465, BOLD_RED, fontMedium);
+  changePlayerScreen.infoList[0] = new Info("", 375, 370, RED, fontMedium);
+  changePlayerScreen.infoList[1] = new Info("", 375, 465, RED, fontMedium);
   changePlayerScreen.infoList[1].hiden = true;
 
   // all user names
   for (int i=0; i<data.length; i++) {
-    changePlayerScreen.infoList[i+2] = new Info(data[i], 200 + 210 * (i / 3), 150 + (i % 3) * 50, BOLD_RED, fontMedium);
+    changePlayerScreen.infoList[i+2] = new Info(data[i], 200 + 210 * (i / 3), 150 + (i % 3) * 50, RED, fontMedium);
   }
 }
 
