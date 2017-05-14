@@ -2,9 +2,7 @@
  *  reset upgrade
  *  serialization
  *  max 12 player's name
- *  add sound
- ask to leave game
- 
+ *  add sound 
  */
 
 //--------------------------- import libraries-----------------------------//
