@@ -1,65 +1,73 @@
-class Player {
+class Player implements java.io.Serializable {
   String name;
+  int money;     // current $ of player
+
   int maxWorld;  // max world player can play
-  int maxRound;  // max round in that world player can play
-  
+  int maxRound;  // max round in that world player can play  
+
+  // weapons
+  Weapon weaponList [] = new Weapon [] {
+    new HandStone(), 
+    new HandShuriken(), 
+    new Bow(), 
+    new HandGrenade(), 
+    new FreezeGun(), 
+    new LaserGun(), 
+  };
+
+  // upgrades
+  // (float value, float increase, float maxLevel, float price, float priceIncrease, int method)
+  Upgrade upgradeList [] = new Upgrade [] {
+    new Upgrade(0, 1, 1, 100, 1.5, 0), //0 aim
+    new Upgrade(DEFAULT_HEALTH, 50, 5, 100, 1.5, 1), //1 max health 
+    new Upgrade(1, -0.15, 6, 100, 1.5, 0), //2 weapon delay
+    new Upgrade(1, 0.1, 5, 100, 1.5, 0), //3 weapon speed
+    new Upgrade(1, 0.2, 5, 100, 1.5, 0), //4 bonus money
+    new Upgrade(1, -0.15, 3, 100, 1.5, 0), //5 special wp delay
+    new Upgrade(1, -0.1, 3, 100, 1.5, 0), //6 how much special ability cost
+    new Upgrade(0, 1, 8, 500, 1.5, 0), //7 bonus damage
+    new Upgrade(1, 0.2, 6, 150, 1.5, 0), //8 explosion radius
+    new Upgrade(0, 20, 5, 180, 1.5, 0), //9 wall extra health
+  };
+
+  // objs
+  Obj objList [] = new Obj [] {
+    new Wall(), 
+    new BigWall(), 
+    new Barrel(), 
+    new ToxicBarrel(), 
+  };
+
   Player() {
   }
 
-  void loadPlayer() {
-    // load file
-    this.name = changePlayerScreen.infoList[0].message;
-    String data [] = loadStrings("./Player/" + this.name + ".txt");
-    String tmp [];
-
-    // copy info from file to game
-    tmp = split(data[1], ' ');
-    maxWorld = int(tmp[0]);
-    maxRound = int(tmp[1]);
-    shooter.money = int(data[2]);
-    shooter.upgradeList[1].value = int(data[3]);
-
-    // create weapon list
-    tmp = split(data[4], ' ');
-    for (int i=0; i<tmp.length; i++) 
-      shooter.weaponList[i].enable = boolean(tmp[i]);
-
-    // enalbe new obj buttons
-    tmp = split(data[5], ' ');
-    for (int i=0; i<tmp.length; i++) 
-      newObjList[i].enable = boolean(tmp[i]);
-
-    // load upgrades
-    // format: level&value&price level&value&price level&value&price ...
-    tmp = split(data[6], ' ');
-    String temp [];
-    for (int i=0; i<tmp.length; i++) {
-      temp = split(tmp[i], '&');
-      shooter.upgradeList[i].level = int(temp[0]);
-      shooter.upgradeList[i].value = float(temp[1]);
-      shooter.upgradeList[i].price = float(temp[2]);
-    }
-
-    // load info to upgrade screens
+  void loadPlayerInfo() {
+    // ------------copy info to shooter--------//
+    shooter.weaponList  = weaponList.clone();
+    shooter.upgradeList = upgradeList.clone();
+    shooter.objList     = objList.clone();
+    shooter.maxRound = maxRound;
+    shooter.maxWorld = maxWorld;
+    shooter.money    = money;
+    
+    // ---------load info to screens-----------------//
+    // load upgrade info to upgrade screens
     Upgrade upg;
-    for (int i=0; i<shooter.upgradeList.length; i++) {
+    for (int i=0; i<upgradeList.length; i++) {
       upg = shooter.upgradeList[i];
       upgradeScreens[i/6].infoList[i%6+6] = new Info((int) upg.level + "/" + (int) upg.maxLevel, 330 + 470 * (i%6 / 3), 322 + (i%6 % 3) * 120, BROWN, fontMedium);
     }
-    
+
+    // load money to upgrade screens
     for (int i=0; i<shooter.upgradeList.length/6 + 1; i++)
       upgradeScreens[i].infoList[12].message = str(shooter.money);
-          
+
+    // load weapons name to weapon screens
     for (int i=0; i<shooter.weaponList.length/4 + 1; i++) 
       upgradeScreens[i + shooter.upgradeList.length/6 + 1].infoList[8].message = str(shooter.money);
-    
 
-    // add wellcome in menu screen
-    menuScreen.info =  new TimeInfo ("Welcome, " + name + "!", 500, 50, RED, fontSmall, -1);
-    
-    // set playscreen to latest round
-    currentRound = maxRound;
-    loadWorld(maxWorld);
+    //------------------------add wellcome in menu screen----------------------------//
+    menuScreen.info =  new TimeInfo ("Welcome, " + name + "!", 500, 50, RED, fontSmall, MESSAGE_TIME_FOREVER);
   }
 
   void createPlayer () {
@@ -89,20 +97,22 @@ class Player {
         return;
       }    
 
-    // save to player's own file
-    s = new String [7];
-    s[0] = str(hash(newPlayerScreen.infoList[1].message));                                          // password
-    s[1] = "0 0";                                                                                    // max round , max world
-    s[2] = str(DEFAULT_MONEY);
-    s[3] = str(DEFAULT_HEALTH);
-    s[4] = "true false false false false false";                                                    // weapon
-    s[5] = "false false false false";                                                               // obj
-    s[6] = "0&0&100 0&"+ str(DEFAULT_HEALTH) + "&100 0&1&100 0&1&100 0&1&100 0&1&100 0&1&100 0&0&500 0&1&150 0&0&180";  // upgrades
-    saveStrings("./Player/" + newPlayerScreen.infoList[0].message + ".txt", s);
+    // create new file with player name and save new Player() object to it
+    try {
+      FileOutputStream outFile = new FileOutputStream(sketchPath() + "/Player/" + name + ".ser");
+      ObjectOutputStream out = new ObjectOutputStream(outFile);
+      out.writeObject(new Player());
+      out.close();
+      outFile.close();
+    } catch (IOException e) {
+      println("An Error occured when creating new file\nNew user has not been created");
+      return;
+    }
 
-    // add player's name to playerlist
+    // add player's name & password to playerlist
+    // file structure: name hash(pass)
     s = loadStrings("./Player/player.txt");
-    s = (String []) append(s, newPlayerScreen.infoList[0].message);
+    s = (String []) append(s, newPlayerScreen.infoList[0].message + " " + hash(newPlayerScreen.infoList[1].message));
     saveStrings("./Player/player.txt", s);
 
     // update player list in change player screen
@@ -112,7 +122,7 @@ class Player {
     changePlayerScreen.infoList[0].message = newPlayerScreen.infoList[0].message;
     changePlayerScreen.infoList[1].message = newPlayerScreen.infoList[1].message;
     screen.changeScreen(menuScreen);
-    player.loadPlayer();
+    player.loadPlayerInfoInfo();
   } 
 
   void savePlayer() {
@@ -213,7 +223,7 @@ class Player {
 
     // pass is correct
     screen.changeScreen(menuScreen);
-    loadPlayer();
+    loadPlayerInfo();
     return 0;
   }
 }

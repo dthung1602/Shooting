@@ -1,23 +1,16 @@
-int hash (String string) {
-  int h = 7;
-  for (int i = 0; i < string.length(); i++) {
-    h = h*31 + string.charAt(i);
+String hash (String stringToEncrypt) {
+  try {
+    MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+    messageDigest.update(stringToEncrypt.getBytes());
+    return new String(messageDigest.digest());
+  } catch (NoSuchAlgorithmException e) {
+    screen.info.message = "Error on hash the password";
+    screen.info.time = MESSAGE_TIME_LONG;
+    return null;
   }
-  return h;
 }
 
-void resetRound() {
-  killCount      = 0;
-  enemyCount     = 0;
-  bulletCount    = 0;
-  effectCount    = 0;
-  objCount     = 0;
-  shooter.health = (int) shooter.upgradeList[1].value;
-  oldFrame       = frameCount;
-  newEnemyDelay  = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);
-  totalEnemyInRound = (int) (DEFAULT_ENEMY_NUM * pow(DIFICULTLY, currentRound));
-  //>> reset special abilities
-}
+
 
 void resetUpgrade() {
 }
@@ -103,10 +96,6 @@ void updatePlayerList() {
   }
 }
 
-void loadWorld (int worldNum) {
-  playScreen.bg = loadImage("./Pic/World/world" + worldNum + ".png");
-  //>> load more pic
-}
 
 void updateBars() {
   playScreen.barList[0].max = shooter.upgradeList[1].value;

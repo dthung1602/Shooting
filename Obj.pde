@@ -1,4 +1,4 @@
-abstract class Obj extends CanBeAttacked {
+abstract class Obj extends CanBeAttacked implements java.lang.Cloneable {
   int x, y;
   int vx = 0, vy = 0;
   PImage img;
@@ -7,10 +7,7 @@ abstract class Obj extends CanBeAttacked {
   int price;
   boolean enable;
 
-  Obj (int x, int y) {
-    super();
-    this.x = x;
-    this.y = y;
+  Obj () {
   }
 
   void show () {
@@ -18,17 +15,13 @@ abstract class Obj extends CanBeAttacked {
     y += vy;    
     if (y < height - GROUND_HEIGHT)
       vy += GRAVITY;                      // effect of gravity
-    image(img, x, y, size, size);
+    image(img, x, y);
   }
 
   boolean containPoint (float xx, float yy) {
     if (x-size/2<=xx && xx<x+size/2 && y-size/2<yy && yy<y+size/2)
       return true;
     return false;
-  }
-
-  Obj clone () {
-    return this;
   }
 
   void action () {
@@ -39,9 +32,6 @@ abstract class Obj extends CanBeAttacked {
 abstract class ExplosiveObj extends Obj {
   int damage;
   int explosionRadius;
-  ExplosiveObj (int x, int y) {
-    super(x, y);
-  }
 
   void action () {
     health = 0;
@@ -63,47 +53,28 @@ abstract class ExplosiveObj extends Obj {
 
 
 class Wall extends Obj {
-  Wall (int x, int y) {
-    super(x, y);
+  Wall () {
     health = (int) shooter.upgradeList[9].value + 50;
     img = loadImage("./Pic/wall.png");
     size = 100;
     walkthrough = false;
     price = 20;
   }  
-
-  Obj clone () {
-    if (enable && shooter.money > price ) {
-      shooter.money -= price;
-      return new Wall(mouseX, mouseY);
-    } else
-      return null;
-  }
 }
 
 class BigWall extends Obj {
-  BigWall (int x, int y) {
-    super(x, y);
+  BigWall () {
     health = (int) shooter.upgradeList[9].value + 100;
     img = loadImage("./Pic/wall.png");
     size = 150;
     walkthrough = false;
     price = 40;
   }  
-
-  Obj clone () {
-    if (enable && shooter.money > price ) {
-      shooter.money -= price;
-      return new BigWall(mouseX, mouseY);
-    } else
-      return null;
-  }
 }
 
 
 class Barrel extends ExplosiveObj {
-  Barrel (int x, int y) {
-    super(x, y);
+  Barrel () {
     health = 1;
     img = loadImage("./Pic/barrel.png");
     size = 75;
@@ -112,20 +83,11 @@ class Barrel extends ExplosiveObj {
     walkthrough = true;
     price = 60;
   }  
-
-  Obj clone () {
-    if (enable && shooter.money > price ) {
-      shooter.money -= price;
-      return new Barrel(mouseX, mouseY);
-    } else
-      return null;
-  }
 }
 
 
 class ToxicBarrel extends ExplosiveObj {
-  ToxicBarrel (int x, int y) {
-    super(x, y);
+  ToxicBarrel () {
     health = 1;
     img = loadImage("./Pic/toxicbarrel.png");
     size = 75;
@@ -133,13 +95,5 @@ class ToxicBarrel extends ExplosiveObj {
     explosionRadius = 100;
     walkthrough = true;
     price = 80;
-  }
-
-  Obj clone () {
-    if (enable && shooter.money > price ) {
-      shooter.money -= price;
-      return new ToxicBarrel(mouseX, mouseY);
-    } else
-      return null;
   }
 }

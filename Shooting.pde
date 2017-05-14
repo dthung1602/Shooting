@@ -1,3 +1,4 @@
+import java.security.NoSuchAlgorithmException;
 /*            TO DO
  *  reset upgrade
  *  serialization
@@ -6,8 +7,9 @@
  */
 
 //--------------------------- import libraries-----------------------------//
-import java.io.File;
-
+import java.io.*;
+import java.security.*;
+import ddf.minim.*;
 
 //----------------------------- constant-----------------------------------//
 float SELL_PERCENT   = 0.8;
@@ -25,6 +27,10 @@ float DIFICULTLY     = 1.2;
 int MIN_ENEMY_DELAY  = 10;
 int MAX_ENEMY_DELAY  = 30;
 
+int MESSAGE_TIME_SHORT   = 30;
+int MESSAGE_TIME_LONG    = 60;
+int MESSAGE_TIME_FOREVER = -1;
+
 color WHITE        = color(255);
 color RED          = color(255, 0, 0);
 color PINK         = color(255, 127, 127);
@@ -36,28 +42,18 @@ color BLUE         = color(20, 110, 160);
 color DARK_GREEN   = color(20, 100, 0);
 color GREEN        = color(100, 160, 40);
 
-//------------------------------ variables---------------------------------//
+//----------------------------basic objects------------------------------//
 Screen screen;
-int currentRound;    
-int currentWorld;
-int totalEnemyInRound;                     // how many enemy will be created in this round 
-int killCount;                             // how many enemy kiled
-int enemyCount;                            // how many enemy in current round
-int bulletCount;                           // how many weapon in current round 
-int effectCount;                           // number of effect in current round
-int objCount;                              // number of obj in current round
-int oldFrame        = 0;                   // save frame since the last time an enemy was created
-int newEnemyDelay = 25;                    // delay time between creation of two enemies; will receive random values in game
-
-//--------------------------constant objects--------------------------------//
+Round round;
 Player player;
 Shooter shooter;
 
+//----------------------------- lists---------------------------------------//
 Enemy enemyList []         = new Enemy [ENEMY_LIST_SIZE];
 Bullet bulletList []       = new Bullet [BULLET_LIST_SIZE];
 VisualEffect effectList [] = new VisualEffect [EFFECT_LIST_SIZE];
 Obj objList []             = new Obj [STUFF_LIST_SIZE];
-Obj newObjList [];
+
 
 // screens
 Screen menuScreen;
@@ -114,7 +110,6 @@ PFont fontMedium;
 PFont fontLarge;
 
 // sound effects
-import ddf.minim.*;
 Minim minim;
 AudioPlayer bgSound;
 AudioPlayer dartSound;

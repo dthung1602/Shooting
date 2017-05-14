@@ -1,4 +1,4 @@
-abstract class Weapon {
+abstract class Weapon implements java.io.Serializable {
   Bullet bullet;                 // the kind of bullet weapon creates
   int bulletLeft;                // how many bullet left
   PImage img;                    // image

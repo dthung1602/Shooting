@@ -1,4 +1,4 @@
-abstract class CanBeAttacked {
+abstract class CanBeAttacked implements java.io.Serializable {
   int health;
   CanBeAttacked () {
   }
@@ -6,11 +6,15 @@ abstract class CanBeAttacked {
 
 
 class Shooter extends CanBeAttacked {
-  //basic
+  //display info
   float x = 100; 
   float y = 200;
-  int money = 0;
   float angle = 0;
+  
+  //basic info
+  int money;
+  int maxRound;    
+  int maxWorld;
 
   Weapon currentWeapon;
   Obj currentObj;
@@ -40,6 +44,13 @@ class Shooter extends CanBeAttacked {
     new Upgrade(0, 20, 5, 180, 1.5, 0),              //9 wall extra health
   };
   
+  // objs
+  Obj objList [] = new Obj [] {
+    new Wall(),
+    new BigWall(),
+    new Barrel(),
+    new ToxicBarrel(),
+  };
   
 
   Shooter () {
