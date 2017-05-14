@@ -1,28 +1,4 @@
-String hash (String stringToEncrypt) {
-  try {
-    MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-    messageDigest.update(stringToEncrypt.getBytes());
-    return new String(messageDigest.digest());
-  } catch (NoSuchAlgorithmException e) {
-    screen.info.message = "Error on hash the password";
-    screen.info.time = MESSAGE_TIME_LONG;
-    return null;
-  }
-}
 
-
-
-void resetUpgrade() {
-}
-
-void resetAll() {
-  resetRound();
-  resetUpgrade();
-  shooter.money  = DEFAULT_MONEY;
-  shooter.health = DEFAULT_HEALTH;
-  shooter.upgradeList[1].value = DEFAULT_HEALTH;
-  currentRound = 1;
-}
 
 
 void loadInfo() {
@@ -78,28 +54,4 @@ Weapon weaponType(int wpNum) {
   default: 
     return new LaserGun();
   }
-}
-
-void updatePlayerList() {
-  // load data from file
-  String data [] = loadStrings("./Player/player.txt");
-  changePlayerScreen.infoList = new Info [data.length + 2];  
-
-  // info[0]: username, info[1]: password
-  changePlayerScreen.infoList[0] = new Info("", 375, 370, RED, fontMedium);
-  changePlayerScreen.infoList[1] = new Info("", 375, 465, RED, fontMedium);
-  changePlayerScreen.infoList[1].hiden = true;
-
-  // all user names
-  for (int i=0; i<data.length; i++) {
-    changePlayerScreen.infoList[i+2] = new Info(data[i], 200 + 210 * (i / 3), 150 + (i % 3) * 50, RED, fontMedium);
-  }
-}
-
-
-void updateBars() {
-  playScreen.barList[0].max = shooter.upgradeList[1].value;
-  playScreen.barList[1].max = shooter.currentWeapon.defaultSpecialDelay * shooter.upgradeList[5].value;
-  playScreen.barList[2].max = shooter.currentWeapon.defaultDelay * shooter.upgradeList[2].value;
-  playScreen.barList[3].max = shooter.currentWeapon.bulletLeft;
 }

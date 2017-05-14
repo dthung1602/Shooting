@@ -12,19 +12,19 @@ void keyPressed () {
     switch (key) {
     case 'q':
     case 'Q':
-      shooter.currentObj = newObjList[0].clone();
+      shooter.currentObj = shooter.objList[0].clone();
       return;
     case 'w':
     case 'W':
-      shooter.currentObj = newObjList[1].clone();
+      shooter.currentObj = shooter.objList[1].clone();
       return;
     case 'e':
     case 'E':
-      shooter.currentObj = newObjList[2].clone();
+      shooter.currentObj = shooter.objList[2].clone();
       return;
     case 'r':
     case 'R':
-      shooter.currentObj = newObjList[3].clone();
+      shooter.currentObj = shooter.objList[3].clone();
       return;
 
     case 'p':

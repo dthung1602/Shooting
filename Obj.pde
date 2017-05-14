@@ -24,6 +24,15 @@ abstract class Obj extends CanBeAttacked implements java.lang.Cloneable {
     return false;
   }
 
+  Obj clone() {
+    try {
+      return (Obj) super.clone();
+    } 
+    catch (CloneNotSupportedException e) {
+      return null;
+    }
+  }
+
   void action () {
   }
 }
@@ -59,7 +68,7 @@ class Wall extends Obj {
     size = 100;
     walkthrough = false;
     price = 20;
-  }  
+  }
 }
 
 class BigWall extends Obj {
@@ -69,7 +78,7 @@ class BigWall extends Obj {
     size = 150;
     walkthrough = false;
     price = 40;
-  }  
+  }
 }
 
 
@@ -82,7 +91,7 @@ class Barrel extends ExplosiveObj {
     explosionRadius = 100;
     walkthrough = true;
     price = 60;
-  }  
+  }
 }
 
 

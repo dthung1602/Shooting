@@ -49,7 +49,7 @@ class Player implements java.io.Serializable {
     shooter.maxRound = maxRound;
     shooter.maxWorld = maxWorld;
     shooter.money    = money;
-    
+
     // ---------load info to screens-----------------//
     // load upgrade info to upgrade screens
     Upgrade upg;
@@ -86,9 +86,9 @@ class Player implements java.io.Serializable {
     // check if player name has been taken and diff from player
     String s [] = loadStrings("./Player/player.txt");
     for (int i=0; i<s.length; i++) 
-      if (newPlayerScreen.infoList[0].message.equals(s[i]) || newPlayerScreen.infoList[0].message.equals("player")) {
+      if (newPlayerScreen.infoList[0].message.equals(s[i])) {
         newPlayerScreen.info.message = "Player name has been taken. Please choose another name.";
-        newPlayerScreen.info.time = 50;
+        newPlayerScreen.info.time = MESSAGE_TIME_LONG;
         newPlayerScreen.status = 0;
         newPlayerScreen.infoList[0].input = true;
         newPlayerScreen.infoList[1].input = false;
@@ -104,7 +104,8 @@ class Player implements java.io.Serializable {
       out.writeObject(new Player());
       out.close();
       outFile.close();
-    } catch (IOException e) {
+    } 
+    catch (IOException e) {
       println("An Error occured when creating new file\nNew user has not been created");
       return;
     }
@@ -118,11 +119,11 @@ class Player implements java.io.Serializable {
     // update player list in change player screen
     updatePlayerList();
 
-    // auto login and change to menu screen
+    // load info and change to menu screen
     changePlayerScreen.infoList[0].message = newPlayerScreen.infoList[0].message;
     changePlayerScreen.infoList[1].message = newPlayerScreen.infoList[1].message;
+    player.loadPlayerInfo();
     screen.changeScreen(menuScreen);
-    player.loadPlayerInfoInfo();
   } 
 
   void savePlayer() {
@@ -130,37 +131,20 @@ class Player implements java.io.Serializable {
     if (player.name == null)
       return;
 
-    // load current data from file
-    String data [] = loadStrings("./Player/" + name + ".txt");
+    // save player obj to file
+    try {
+      FileOutputStream outFile = new FileOutputStream(sketchPath() + "/Player/" + name + ".ser");
+      ObjectOutputStream out = new ObjectOutputStream(outFile);
+      out.writeObject(this);
+      out.close();
+      outFile.close();
+    } 
+    catch (IOException e) {
+      println("An Error occured when saving file");
+      return;
+    }
 
-    // copy info from game to data
-    data[1] = maxWorld + " " + maxRound; 
-    data[2] = str(shooter.money);
-    data[3] = str(shooter.upgradeList[1].value);
-
-    // save weapon list
-    data[4] = "";
-    for (int i=0; i<shooter.weaponList.length; i++) 
-      data[4] += str(shooter.weaponList[i].enable) + " ";
-    data[4] = data[4].substring(0, data[4].length()-1);        // remove trailing space
-
-    // enalbe new obj
-    data[5] = "";
-    for (int i=0; i<newObjList.length; i++) 
-      data[5] += str(newObjList[i].enable) + " ";
-    data[5] = data[5].substring(0, data[5].length()-1);        // remove trailing space
-
-    // save upgrades
-    // format: value&price value&price value&price ...
-    data[6] = "";
-    for (int i=0; i<shooter.upgradeList.length; i++) 
-      data[6] += str(shooter.upgradeList[i].level) + '&' + str(shooter.upgradeList[i].value) + '&' + str(shooter.upgradeList[i].price) + ' '; 
-    data[6] = data[6].substring(0, data[6].length()-1);        // remove trailing space
-
-    // save to file
-    saveStrings("./Player/" + name + ".txt", data);
-
-    // clear data
+    // clear data in other screens
     newPlayerScreen.infoList[0].message = "";
     newPlayerScreen.infoList[1].message = "";
     newPlayerScreen.infoList[2].message = "";
@@ -177,7 +161,7 @@ class Player implements java.io.Serializable {
       }
 
     // remove player data file
-    File f = new File(sketchPath() + "/Player/" + name + ".txt");
+    File f = new File(sketchPath() + "/Player/" + name + ".ser");
     f.delete();
 
     // update player list in change player screen
@@ -189,10 +173,15 @@ class Player implements java.io.Serializable {
   }
 
   int login () {
+    // read player file for data
+    String data [] = loadStrings("./Player/player.txt");
+    
     // check if username in list
     boolean inList = false;
-    for (int i=2; i<changePlayerScreen.infoList.length; i++) {
-      if (changePlayerScreen.infoList[i].message.equals(changePlayerScreen.infoList[0].message)) {
+    String tmp [] = null;
+    for (int i=2; i<data.length; i++) {
+      tmp = data[i].split(" "); // tmp = ["name", "hash(pass)"]
+      if (tmp[0].equals(changePlayerScreen.infoList[0].message)) {
         inList = true;
         break;
       }
@@ -206,15 +195,12 @@ class Player implements java.io.Serializable {
       changePlayerScreen.status = 0;
       changePlayerScreen.infoList[0].input = true;
       screen.info.message = "Invalid username!";
-      screen.info.time = 75;
+      screen.info.time = MESSAGE_TIME_LONG;
       return 1;
     }
 
-    // read player's file for pass
-    String data [] = loadStrings("./Player/" + changePlayerScreen.infoList[0].message + ".txt");
-
     // if wrong pass
-    if (hash(changePlayerScreen.infoList[1].message) != int(data[0])) {
+    if (!hash(changePlayerScreen.infoList[1].message).equals(tmp[1])) {
       changePlayerScreen.infoList[1].message = "";
       screen.info.message = "Wrong password!";
       screen.info.time = 75;
@@ -225,5 +211,34 @@ class Player implements java.io.Serializable {
     screen.changeScreen(menuScreen);
     loadPlayerInfo();
     return 0;
+  }
+
+  void updatePlayerList() {
+    // load data from file
+    String data [] = loadStrings("./Player/player.txt");
+    changePlayerScreen.infoList = new Info [data.length + 2];  
+
+    // info[0]: username, info[1]: password
+    changePlayerScreen.infoList[0] = new Info("", 375, 370, RED, fontMedium);
+    changePlayerScreen.infoList[1] = new Info("", 375, 465, RED, fontMedium);
+    changePlayerScreen.infoList[1].hiden = true;
+
+    // all user names
+    for (int i=0; i<data.length; i++) {
+      changePlayerScreen.infoList[i+2] = new Info(data[i], 200 + 210 * (i / 3), 150 + (i % 3) * 50, RED, fontMedium);
+    }
+  }
+
+  String hash (String stringToEncrypt) {
+    try {
+      MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+      messageDigest.update(stringToEncrypt.getBytes());
+      return new String(messageDigest.digest());
+    } 
+    catch (NoSuchAlgorithmException e) {
+      screen.info.message = "Error on hash the password";
+      screen.info.time = MESSAGE_TIME_LONG;
+      return null;
+    }
   }
 }
