@@ -33,16 +33,16 @@ int MESSAGE_TIME_SHORT   = 30;
 int MESSAGE_TIME_LONG    = 60;
 int MESSAGE_TIME_FOREVER = -1;
 
-color WHITE        = color(255);
-color RED          = color(255, 0, 0);
-color PINK         = color(255, 127, 127);
-color BROWN        = color(178, 111, 0);
-color YELLOW_BOLD  = color(242, 207, 92);
-color CLEAR_BLUE   = color(50, 180, 250, 40);
-color DARK_BLUE    = color(0, 20, 128);
-color BLUE         = color(20, 110, 160);
-color DARK_GREEN   = color(20, 100, 0);
-color GREEN        = color(100, 160, 40);
+int WHITE        = color(255);
+int RED          = color(255, 0, 0);
+int PINK         = color(255, 127, 127);
+int BROWN        = color(178, 111, 0);
+int YELLOW_BOLD  = color(242, 207, 92);
+int CLEAR_BLUE   = color(50, 180, 250, 40);
+int DARK_BLUE    = color(0, 20, 128);
+int BLUE         = color(20, 110, 160);
+int DARK_GREEN   = color(20, 100, 0);
+int GREEN        = color(100, 160, 40);
 
 //----------------------------basic objects------------------------------//
 Screen screen;
@@ -55,7 +55,7 @@ Enemy enemyList []         = new Enemy [ENEMY_LIST_SIZE];
 Bullet bulletList []       = new Bullet [BULLET_LIST_SIZE];
 VisualEffect effectList [] = new VisualEffect [EFFECT_LIST_SIZE];
 Obj objList []             = new Obj [STUFF_LIST_SIZE];
-
+Screen screenList [];
 
 // screens
 Screen menuScreen;
@@ -129,8 +129,9 @@ boolean musicEnable = true;
 boolean soundEnable = true;
 
 
-// -----------------------object list-------------------------
-Screen screenList [];
+// -----------------------tmp-------------------------
+int w;
+int h;
 
 
 
@@ -173,10 +174,10 @@ void setup () {
   //>>>
 
   // obj image
-  wallPic;        = loadImage("./Pic/wall/png");
-  bigWallPic;
-  barrelPic;
-  toxicBarrelPic;
+  wallPic        = loadImage("./Pic/wall.png");
+  bigWallPic     = loadImage("./Pic/big_wall.png");
+  barrelPic      = loadImage("./Pic/barrel.png");
+  toxicBarrelPic = loadImage("./Pic/toxic_barrel.png");
 
   // other image
   playPic = loadImage("./Pic/play.png");
@@ -188,6 +189,7 @@ void setup () {
   // -----------------load important objects-------------------//
   player  = new Player();
   shooter = new Shooter();
+  round   = new Round();
 
   //-----------------------load fonts------------------------//
   fontSmall  = loadFont("./Font/font_small.vlw");

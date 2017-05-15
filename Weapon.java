@@ -1,7 +1,7 @@
-abstract class Weapon implements java.io.Serializable {
+abstract class Weapon implements Serializable {
   Bullet bullet;                 // the kind of bullet weapon creates
   int bulletLeft;                // how many bullet left
-  PImage img;                    // image
+  transient PImage img;                    // image
   int defaultDelay;              // how many frames by default before weapon can shoot again
   int delay;                     // how many frames left before weapon can shoot again
   int defaultSpecialDelay;       // how many frames by default before weapon can use special again

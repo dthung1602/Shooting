@@ -11,6 +11,9 @@ class Round {
   int oldFrame        = 0;                   // save frame since the last time an enemy was created
   int newEnemyDelay = 25;                    // delay time between creation of two enemies; will receive random values in game
 
+  Round () {
+  }
+
   Round (int crrRound, int crrWorld) {
     this.currentRound = crrRound;
     this.currentWorld = crrWorld;

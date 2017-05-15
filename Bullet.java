@@ -1,4 +1,7 @@
-abstract class Bullet {
+import java.io.Serializable;
+import processing.core.*;
+
+abstract class Bullet implements Serializable {
   float x, y;
   float vx,vy;
   int status = 0;          // 0 = in game; 1 = out of game
@@ -17,7 +20,7 @@ abstract class Bullet {
   
   void show () {    
     //touch sides, skip out of range bullets
-    if (x<0 || x>width || y<0  || y > height - GROUND_HEIGHT) {
+    if (x < 0 || x > w || y < 0  || y > h - GROUND_HEIGHT) {
       status = 1;
       return;
     }

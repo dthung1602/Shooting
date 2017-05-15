@@ -1,4 +1,6 @@
-class Upgrade implements java.io.Serializable {
+import java.io.Serializable;
+
+class Upgrade implements Serializable {
   float value;              // hold value of upgrade
   float increase;           // how much value can increase
   int maxLevel;

@@ -222,20 +222,20 @@ class PlayScreen extends Screen {
 
   private class Bar {
     int x, y;
-    color bgColor, fgColor;
+    int bgColor, fgColor;
     float max;
     float value;
     int w = 20, l = 250;
     boolean reverse = false;
 
-    Bar (int x, int y, color bgColor, color fgColor) {
+    Bar (int x, int y, int bgColor, int fgColor) {
       this.x = x;
       this.y = y;
       this.bgColor = bgColor;
       this.fgColor = fgColor;
     }
 
-    Bar (int x, int y, color bgColor, color fgColor, boolean reverse) {
+    Bar (int x, int y, int bgColor, int fgColor, boolean reverse) {
       this.x = x;
       this.y = y;
       this.bgColor = bgColor;

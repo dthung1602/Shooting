@@ -1,4 +1,4 @@
-abstract class CanBeAttacked implements java.io.Serializable {
+abstract class CanBeAttacked implements Serializable {
   int health;
   CanBeAttacked () {
   }
@@ -85,7 +85,7 @@ class Shooter extends CanBeAttacked {
     if (shooter.upgradeList[0].value == 0) 
       return;
 
-    // choose color red
+    // choose int red
     fill(255, 0, 0);
     stroke(255, 0, 0);
 

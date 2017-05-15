@@ -1,4 +1,6 @@
-abstract class Obj extends CanBeAttacked implements java.lang.Cloneable {
+import java.io.Serializable;
+
+abstract class Obj extends CanBeAttacked implements Cloneable, Serializable {
   // info
   String name;
   String explaination;
@@ -13,7 +15,7 @@ abstract class Obj extends CanBeAttacked implements java.lang.Cloneable {
   int x, y;
   int x1, y1, x2, y2;
   int vx = 0, vy = 0;
-  PImage img;
+  transient PImage img;
   
   //other
   boolean walkthrough;

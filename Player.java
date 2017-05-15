@@ -1,4 +1,6 @@
-class Player implements java.io.Serializable {
+import java.io.Serializable;
+
+class Player implements Serializable {
   String name;
   int money;     // current $ of player
 
@@ -37,6 +39,9 @@ class Player implements java.io.Serializable {
     new Barrel(), 
     new ToxicBarrel(), 
   };
+  
+  Player() {
+  }
 
   Player(String name) {
     this.name = name;
@@ -72,6 +77,13 @@ class Player implements java.io.Serializable {
   }
 
   void createPlayer () {
+    // check if any field is empty
+    if (newPlayerScreen.infoList[0].message.length() == 0 || newPlayerScreen.infoList[1].message.length() == 0) {
+      screen.info.message = "Please fill all the fields";
+      screen.info.time = MESSAGE_TIME_SHORT;
+      return;
+    }
+    
     // check if pass and re-pass are the same
     if (!newPlayerScreen.infoList[1].message.equals(newPlayerScreen.infoList[2].message)) {
       newPlayerScreen.info.message = "Password and re-password do not match!";
@@ -100,6 +112,7 @@ class Player implements java.io.Serializable {
 
     // create new file with player name and save new Player() object to it
     try {
+      name = newPlayerScreen.infoList[0].message;
       FileOutputStream outFile = new FileOutputStream(sketchPath() + "/Player/" + name + ".ser");
       ObjectOutputStream out = new ObjectOutputStream(outFile);
       out.writeObject(new Player(newPlayerScreen.infoList[0].message));
@@ -107,7 +120,8 @@ class Player implements java.io.Serializable {
       outFile.close();
     } 
     catch (IOException e) {
-      println("An Error occured when creating new file\nNew user has not been created");
+      e.printStackTrace();
+      println("An error occured when creating new file\nNew user has not been created");
       return;
     }
 

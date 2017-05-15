@@ -22,8 +22,10 @@ class Screen {
   void changeScreen(Screen newScreen) {
     // check if screen size changes
     if (screen.bg.width != newScreen.bg.width || screen.bg.height != newScreen.bg.height) {
+      w = newScreen.bg.width;
+      h = newScreen.bg.height;
       surface.setResizable(true);
-      surface.setSize(newScreen.bg.width, newScreen.bg.height);
+      surface.setSize(w, h);
       surface.setResizable(false);
     }
 

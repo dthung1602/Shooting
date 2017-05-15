@@ -1,12 +1,12 @@
 class Info {
   String message;
   int x, y;
-  color cl;
+  int cl;
   PFont font;
   boolean hiden = false;
   boolean input = false;
   
-  Info (String message, int x, int y, color cl, PFont font) {
+  Info (String message, int x, int y, int cl, PFont font) {
     this.message = message;
     this.x = x;
     this.y = y;
@@ -36,7 +36,7 @@ class Info {
 
 class TimeInfo extends Info {
   int time;
-  TimeInfo (String message, int x, int y, color cl, PFont font, int time) {
+  TimeInfo (String message, int x, int y, int cl, PFont font, int time) {
     super(message, x, y, cl, font);
     this.time = time;
   }
