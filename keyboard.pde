@@ -41,7 +41,7 @@ void keyPressed () {
       return;
     default:
       screen.info.message = "Invalid key!";
-      screen.info.time = 50;
+      screen.info.time = MESSAGE_TIME_SHORT;
       return;
     }
   }

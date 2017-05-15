@@ -4,6 +4,8 @@ import java.security.NoSuchAlgorithmException;
  *  serialization
  *  max 12 player's name
  *  add sound 
+ *  add wp, upg name, explaination in class
+ *  decide obj -> time or $ or both
  */
 
 //--------------------------- import libraries-----------------------------//
@@ -98,6 +100,12 @@ PImage freezeGunPic;
 PImage basicEnemyPic;
 //>>>>>
 
+// image of obj
+PImage wallPic;
+PImage bigWallPic;
+PImage barrelPic;
+PImage toxicBarrelPic;
+
 // other image
 PImage playPic;
 PImage tickPic;
@@ -163,6 +171,12 @@ void setup () {
   // enemy image
   basicEnemyPic = loadImage("./Pic/dart_monkey.png");
   //>>>
+
+  // obj image
+  wallPic;        = loadImage("./Pic/wall/png");
+  bigWallPic;
+  barrelPic;
+  toxicBarrelPic;
 
   // other image
   playPic = loadImage("./Pic/play.png");
@@ -468,11 +482,9 @@ void setup () {
     settingScreen, //8
     quitScreen, 
     confirmScreen, // 10
-    playScreen,
+    playScreen, 
     leaveGameScreen, // 12
   };
-  
-  loadInfo();
 
   //--------------------------- tmp----------------------------
   screen = menuScreen;

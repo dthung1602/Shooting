@@ -1,10 +1,22 @@
 abstract class Obj extends CanBeAttacked implements java.lang.Cloneable {
+  // info
+  String name;
+  String explaination;
+  
+  // limit 
+  int price;      // price for enable obj
+  int cost;       // cost for buying 1 new obj in game
+  //? int time;
+  //? int defaultTime;
+  
+  // display
   int x, y;
+  int x1, y1, x2, y2;
   int vx = 0, vy = 0;
   PImage img;
-  int size;
+  
+  //other
   boolean walkthrough;
-  int price;
   boolean enable;
 
   Obj () {
@@ -19,13 +31,22 @@ abstract class Obj extends CanBeAttacked implements java.lang.Cloneable {
   }
 
   boolean containPoint (float xx, float yy) {
-    if (x-size/2<=xx && xx<x+size/2 && y-size/2<yy && yy<y+size/2)
+    if (x1 < xx && xx < x2 && y1 < yy && yy < y2)
       return true;
     return false;
   }
 
   Obj clone() {
+    // check if enough money
+    if (shooter.money < cost) {
+      screen.info.message = "Not enough money";
+      screen.info.time    = MESSAGE_TIME_SHORT;
+      return null;
+    }
+    
+    // clone new obj
     try {
+      shooter.money -= cost;
       return (Obj) super.clone();
     } 
     catch (CloneNotSupportedException e) {
@@ -63,46 +84,88 @@ abstract class ExplosiveObj extends Obj {
 
 class Wall extends Obj {
   Wall () {
-    health = (int) shooter.upgradeList[9].value + 50;
-    img = loadImage("./Pic/wall.png");
-    size = 100;
+    name = "Wall";
+    explaination = "Block enemies.\nHealth: \nCost: \nPrice";
+    
+    price  = 200;
+    cost   = 20;
+    health = 50;
+    
+    img = wallPic;
+    x1 = x - img.width/2;
+    x2 = x + img.width/2;
+    y1 = y - img.height/2;
+    y2 = y + img.height/2;
+    
     walkthrough = false;
-    price = 20;
+    enable = false;
   }
 }
 
 class BigWall extends Obj {
   BigWall () {
-    health = (int) shooter.upgradeList[9].value + 100;
-    img = loadImage("./Pic/wall.png");
-    size = 150;
+    name = "Big Wall";
+    explaination = "Block more enemies.\n";
+    
+    price  = 400;
+    cost   = 40;
+    health = 100;
+    
+    img = wallPic;
+    x1 = x - img.width/2;     
+    x2 = x + img.width/2;     
+    y1 = y - img.height/2;     
+    y2 = y + img.height/2;
+    
     walkthrough = false;
-    price = 40;
+    enable = false;
   }
 }
 
 
 class Barrel extends ExplosiveObj {
   Barrel () {
+    name = "Barrel";
+    explaination = "Can explode when hit by a bullet.\n";
+    
+    price  = 600;
+    cost   = 60;
     health = 1;
-    img = loadImage("./Pic/barrel.png");
-    size = 75;
+    
+    img = barrelPic;
+    x1 = x - img.width/2;
+    x2 = x + img.width/2;     
+    y1 = y - img.height/2;     
+    y2 = y + img.height/2;
+    
     damage = 1;
-    explosionRadius = 100;
+    explosionRadius = 30;
+    
     walkthrough = true;
-    price = 60;
+    enable = false;
   }
 }
 
 
 class ToxicBarrel extends ExplosiveObj {
   ToxicBarrel () {
+    name = "Toxic Barrel";
+    explaination = "Can explode when hit by a bullet.\n";
+    
+    price  = 800;
+    cost   = 80;
     health = 1;
-    img = loadImage("./Pic/toxicbarrel.png");
-    size = 75;
+    
+    img = barrelPic;
+    x1 = x - img.width/2;
+    x2 = x + img.width/2;
+    y1 = y - img.height/2;
+    y2 = y + img.height/2;
+    
     damage = 2;
-    explosionRadius = 100;
+    explosionRadius = 40;
+    
     walkthrough = true;
-    price = 80;
+    enable = false;
   }
 }

@@ -38,7 +38,8 @@ class Player implements java.io.Serializable {
     new ToxicBarrel(), 
   };
 
-  Player() {
+  Player(String name) {
+    this.name = name;
   }
 
   void loadPlayerInfo() {
@@ -101,7 +102,7 @@ class Player implements java.io.Serializable {
     try {
       FileOutputStream outFile = new FileOutputStream(sketchPath() + "/Player/" + name + ".ser");
       ObjectOutputStream out = new ObjectOutputStream(outFile);
-      out.writeObject(new Player());
+      out.writeObject(new Player(newPlayerScreen.infoList[0].message));
       out.close();
       outFile.close();
     } 
@@ -119,9 +120,11 @@ class Player implements java.io.Serializable {
     // update player list in change player screen
     updatePlayerList();
 
+
     // load info and change to menu screen
     changePlayerScreen.infoList[0].message = newPlayerScreen.infoList[0].message;
     changePlayerScreen.infoList[1].message = newPlayerScreen.infoList[1].message;
+    login();
     player.loadPlayerInfo();
     screen.changeScreen(menuScreen);
   } 
@@ -175,7 +178,7 @@ class Player implements java.io.Serializable {
   int login () {
     // read player file for data
     String data [] = loadStrings("./Player/player.txt");
-    
+
     // check if username in list
     boolean inList = false;
     String tmp [] = null;
@@ -207,7 +210,25 @@ class Player implements java.io.Serializable {
       return 1;
     }
 
-    // pass is correct
+    // pass is correct, read player obj from file
+    try {
+      FileInputStream fileIn = new FileInputStream("./Player/" + changePlayerScreen.infoList[0].message + ".ser");
+      ObjectInputStream in = new ObjectInputStream(fileIn);
+      player = (Player) in.readObject();
+      in.close();
+      fileIn.close();
+    }
+    catch(IOException i) {
+      i.printStackTrace();
+      return 1;
+    }
+    catch(ClassNotFoundException c) {
+      System.out.println("Employee class not found");
+      c.printStackTrace();
+      return 1;
+    }
+
+    // load info
     screen.changeScreen(menuScreen);
     loadPlayerInfo();
     return 0;
