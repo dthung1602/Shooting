@@ -219,7 +219,7 @@ void setup () {
 
   };
   changePlayerScreen = new Screen(bg, buttonList);
-  updatePlayerList();
+  player.updatePlayerList();
 
   // ------------------------- create new user screen-----------
   bg = loadImage("./Pic/new_player.png");
@@ -472,13 +472,6 @@ void setup () {
     leaveGameScreen, // 12
   };
   
-  newObjList = new Obj [] {
-    new Wall(0, 0),
-    new BigWall(0, 0),
-    new Barrel(0, 0),
-    new ToxicBarrel(0, 0)
-  };
-  
   loadInfo();
 
   //--------------------------- tmp----------------------------
@@ -487,7 +480,7 @@ void setup () {
   surface.setSize(screen.bg.width, screen.bg.height);
   surface.setResizable(false);
   shooter.currentWeapon = shooter.weaponList[0];
-  resetRound();
+  round.reset();
 }
 
 

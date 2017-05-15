@@ -28,7 +28,7 @@ abstract class Bullet {
     vy += GRAVITY * weight;     // effect of gravity
     
     // check if bullet hit any obj
-    for (int i=0; i<objCount; i++) {
+    for (int i=0; i<round.objCount; i++) {
       if (objList[i].health > 0 && objList[i].containPoint(x, y)) {
         status = 1;
         objList[i].action();
@@ -38,7 +38,7 @@ abstract class Bullet {
     }
     
     // check if bullet hit any enemy
-    for (int i=0; i<enemyCount; i++) {
+    for (int i=0; i<round.enemyCount; i++) {
       if (enemyList[i].health > 0 && touch(enemyList[i])) {
         status = 1;
         enemyList[i].hit(this);
@@ -85,14 +85,14 @@ class Grenade extends Bullet {
   
   void action () {
     // explode
-    for (int i=0; i<enemyCount; i++) {
+    for (int i=0; i<round.enemyCount; i++) {
       if (enemyList[i].health > 0 && dist(enemyList[i].x, enemyList[i].y, x, y) < explosiveRadius * shooter.upgradeList[8].value)
         enemyList[i].hit(this);
     }
     
     // add explosive effect
-    effectList[effectCount] = new ExplosionEffect(x, y);
-    effectCount++;
+    effectList[round.effectCount] = new ExplosionEffect(x, y);
+    round.effectCount++;
   }
 }
 

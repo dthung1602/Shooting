@@ -25,7 +25,7 @@ abstract class Enemy {
     }
     
     //check if enemy was block by a obj  
-    for (int i=0; i<objCount; i++) {
+    for (int i=0; i<round.objCount; i++) {
       // skip out-of-game objs
       if (objList[i].health <= 0) 
         continue;
@@ -66,7 +66,7 @@ abstract class Enemy {
     health -= bl.damage + shooter.upgradeList[7].value;
     if (health <= 0) {
       shooter.money += bonusMoney * shooter.upgradeList[4].value;
-      killCount++;
+      round.killCount++;
     }
   }
   
@@ -74,7 +74,7 @@ abstract class Enemy {
     health -= obj.damage + shooter.upgradeList[7].value;
     if (health <= 0) {
       shooter.money += bonusMoney * shooter.upgradeList[4].value;
-      killCount++;
+      round.killCount++;
     }
   }
   

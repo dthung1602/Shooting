@@ -52,7 +52,7 @@ class PlayScreen extends Screen {
     textFont(fontLarge);
 
     // show text
-    text("ROUND " + (currentRound+1), width/2-75, height/2-75);
+    text("ROUND " + (round.currentRound+1), width/2-75, height/2-75);
 
     if (countDown < (int) frameRate)
       text("1...", width/2, height/2);
@@ -67,77 +67,77 @@ class PlayScreen extends Screen {
 
   private void createEnemy() {
     // check if enough enemy have been created this round
-    if (enemyCount == totalEnemyInRound) 
+    if (round.enemyCount == round.totalEnemyInRound) 
       return;
 
     // create delay time between enemy creation
-    if (frameCount < oldFrame + newEnemyDelay)
+    if (frameCount < round.oldFrame + round.newEnemyDelay)
       return;
 
     // create a new enemy base on random numbers
-    oldFrame = frameCount;
-    newEnemyDelay = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);
+    round.oldFrame = frameCount;
+    round.newEnemyDelay = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);
     int k = (int) random(0, 100);
     int y = height - (int) random(100, 300);
 
     // 100% basic enemy when round <= 5
-    if (currentRound <= 4) {
-      enemyList[enemyCount] = new BasicEnemy(width, y);
+    if (round.currentRound <= 4) {
+      enemyList[round.enemyCount] = new BasicEnemy(width, y);
 
       // 50% basic, 50% fast
-    } else if (currentRound <= 8) {
+    } else if (round.currentRound <= 8) {
       if (k <= 50) {
-        enemyList[enemyCount] = new BasicEnemy(width, y);
+        enemyList[round.enemyCount] = new BasicEnemy(width, y);
       } else {
-        enemyList[enemyCount] = new FastEnemy(width, y);
+        enemyList[round.enemyCount] = new FastEnemy(width, y);
       }
 
       // 30% basic, 30% fast, 40% fly
-    } else if (currentRound <= 12) {
+    } else if (round.currentRound <= 12) {
       if (k <= 30) {
-        enemyList[enemyCount] = new BasicEnemy(width, y);
+        enemyList[round.enemyCount] = new BasicEnemy(width, y);
       } else if (k <= 60) {
-        enemyList[enemyCount] = new FastEnemy(width, y);
+        enemyList[round.enemyCount] = new FastEnemy(width, y);
       } else {
-        enemyList[enemyCount] = new FlyEnemy(width, y - 200);
+        enemyList[round.enemyCount] = new FlyEnemy(width, y - 200);
       }
 
       // 20% basic, 20% fast, 30% fly, 30% strong
     } else {
       if (k <= 20) {
-        enemyList[enemyCount] = new BasicEnemy(width, y);
+        enemyList[round.enemyCount] = new BasicEnemy(width, y);
       } else if (k <= 40) {
-        enemyList[enemyCount] = new FastEnemy(width, y);
+        enemyList[round.enemyCount] = new FastEnemy(width, y);
       } else if (k <= 70) {
-        enemyList[enemyCount] = new FlyEnemy(width, y - 200);
+        enemyList[round.enemyCount] = new FlyEnemy(width, y - 200);
       } else {
-        enemyList[enemyCount] = new StrongEnemy(width, y);
+        enemyList[round.enemyCount] = new StrongEnemy(width, y);
       }
     }
 
-    enemyCount++;
+    round.enemyCount++;
   }
 
   private void drawObj() {
-    for (int i=0; i<objCount; i++)
+    for (int i=0; i<round.objCount; i++)
       if (objList[i].health > 0)
         objList[i].show();
   }
 
   private void drawEnemy() {
-    for (int i=0; i<enemyCount; i++) 
+    for (int i=0; i<round.enemyCount; i++) 
       if (enemyList[i].health > 0)
         enemyList[i].show();
   }
 
   private void drawEffect() {
-    for (int i=0; i<effectCount; i++)
+    for (int i=0; i<round.effectCount; i++)
       if (effectList[i].time > 0)
         effectList[i].show();
   }
 
   private void drawBullet() {
-    for (int i=0; i<bulletCount; i++)
+    for (int i=0; i<round.bulletCount; i++)
       if (bulletList[i].status == 0)
         bulletList[i].show();
   }
@@ -146,30 +146,30 @@ class PlayScreen extends Screen {
     // check if player has lost
     if (shooter.health <= 0) {
       screen.changeScreen(loseScreen);
-      resetRound();
+      round.reset();
       return;
     }
   }
 
   private void checkFinishRound() {
     // have not finish round
-    if (killCount < totalEnemyInRound)
+    if (round.killCount < round.totalEnemyInRound)
       return;
 
     // finish round
-    resetRound();
-    currentRound++;
-    totalEnemyInRound *= DIFICULTLY;
+    round.reset();
+    round.currentRound++;
+    round.totalEnemyInRound *= DIFICULTLY;
     screen.changeScreen(upgradeScreens[0]);
     screen.infoList[12].message = str(shooter.money);
 
     // save game, unlock new round
-    if (currentWorld == player.maxWorld)
+    if (round.currentWorld == player.maxWorld)
       player.maxRound++;
     player.savePlayer();
 
     // check if player win current world
-    if (currentRound == MAX_ROUND-1) {
+    if (round.currentRound == MAX_ROUND-1) {
       player.maxWorld++;
       player.maxRound = 0;
       // >> check if win all world

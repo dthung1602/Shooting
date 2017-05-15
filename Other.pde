@@ -1,6 +1,3 @@
-
-
-
 void loadInfo() {
   String data [];
   String tmp [];
@@ -37,21 +34,4 @@ void loadInfo() {
     upgradeScreens[i/4 + 2].infoList[i%4] = new Info(shooter.weaponList[i].name, 290, 290 + (i % 4) * 87, BROWN, fontMedium);
   upgradeScreens[2].infoList[8] = upgradeScreens[3].infoList[8] = new Info("", 340, 178, BROWN, fontMedium);
   upgradeScreens[2].infoList[9] = upgradeScreens[3].infoList[9] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontMedium);
-}
-
-Weapon weaponType(int wpNum) {
-  switch (wpNum) {
-  case 0: 
-    return new HandStone();
-  case 1: 
-    return new HandShuriken();
-  case 2: 
-    return new Bow();
-  case 3: 
-    return new HandGrenade();
-  case 4: 
-    return new FreezeGun();
-  default: 
-    return new LaserGun();
-  }
 }

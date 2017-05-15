@@ -69,10 +69,10 @@ class Shooter extends CanBeAttacked {
 
     money -= price;
     for (int i=0; i<10; i++) {
-      bulletList[bulletCount] = currentWeapon.newBullet(0, 15);
-      bulletList[bulletCount].x = (int) random(50, width-50);
-      bulletList[bulletCount].y = (int) random(1, 100);
-      bulletCount++;
+      bulletList[round.bulletCount] = currentWeapon.newBullet(0, 15);
+      bulletList[round.bulletCount].x = (int) random(50, width-50);
+      bulletList[round.bulletCount].y = (int) random(1, 100);
+      round.bulletCount++;
     }
   }
 

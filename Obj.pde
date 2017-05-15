@@ -44,9 +44,9 @@ abstract class ExplosiveObj extends Obj {
 
   void action () {
     health = 0;
-    effectList[effectCount] = new ExplosionEffect(x, y);
-    effectCount++;
-    for (int i=0; i<enemyCount; i++) {
+    effectList[round.effectCount] = new ExplosionEffect(x, y);
+    round.effectCount++;
+    for (int i=0; i<round.enemyCount; i++) {
       if (enemyList[i].health > 0 && touch(enemyList[i])) {
         enemyList[i].hit(this);
       }

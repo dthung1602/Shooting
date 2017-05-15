@@ -4,7 +4,7 @@ void keyPressed () {
     // 1-->9: change weapon
     if ('1' <= key && key <= '9' && key-49 < shooter.weaponList.length && shooter.weaponList[key-49].enable) {
       shooter.currentWeapon = shooter.weaponList[key-49];
-      updateBars();
+      playScreen.updateBars();
       return;
     }
 

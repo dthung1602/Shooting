@@ -8,8 +8,8 @@ void mousePressed() {
     
   //drop obj
   if (shooter.currentObj != null) {
-    objList[objCount] = shooter.currentObj;
-    objCount++;
+    objList[round.objCount] = shooter.currentObj;
+    round.objCount++;
     shooter.currentObj = null;
     return;
   }
