@@ -61,15 +61,15 @@ class ContinueButton extends Button {
     // ask player to log in
     if (player.name == null) {
       screen.info.message = "Please login!";
-      screen.info.time = 75;
+      screen.info.time = MESSAGE_TIME_LONG;
       return;
     }
 
     // update bars max values
-    updateBars();
+    playScreen.updateBars();
 
     screen.changeScreen(playScreen);
-    resetRound();
+    round.reset();
   }
 }
 
@@ -105,17 +105,17 @@ class BuyWeaponButton extends Button {
     //skip if already bought
     if (shooter.weaponList[wpNum].enable) {
       screen.info.message = "Already bought!";
-      screen.info.time = 75;
+      screen.info.time = MESSAGE_TIME_SHORT;
       return;
     }        
 
     // price of weapon
-    int price = weaponType(wpNum).price;
+    int price = shooter.weaponList[wpNum].price;
 
     // check if enough money
     if (shooter.money < price) {
       screen.info.message = "Not enough money!";
-      screen.info.time = 75;
+      screen.info.time = MESSAGE_TIME_SHORT;
       return;
     }
 
@@ -147,12 +147,12 @@ class BuyBulletButton extends Button {
 
   void action () {
     // price of weapon
-    int price = weaponType(wpNum).bullet.price;
+    int price = shooter.weaponList[wpNum].bullet.price;
 
     // check if enough money
     if (shooter.money < price) {
       screen.info.message = "Not enough money!";
-      screen.info.time = 75;
+      screen.info.time = MESSAGE_TIME_SHORT;
       return;
     }
 
@@ -169,7 +169,7 @@ class BuyBulletButton extends Button {
   
   void show() {
     super.show();
-    screen.infoList[9].message = "$" + weaponType(wpNum).bullet.price;  // show price of bullet
+    screen.infoList[9].message = "$" + shooter.weaponList[wpNum].bullet.price;  // show price of bullet
   }
 }
 
@@ -325,7 +325,7 @@ class MapScreenButton extends Button {
     // ask player to log in
     if (player.name == null) {
       screen.info.message = "Please login!";
-      screen.info.time = 75;
+      screen.info.time = MESSAGE_TIME_SHORT;
       return;
     }
     
@@ -346,15 +346,12 @@ class ChooseWorldButton extends Button {
     // check if world is unlocked
     if (worldNum > player.maxWorld) {
       screen.info.message = "World is not unlocked yet!";
-      screen.info.time = 80;
+      screen.info.time = MESSAGE_TIME_SHORT;
       return;
     }
-    
-    //load world
-    loadWorld(worldNum);
-    
+      
     // change to choose round screen
-    currentWorld = worldNum;
+    round.currentWorld = worldNum;
     screen.changeScreen(chooseRoundScreen);
   }
 }
@@ -370,17 +367,17 @@ class ChooseRoundButton extends Button {
   
   void action () {
     // check if round is unlocked
-    if (roundNum > player.maxRound && currentWorld == player.maxWorld) {
+    if (roundNum > player.maxRound && round.currentWorld == player.maxWorld) {
       screen.info.message = "Round is not unlocked yet!";
-      screen.info.time = 80;
+      screen.info.time = MESSAGE_TIME_SHORT;
       return;
     }
     
     // update bars max values
-    updateBars();
+    playScreen.updateBars();
     
-    currentRound = roundNum;
-    resetRound();
+    round.currentRound = roundNum;
+    round.reset();
     screen.changeScreen(playScreen);
   }
 }

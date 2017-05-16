@@ -1,204 +1,204 @@
 class PlayScreen extends Screen {
   int countDown;
   Bar barList[];
-  
+
   PlayScreen () {
     bg = loadImage("./Pic/map0.jpg");
     buttonList = new Button [] {
       new ChangeScreenButton(1135, 1, 1190, 55, 12), // menu
     };
-    
+
     infoList = new Info [] {
       new Info("", 20, 25, WHITE, fontSmall), // health
       new Info("", 20, 50, WHITE, fontSmall), // money
       new Info("", 590, 22, WHITE, fontSmall), // bulet left
     };
-    
+
     barList = new Bar [] {
-      new Bar(110, 7, PINK, RED),        // health
-      new Bar(800, 5, BLUE, DARK_BLUE, true),  // weapon special delay
-      new Bar(800, 30, BLUE, DARK_BLUE, true),  // wp delay
-      new Bar(500, 5, DARK_GREEN, GREEN, true),  // bullet left
+      new Bar(110, 7, PINK, RED), // health
+      new Bar(800, 5, BLUE, DARK_BLUE, true), // weapon special delay
+      new Bar(800, 30, BLUE, DARK_BLUE, true), // wp delay
+      new Bar(500, 5, DARK_GREEN, GREEN, true), // bullet left
     };
   }
-  
+
   void show() {
     background(screen.bg);
     image(playPic, 600, 350);
-    
+
     if (countDown())
       return;
-    
+
     createEnemy();
     drawObj();
     drawEnemy();
     drawBullet();
     drawEffect();
     shooter.show();
-    
+
     checkFinishRound();
     checkGameEnd();
     showInfo();
     drawMouse();
   }
-  
+
   private boolean countDown() {
     // do nothing when finish count down
     if (countDown == 0) 
       return false;
-    
+
     // adjust text
     fill(RED);
     textFont(fontLarge);
-    
+
     // show text
-    text("ROUND " + (currentRound+1), width/2-75, height/2-75);
-    
+    text("ROUND " + (round.currentRound+1), width/2-75, height/2-75);
+
     if (countDown < (int) frameRate)
       text("1...", width/2, height/2);
     else if (countDown < (int) frameRate * 2)
       text("2...", width/2, height/2);
     else
       text("3...", width/2, height/2);
-      
+
     countDown--;
     return true;
   }
-  
+
   private void createEnemy() {
     // check if enough enemy have been created this round
-    if (enemyCount == totalEnemyInRound) 
+    if (round.enemyCount == round.totalEnemyInRound) 
       return;
-      
+
     // create delay time between enemy creation
-    if (frameCount < oldFrame + newEnemyDelay)
+    if (frameCount < round.oldFrame + round.newEnemyDelay)
       return;
-      
+
     // create a new enemy base on random numbers
-    oldFrame = frameCount;
-    newEnemyDelay = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);
+    round.oldFrame = frameCount;
+    round.newEnemyDelay = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);
     int k = (int) random(0, 100);
     int y = height - (int) random(100, 300);
-    
+
     // 100% basic enemy when round <= 5
-    if (currentRound <= 4) {
-      enemyList[enemyCount] = new BasicEnemy(width, y);
-      
-    // 50% basic, 50% fast
-    } else if (currentRound <= 8) {
+    if (round.currentRound <= 4) {
+      enemyList[round.enemyCount] = new BasicEnemy(width, y);
+
+      // 50% basic, 50% fast
+    } else if (round.currentRound <= 8) {
       if (k <= 50) {
-        enemyList[enemyCount] = new BasicEnemy(width, y);
+        enemyList[round.enemyCount] = new BasicEnemy(width, y);
       } else {
-        enemyList[enemyCount] = new FastEnemy(width, y);
+        enemyList[round.enemyCount] = new FastEnemy(width, y);
       }
-      
-    // 30% basic, 30% fast, 40% fly 
-    } else if (currentRound <= 12) {
+
+      // 30% basic, 30% fast, 40% fly
+    } else if (round.currentRound <= 12) {
       if (k <= 30) {
-        enemyList[enemyCount] = new BasicEnemy(width, y);
+        enemyList[round.enemyCount] = new BasicEnemy(width, y);
       } else if (k <= 60) {
-        enemyList[enemyCount] = new FastEnemy(width, y);
+        enemyList[round.enemyCount] = new FastEnemy(width, y);
       } else {
-        enemyList[enemyCount] = new FlyEnemy(width, y - 200);
+        enemyList[round.enemyCount] = new FlyEnemy(width, y - 200);
       }
-    
-    // 20% basic, 20% fast, 30% fly, 30% strong
+
+      // 20% basic, 20% fast, 30% fly, 30% strong
     } else {
       if (k <= 20) {
-        enemyList[enemyCount] = new BasicEnemy(width, y);
+        enemyList[round.enemyCount] = new BasicEnemy(width, y);
       } else if (k <= 40) {
-        enemyList[enemyCount] = new FastEnemy(width, y);
+        enemyList[round.enemyCount] = new FastEnemy(width, y);
       } else if (k <= 70) {
-        enemyList[enemyCount] = new FlyEnemy(width, y - 200);
+        enemyList[round.enemyCount] = new FlyEnemy(width, y - 200);
       } else {
-        enemyList[enemyCount] = new StrongEnemy(width, y);
+        enemyList[round.enemyCount] = new StrongEnemy(width, y);
       }
     }
-    
-    enemyCount++; 
+
+    round.enemyCount++;
   }
-  
+
   private void drawObj() {
-    for (int i=0; i<objCount; i++)
+    for (int i=0; i<round.objCount; i++)
       if (objList[i].health > 0)
         objList[i].show();
   }
-  
+
   private void drawEnemy() {
-    for (int i=0; i<enemyCount; i++) 
+    for (int i=0; i<round.enemyCount; i++) 
       if (enemyList[i].health > 0)
         enemyList[i].show();
   }
-  
+
   private void drawEffect() {
-    for (int i=0; i<effectCount; i++)
+    for (int i=0; i<round.effectCount; i++)
       if (effectList[i].time > 0)
         effectList[i].show();
   }
-  
+
   private void drawBullet() {
-    for (int i=0; i<bulletCount; i++)
-    if (bulletList[i].status == 0)
-      bulletList[i].show();
+    for (int i=0; i<round.bulletCount; i++)
+      if (bulletList[i].status == 0)
+        bulletList[i].show();
   }
-  
+
   private void checkGameEnd() {
     // check if player has lost
     if (shooter.health <= 0) {
       screen.changeScreen(loseScreen);
-      resetRound();
+      round.reset();
       return;
     }
   }
-  
+
   private void checkFinishRound() {
     // have not finish round
-    if (killCount < totalEnemyInRound)
+    if (round.killCount < round.totalEnemyInRound)
       return;
-      
+
     // finish round
-    resetRound();
-    currentRound++;
-    totalEnemyInRound *= DIFICULTLY;
+    round.reset();
+    round.currentRound++;
+    round.totalEnemyInRound *= DIFICULTLY;
     screen.changeScreen(upgradeScreens[0]);
     screen.infoList[12].message = str(shooter.money);
-    
+
     // save game, unlock new round
-    if (currentWorld == player.maxWorld)
+    if (round.currentWorld == player.maxWorld)
       player.maxRound++;
     player.savePlayer();
-    
+
     // check if player win current world
-    if (currentRound == MAX_ROUND-1) {
+    if (round.currentRound == MAX_ROUND-1) {
       player.maxWorld++;
       player.maxRound = 0;
       // >> check if win all world
       screen.changeScreen(winScreen);
     }
   }
-  
+
   private void showInfo() {
     // update info
     infoList[0].message = "Health                  " + shooter.health + "/" + int(shooter.upgradeList[1].value);
     infoList[1].message = "Money       $" + shooter.money;
     infoList[2].message = (shooter.currentWeapon.bulletLeft < 0) ? "Infinity" : shooter.currentWeapon.bulletLeft + "/" + (int) barList[3].max;
-    
+
     // update bar
     barList[0].value = shooter.health;
     barList[1].value = shooter.currentWeapon.delaySpecial;
     barList[2].value = shooter.currentWeapon.delay;
     barList[3].value = shooter.currentWeapon.bulletLeft;    
-       
+
     // show bars
     for (int i=0; i<barList.length; i++) 
       barList[i].show();
-    
+
     // show info
     for (int i=0; i<infoList.length; i++) 
       infoList[i].show();
     info.show();
   }
-  
+
   private void drawMouse() {
     //high light if mouse on any button
     Button b;
@@ -211,7 +211,7 @@ class PlayScreen extends Screen {
         return;
       }
     }
-    
+
     //draw obj
     if (shooter.currentObj != null) {
       shooter.currentObj.x = mouseX;
@@ -219,7 +219,7 @@ class PlayScreen extends Screen {
       image(shooter.currentObj.img, mouseX, mouseY, 100, 100);
     }
   }
-  
+
   private class Bar {
     int x, y;
     color bgColor, fgColor;
@@ -227,14 +227,14 @@ class PlayScreen extends Screen {
     float value;
     int w = 20, l = 250;
     boolean reverse = false;
-    
+
     Bar (int x, int y, color bgColor, color fgColor) {
       this.x = x;
       this.y = y;
       this.bgColor = bgColor;
       this.fgColor = fgColor;
     }
-    
+
     Bar (int x, int y, color bgColor, color fgColor, boolean reverse) {
       this.x = x;
       this.y = y;
@@ -242,12 +242,12 @@ class PlayScreen extends Screen {
       this.fgColor = fgColor;
       this.reverse = reverse;
     }
-    
+
     void show() {
       rectMode(CORNERS);
       noStroke();
       fill(bgColor);
-      
+
       int percent;
       if (value < 0)
         percent = l;
@@ -255,13 +255,20 @@ class PlayScreen extends Screen {
         percent = 0;
       else
         percent = (int) map(value, 0, max, 0, l);
-      
+
       rect(x, y, x + l, y + w);
       fill(fgColor);
       if (reverse)
         rect(x + percent, y, x + l, y + w);
       else 
-        rect(x, y, x + percent, y + w);
+      rect(x, y, x + percent, y + w);
     }
+  }
+
+  void updateBars() {
+    playScreen.barList[0].max = shooter.upgradeList[1].value;
+    playScreen.barList[1].max = shooter.currentWeapon.defaultSpecialDelay * shooter.upgradeList[5].value;
+    playScreen.barList[2].max = shooter.currentWeapon.defaultDelay * shooter.upgradeList[2].value;
+    playScreen.barList[3].max = shooter.currentWeapon.bulletLeft;
   }
 }

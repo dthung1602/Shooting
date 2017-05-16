@@ -5,25 +5,30 @@
  *  add sound 
  */
 
-//--------------------------- import libraries-----------------------------//
-import java.io.File;
+//---------------------------- import libraries -----------------------------//
+import java.io.*;
+import java.security.*;
+import ddf.minim.*;
 
+//----------------------------- constants -----------------------------------//
+float SELL_PERCENT    = 0.8;
+float GROUND_HEIGHT   = 50;
+float GRAVITY         = 0.5;
+int DEFAULT_HEALTH    = 50;
+int DEFAULT_MONEY     = 100;
+int DEFAULT_ENEMY_NUM = 5;        // how many enemy for 1st round
+int MAX_ROUND         = 10;
+int ENEMY_LIST_SIZE   = 500;
+int BULLET_LIST_SIZE  = 1000;
+int EFFECT_LIST_SIZE  = 500;
+int STUFF_LIST_SIZE   = 100;
+float DIFICULTLY      = 1.2;
+int MIN_ENEMY_DELAY   = 10;
+int MAX_ENEMY_DELAY   = 30;
 
-//----------------------------- constant-----------------------------------//
-float SELL_PERCENT   = 0.8;
-float GROUND_HEIGHT  = 50;
-float GRAVITY        = 0.5;
-int DEFAULT_HEALTH   = 50;
-int DEFAULT_MONEY    = 100;
-int DEFAULT_ENEMY_NUM= 5;        // how many enemy for 1st round
-int MAX_ROUND        = 10;
-int ENEMY_LIST_SIZE  = 500;
-int BULLET_LIST_SIZE = 1000;
-int EFFECT_LIST_SIZE = 500;
-int STUFF_LIST_SIZE  = 100;
-float DIFICULTLY     = 1.2;
-int MIN_ENEMY_DELAY  = 10;
-int MAX_ENEMY_DELAY  = 30;
+int MESSAGE_TIME_SHORT   = 30;
+int MESSAGE_TIME_LONG    = 60;
+int MESSAGE_TIME_FOREVER = -1;
 
 color WHITE        = color(255);
 color RED          = color(255, 0, 0);
@@ -36,30 +41,20 @@ color BLUE         = color(20, 110, 160);
 color DARK_GREEN   = color(20, 100, 0);
 color GREEN        = color(100, 160, 40);
 
-//------------------------------ variables---------------------------------//
+//----------------------------basic objects------------------------------//
 Screen screen;
-int currentRound;    
-int currentWorld;
-int totalEnemyInRound;                     // how many enemy will be created in this round 
-int killCount;                             // how many enemy kiled
-int enemyCount;                            // how many enemy in current round
-int bulletCount;                           // how many weapon in current round 
-int effectCount;                           // number of effect in current round
-int objCount;                              // number of obj in current round
-int oldFrame        = 0;                   // save frame since the last time an enemy was created
-int newEnemyDelay = 25;                    // delay time between creation of two enemies; will receive random values in game
-
-//--------------------------constant objects--------------------------------//
+Round round;
 Player player;
 Shooter shooter;
 
+//----------------------------- lists------------------------------------//
 Enemy enemyList []         = new Enemy [ENEMY_LIST_SIZE];
 Bullet bulletList []       = new Bullet [BULLET_LIST_SIZE];
 VisualEffect effectList [] = new VisualEffect [EFFECT_LIST_SIZE];
 Obj objList []             = new Obj [STUFF_LIST_SIZE];
-Obj newObjList [];
+Screen screenList [];
 
-// screens
+// ---------------------------- screens --------------------------------//
 Screen menuScreen;
 PlayScreen playScreen;
 Screen mapScreens [];
@@ -76,6 +71,7 @@ Screen quitScreen;
 Screen chooseRoundScreen;
 Screen leaveGameScreen;
 
+//------------------------------ images -------------------------------//
 // images of bullets
 PImage stonePic;
 PImage shurikenPic;
@@ -102,19 +98,24 @@ PImage freezeGunPic;
 PImage basicEnemyPic;
 //>>>>>
 
-// other image
+// image of obj
+PImage wallPic;
+PImage bigWallPic;
+PImage barrelPic;
+PImage toxicBarrelPic;
+
+// other images
 PImage playPic;
 PImage tickPic;
 PImage lockRoundPic;
 PImage lockWorldPic;
 
-// fonts
+//------------------------------ fonts -------------------------------//
 PFont fontSmall;
 PFont fontMedium;
 PFont fontLarge;
 
-// sound effects
-import ddf.minim.*;
+//------------------------------ sound ------------------------------//
 Minim minim;
 AudioPlayer bgSound;
 AudioPlayer dartSound;
@@ -126,23 +127,47 @@ boolean musicEnable = true;
 boolean soundEnable = true;
 
 
-// -----------------------object list-------------------------
-Screen screenList [];
-
-
-
 void setup () {
   //----------------loading screen---------------//
   size(1200, 700);
   background(loadImage("./Pic/loading.png"));
 
-  //--------------basic--------------------------//
+
+  //-------------------basic---------------------//
   frameRate(20);
   rectMode(CORNERS);
   imageMode(CENTER);
   ellipseMode(CORNERS);
 
-  //-----------------load images----------------//
+  //-------------------load data-----------------//
+  loadImages();
+  loadFonts();
+  loadSounds();
+  createScreens();
+
+  // --------create important objects------------//
+  player  = new Player();
+  shooter = new Shooter();
+  round = new Round();
+
+  //--------------ready to start----------------//
+  loadInfo();
+  round.reset();
+  shooter.currentWeapon = shooter.weaponList[0];
+
+  screen = menuScreen;
+  surface.setResizable(true);
+  surface.setSize(screen.bg.width, screen.bg.height);
+  surface.setResizable(false);
+}
+
+
+void draw () {
+  screen.show();
+}
+
+
+void loadImages() {
   // weapon images
   stonePic   = loadImage("./Pic/stone.png");
   shurikenPic= loadImage("./Pic/dart.png");
@@ -169,28 +194,38 @@ void setup () {
   basicEnemyPic = loadImage("./Pic/dart_monkey.png");
   //>>>
 
+  // obj image
+  wallPic        = loadImage("./Pic/wall.png");
+  bigWallPic     = loadImage("./Pic/big_wall.png");
+  barrelPic      = loadImage("./Pic/barrel.png");
+  toxicBarrelPic = loadImage("./Pic/toxic_barrel.png");
+
   // other image
   playPic = loadImage("./Pic/play.png");
   tickPic = loadImage("./Pic/tick.png");
   lockRoundPic = loadImage("./Pic/lock_round.png");
   lockWorldPic = loadImage("./Pic/lock_world.png");
+}
 
 
-  // -----------------load important objects-------------------//
-  player  = new Player();
-  shooter = new Shooter();
-
-  //-----------------------load fonts------------------------//
+void loadFonts() {
   fontSmall  = loadFont("./Font/font_small.vlw");
   fontMedium = loadFont("./Font/font_medium.vlw");
   fontLarge  = loadFont("./Font/font_large.vlw");
+}
 
-  //------------------------------create screens-----------------------------//
+
+void loadSounds() {
+  //>>>
+}
+
+
+void createScreens() {
   PImage bg;
   Button buttonList [];
   Info infoList [];
 
-  // -------------menu screen------------------------------
+  //---------------menu screen---------------
   bg = loadImage("./Pic/menu.png");
   buttonList = new Button[] {
     new MapScreenButton(245, 525, 580, 590, 0), // map screen
@@ -200,10 +235,10 @@ void setup () {
   };
   menuScreen = new Screen(bg, buttonList);
 
-  // ----------------high score screen--------------------------
+  //---------------high score screen---------------
   //highScoreScreen = new HighScoreScreen();
 
-  // ----------------data screen---------------------------------
+  //---------------data screen---------------
   bg = loadImage("./Pic/choosing.png");
   buttonList = new Button [] {
     new ChangeScreenButton(165, 525, 240, 603, 0), // menu screen
@@ -213,7 +248,7 @@ void setup () {
   buttonList[0].circle = true;
   dataScreen = new Screen(bg, buttonList);
 
-  // --------------------------create change user screen--------------------------
+  // ---------------create change user screen---------------
   bg = loadImage("./Pic/login.png");
   buttonList = new Button[] {
     new ChangeScreenButton(158, 30, 232, 102, 5), // data screen
@@ -221,12 +256,10 @@ void setup () {
     new ChangeScreenButton(281, 620, 547, 679, 10), 
     new TextFieldButton(365, 330, 1000, 384, 0), 
     new TextFieldButton(365, 420, 1000, 477, 1), 
-
   };
   changePlayerScreen = new Screen(bg, buttonList);
-  updatePlayerList();
 
-  // ------------------------- create new user screen-----------
+  // --------------- create new user screen---------------
   bg = loadImage("./Pic/new_player.png");
   buttonList = new Button [] {
     new ChangeScreenButton(155, 27, 235, 102, 5), // data screen
@@ -244,7 +277,7 @@ void setup () {
   infoList[2].hiden = true;
   newPlayerScreen = new Screen(bg, buttonList, infoList);
 
-  //>>> ------------------create map screens------------------------
+  // ---------------create map screens---------------
   mapScreens = new Screen [2];
 
   // -------map screen 0---------
@@ -279,11 +312,10 @@ void setup () {
   };
   mapScreens[1] = new Screen(bg, buttonList);
 
-  //----------------------------create choose round screen--------------------
+  //---------------create choose round screen---------------
   bg = loadImage("./Pic/choose_round.png");
   buttonList = new Button  [] {
     new MapScreenButton (59, 31, 134, 103, 0), // map screen
-
     new ChooseRoundButton (246, 168, 342, 249, 0), 
     new ChooseRoundButton (451, 171, 546, 250, 1), 
     new ChooseRoundButton (660, 170, 756, 252, 2), 
@@ -296,7 +328,7 @@ void setup () {
   };
   chooseRoundScreen = new Screen(bg, buttonList);
 
-  // --------------------------create setting screen--------------------------
+  // ---------------create setting screen---------------
   bg = loadImage("./Pic/option.png");
   buttonList = new Button[] {
     new ChangeScreenButton(457, 615, 720, 680, 0), // menu screen
@@ -305,10 +337,10 @@ void setup () {
   };
   settingScreen = new Screen(bg, buttonList);
 
-  //-------------------------- create play screen--------------------------
+  //--------------- create play screen---------------
   playScreen = new PlayScreen();
 
-  //>> --------------------------create upgrade screens--------------------------
+  // ---------------create upgrade screens---------------
   upgradeScreens = new Screen [4];
 
   //-----------screen 0----------------
@@ -460,7 +492,7 @@ void setup () {
   };
   leaveGameScreen = new Screen(bg, buttonList);
 
-  // ------------------------ create object list -------------------------
+  //-----------------------screen list-------------------------------
   screenList = new Screen []{
     menuScreen, //0
     chooseRoundScreen, 
@@ -473,29 +505,49 @@ void setup () {
     settingScreen, //8
     quitScreen, 
     confirmScreen, // 10
-    playScreen,
+    playScreen, 
     leaveGameScreen, // 12
   };
-  
-  newObjList = new Obj [] {
-    new Wall(0, 0),
-    new BigWall(0, 0),
-    new Barrel(0, 0),
-    new ToxicBarrel(0, 0)
-  };
-  
-  loadInfo();
-
-  //--------------------------- tmp----------------------------
-  screen = menuScreen;
-  surface.setResizable(true);
-  surface.setSize(screen.bg.width, screen.bg.height);
-  surface.setResizable(false);
-  shooter.currentWeapon = shooter.weaponList[0];
-  resetRound();
 }
 
 
-void draw () {
-  screen.show();
+void loadInfo() {
+  String data [];
+  String tmp [];
+
+  //>>> load weapon info
+  data = loadStrings("./Config/weapon.txt");
+  for (int i=0; i<data.length; i++) {
+    tmp = split(data[i], '_');
+    shooter.weaponList[i].name = tmp[0];
+    shooter.weaponList[i].explaination = tmp[1].replace("\\n", "\n");
+  }
+
+  //>>> load upgrade info
+  data = loadStrings("./Config/upgrade.txt");
+  for (int i=0; i<data.length; i++) {
+    tmp = split(data[i], '_');
+    shooter.upgradeList[i].name = tmp[0];
+    shooter.upgradeList[i].explaination = tmp[1].replace("\\n", "\n");
+    ;
+  }
+
+  //>>> load upgrade info to upgrade screens
+  upgradeScreens[0].infoList = new Info [14];
+  upgradeScreens[1].infoList = new Info [14];
+  for (int i=0; i<shooter.upgradeList.length; i++)
+    upgradeScreens[i/6].infoList[i%6] = new Info(shooter.upgradeList[i].name, 250 + 470 * (i%6 / 3), 275 + (i%6 % 3) * 120, YELLOW_BOLD, fontMedium);
+  upgradeScreens[0].infoList[12] = upgradeScreens[1].infoList[12] = new Info("", 340, 178, BROWN, fontMedium);
+  upgradeScreens[0].infoList[13] = upgradeScreens[1].infoList[13] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontMedium);
+
+  //>>> load weapon info to upgrade screens
+  upgradeScreens[2].infoList = new Info [10];
+  upgradeScreens[3].infoList = new Info [10];
+  for (int i=0; i<shooter.weaponList.length; i++) 
+    upgradeScreens[i/4 + 2].infoList[i%4] = new Info(shooter.weaponList[i].name, 290, 290 + (i % 4) * 87, BROWN, fontMedium);
+  upgradeScreens[2].infoList[8] = upgradeScreens[3].infoList[8] = new Info("", 340, 178, BROWN, fontMedium);
+  upgradeScreens[2].infoList[9] = upgradeScreens[3].infoList[9] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontMedium);
+
+  // update info in change player screen
+  player.updatePlayerList();
 }

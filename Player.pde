@@ -2,7 +2,7 @@ class Player {
   String name;
   int maxWorld;  // max world player can play
   int maxRound;  // max round in that world player can play
-  
+
   Player() {
   }
 
@@ -27,7 +27,7 @@ class Player {
     // enalbe new obj buttons
     tmp = split(data[5], ' ');
     for (int i=0; i<tmp.length; i++) 
-      newObjList[i].enable = boolean(tmp[i]);
+      shooter.objList[i].enable = boolean(tmp[i]);
 
     // load upgrades
     // format: level&value&price level&value&price level&value&price ...
@@ -46,23 +46,28 @@ class Player {
       upg = shooter.upgradeList[i];
       upgradeScreens[i/6].infoList[i%6+6] = new Info((int) upg.level + "/" + (int) upg.maxLevel, 330 + 470 * (i%6 / 3), 322 + (i%6 % 3) * 120, BROWN, fontMedium);
     }
-    
+
     for (int i=0; i<shooter.upgradeList.length/6 + 1; i++)
       upgradeScreens[i].infoList[12].message = str(shooter.money);
-          
+
     for (int i=0; i<shooter.weaponList.length/4 + 1; i++) 
       upgradeScreens[i + shooter.upgradeList.length/6 + 1].infoList[8].message = str(shooter.money);
-    
+
 
     // add wellcome in menu screen
     menuScreen.info =  new TimeInfo ("Welcome, " + name + "!", 500, 50, RED, fontSmall, -1);
-    
+
     // set playscreen to latest round
-    currentRound = maxRound;
-    loadWorld(maxWorld);
+    round.currentRound = maxRound;
   }
 
   void createPlayer () {
+    // check if every field is filled
+    if (newPlayerScreen.infoList[0].message.length() * newPlayerScreen.infoList[1].message.length() == 0) {
+      screen.info.message = "Please fill all infomation";
+      screen.info.time = MESSAGE_TIME_LONG;
+    }
+    
     // check if pass and re-pass are the same
     if (!newPlayerScreen.infoList[1].message.equals(newPlayerScreen.infoList[2].message)) {
       newPlayerScreen.info.message = "Password and re-password do not match!";
@@ -91,7 +96,7 @@ class Player {
 
     // save to player's own file
     s = new String [7];
-    s[0] = str(hash(newPlayerScreen.infoList[1].message));                                          // password
+    s[0] = hash(newPlayerScreen.infoList[1].message);                                          // password
     s[1] = "0 0";                                                                                    // max round , max world
     s[2] = str(DEFAULT_MONEY);
     s[3] = str(DEFAULT_HEALTH);
@@ -106,7 +111,7 @@ class Player {
     saveStrings("./Player/player.txt", s);
 
     // update player list in change player screen
-    updatePlayerList();
+    player.updatePlayerList();
 
     // auto login and change to menu screen
     changePlayerScreen.infoList[0].message = newPlayerScreen.infoList[0].message;
@@ -136,8 +141,8 @@ class Player {
 
     // enalbe new obj
     data[5] = "";
-    for (int i=0; i<newObjList.length; i++) 
-      data[5] += str(newObjList[i].enable) + " ";
+    for (int i=0; i<shooter.objList.length; i++) 
+      data[5] += str(shooter.objList[i].enable) + " ";
     data[5] = data[5].substring(0, data[5].length()-1);        // remove trailing space
 
     // save upgrades
@@ -171,7 +176,7 @@ class Player {
     f.delete();
 
     // update player list in change player screen
-    updatePlayerList();
+    player.updatePlayerList();
 
     // remove other info
     player.name = null;
@@ -196,7 +201,7 @@ class Player {
       changePlayerScreen.status = 0;
       changePlayerScreen.infoList[0].input = true;
       screen.info.message = "Invalid username!";
-      screen.info.time = 75;
+      screen.info.time = MESSAGE_TIME_LONG;
       return 1;
     }
 
@@ -204,10 +209,10 @@ class Player {
     String data [] = loadStrings("./Player/" + changePlayerScreen.infoList[0].message + ".txt");
 
     // if wrong pass
-    if (hash(changePlayerScreen.infoList[1].message) != int(data[0])) {
+    if (!hash(changePlayerScreen.infoList[1].message).equals(data[0])) {
       changePlayerScreen.infoList[1].message = "";
       screen.info.message = "Wrong password!";
-      screen.info.time = 75;
+      screen.info.time = MESSAGE_TIME_LONG;
       return 1;
     }
 
@@ -215,5 +220,34 @@ class Player {
     screen.changeScreen(menuScreen);
     loadPlayer();
     return 0;
+  }
+
+  void updatePlayerList() {
+    // load data from file
+    String data [] = loadStrings("./Player/player.txt");
+    changePlayerScreen.infoList = new Info [data.length + 2];  
+
+    // info[0]: username, info[1]: password
+    changePlayerScreen.infoList[0] = new Info("", 375, 370, RED, fontMedium);
+    changePlayerScreen.infoList[1] = new Info("", 375, 465, RED, fontMedium);
+    changePlayerScreen.infoList[1].hiden = true;
+
+    // all user names
+    for (int i=0; i<data.length; i++) {
+      changePlayerScreen.infoList[i+2] = new Info(data[i], 200 + 210 * (i / 3), 150 + (i % 3) * 50, RED, fontMedium);
+    }
+  }
+
+  String hash (String stringToEncrypt) {
+    try {
+      MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+      messageDigest.update(stringToEncrypt.getBytes());
+      return new String(messageDigest.digest());
+    } 
+    catch (NoSuchAlgorithmException e) {
+      screen.info.message = "Error on hash the password";
+      screen.info.time = MESSAGE_TIME_LONG;
+      return null;
+    }
   }
 }

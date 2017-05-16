@@ -23,14 +23,14 @@ class Upgrade {
     // check if player reach max level
     if (level == maxLevel) {
       screen.info.message = "Max upgrade!";
-      screen.info.time = 75;
+      screen.info.time = MESSAGE_TIME_SHORT;
       return;
     }
     
     // check if player has enough money
     if (shooter.money < price) {
       screen.info.message = "Not enough money!";
-      screen.info.time = 75;
+      screen.info.time = MESSAGE_TIME_SHORT;
       return;
     }  
 
@@ -48,7 +48,7 @@ class Upgrade {
     // check if player reach min level
     if (level == 0) {
       screen.info.message = "Min downgrade!!";
-      screen.info.time = 75;
+      screen.info.time = MESSAGE_TIME_SHORT;
       return;
     }
 

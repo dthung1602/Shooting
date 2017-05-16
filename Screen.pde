@@ -34,7 +34,7 @@ class Screen {
     screen = newScreen;
 
     // set count down for play screen
-    if (screen == playScreen && enemyCount == 0) 
+    if (screen == playScreen && round.enemyCount == 0) 
       playScreen.countDown = (int) frameRate * 3;
       
     // focus on correct input field
@@ -97,7 +97,7 @@ class Screen {
       }
 
     // cross out lock rounds
-    if (screen == chooseRoundScreen && currentWorld == player.maxWorld) {
+    if (screen == chooseRoundScreen && round.currentWorld == player.maxWorld) {
       for (int j=0; j<8; j++)
         if (j > player.maxRound)
           image(lockRoundPic, 340 + j%4 * 207, 240 + j/4 * 160);

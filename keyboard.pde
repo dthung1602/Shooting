@@ -4,7 +4,7 @@ void keyPressed () {
     // 1-->9: change weapon
     if ('1' <= key && key <= '9' && key-49 < shooter.weaponList.length && shooter.weaponList[key-49].enable) {
       shooter.currentWeapon = shooter.weaponList[key-49];
-      updateBars();
+      playScreen.updateBars();
       return;
     }
 
@@ -12,19 +12,19 @@ void keyPressed () {
     switch (key) {
     case 'q':
     case 'Q':
-      shooter.currentObj = newObjList[0].clone();
+      shooter.currentObj = shooter.objList[0].clone();
       return;
     case 'w':
     case 'W':
-      shooter.currentObj = newObjList[1].clone();
+      shooter.currentObj = shooter.objList[1].clone();
       return;
     case 'e':
     case 'E':
-      shooter.currentObj = newObjList[2].clone();
+      shooter.currentObj = shooter.objList[2].clone();
       return;
     case 'r':
     case 'R':
-      shooter.currentObj = newObjList[3].clone();
+      shooter.currentObj = shooter.objList[3].clone();
       return;
 
     case 'p':
@@ -41,7 +41,7 @@ void keyPressed () {
       return;
     default:
       screen.info.message = "Invalid key!";
-      screen.info.time = 50;
+      screen.info.time = MESSAGE_TIME_SHORT;
       return;
     }
   }

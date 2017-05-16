@@ -6,11 +6,15 @@ abstract class CanBeAttacked {
 
 
 class Shooter extends CanBeAttacked {
-  //basic
+  //display info
   float x = 100; 
   float y = 200;
-  int money = 0;
   float angle = 0;
+  
+  //basic info
+  int money;
+  int maxRound;    
+  int maxWorld;
 
   Weapon currentWeapon;
   Obj currentObj;
@@ -40,6 +44,13 @@ class Shooter extends CanBeAttacked {
     new Upgrade(0, 20, 5, 180, 1.5, 0),              //9 wall extra health
   };
   
+  // objs
+  Obj objList [] = new Obj [] {
+    new Wall(),
+    new BigWall(),
+    new Barrel(),
+    new ToxicBarrel(),
+  };
   
 
   Shooter () {
@@ -58,10 +69,10 @@ class Shooter extends CanBeAttacked {
 
     money -= price;
     for (int i=0; i<10; i++) {
-      bulletList[bulletCount] = currentWeapon.newBullet(0, 15);
-      bulletList[bulletCount].x = (int) random(50, width-50);
-      bulletList[bulletCount].y = (int) random(1, 100);
-      bulletCount++;
+      bulletList[round.bulletCount] = currentWeapon.newBullet(0, 15);
+      bulletList[round.bulletCount].x = (int) random(50, width-50);
+      bulletList[round.bulletCount].y = (int) random(1, 100);
+      round.bulletCount++;
     }
   }
 
@@ -74,7 +85,7 @@ class Shooter extends CanBeAttacked {
     if (shooter.upgradeList[0].value == 0) 
       return;
 
-    // choose color red
+    // choose int red
     fill(255, 0, 0);
     stroke(255, 0, 0);
 
