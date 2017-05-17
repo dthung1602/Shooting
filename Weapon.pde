@@ -84,7 +84,7 @@ class HandStone extends Weapon {
     
     img = handPic;
     
-    bullet = new Stone(0, 0, 0, 0);
+    bullet = new Stone();
     bulletLeft = Integer.MIN_VALUE;
     bulletNum = 1;
     bulletSpeed = 20;
@@ -105,7 +105,7 @@ class HandShuriken extends Weapon{
     
     img = shurikenPic;
     
-    bullet = new Shuriken(0, 0, 0, 0);
+    bullet = new Shuriken();
     bulletLeft = Integer.MIN_VALUE;
     bulletNum = 1;
     bulletSpeed = 30;
@@ -126,7 +126,7 @@ class Bow extends Weapon {
     
     img = bowPic;
     
-    bullet = new Arrow(0, 0, 0, 0);
+    bullet = new Arrow();
     bulletLeft = Integer.MIN_VALUE;
     bulletNum = 1;
     bulletSpeed = 40;
@@ -147,7 +147,7 @@ class HandGrenade extends Weapon {
     
     img = grenadePic;
     
-    bullet = new Grenade(0, 0, 0, 0);
+    bullet = new Grenade();
     bulletLeft = 5;
     bulletNum = 1;
     bulletSpeed = 20;
@@ -168,7 +168,7 @@ class FreezeGun extends Weapon {
     
     img = handPic;
     
-    bullet = new Ice(0, 0, 0, 0);
+    bullet = new Ice();
     bulletLeft = Integer.MIN_VALUE;
     bulletNum = 1;
     bulletSpeed = 20;
@@ -189,7 +189,7 @@ class LaserGun extends Weapon {
     
     img = handPic;
     
-    bullet = new Laser(0, 0, 0, 0);
+    bullet = new Laser();
     bulletLeft = Integer.MIN_VALUE;
     bulletNum = 3;
     bulletSpeed = 50;
