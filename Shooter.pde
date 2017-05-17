@@ -69,7 +69,7 @@ class Shooter extends CanBeAttacked {
 
     money -= price;
     for (int i=0; i<10; i++) {
-      bulletList[round.bulletCount] = currentWeapon.newBullet(0, 15);
+      bulletList[round.bulletCount] = (Bullet) currentWeapon.bullet.clone(0, 5 + random(15)); //0, 15);
       bulletList[round.bulletCount].x = (int) random(50, width-50);
       bulletList[round.bulletCount].y = (int) random(1, 100);
       round.bulletCount++;
@@ -91,8 +91,8 @@ class Shooter extends CanBeAttacked {
 
     // create a point that move in the same path of the bullet
     float d = dist(x, y, mouseX, mouseY);
-    float vx = shooter.upgradeList[3].value * currentWeapon.speed * (mouseX - x) / d;          // x speed
-    float vy = shooter.upgradeList[3].value * currentWeapon.speed * (mouseY - y) / d;          // y speed
+    float vx = shooter.upgradeList[3].value * currentWeapon.bulletSpeed * (mouseX - x) / d;          // x speed
+    float vy = shooter.upgradeList[3].value * currentWeapon.bulletSpeed * (mouseY - y) / d;          // y speed
     float tmpx = x + vx;                                                              // current x pos
     float tmpy = y + vy + GRAVITY * currentWeapon.bullet.weight;                      // curretn y pos
     float px = x;                                                                     // prev x pos

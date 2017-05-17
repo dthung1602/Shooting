@@ -1,5 +1,7 @@
 class Player {
   String name;
+  int money;
+  
   int maxWorld;  // max world player can play
   int maxRound;  // max round in that world player can play
 
@@ -53,9 +55,9 @@ class Player {
     for (int i=0; i<shooter.weaponList.length/4 + 1; i++) 
       upgradeScreens[i + shooter.upgradeList.length/6 + 1].infoList[8].message = str(shooter.money);
 
-
     // add wellcome in menu screen
-    menuScreen.info =  new TimeInfo ("Welcome, " + name + "!", 500, 50, RED, fontSmall, -1);
+    menuScreen.info.message = "Welcome, " + name + "!";
+    menuScreen.info.time = MESSAGE_TIME_FOREVER;
 
     // set playscreen to latest round
     round.currentRound = maxRound;
@@ -71,7 +73,7 @@ class Player {
     // check if pass and re-pass are the same
     if (!newPlayerScreen.infoList[1].message.equals(newPlayerScreen.infoList[2].message)) {
       newPlayerScreen.info.message = "Password and re-password do not match!";
-      newPlayerScreen.info.time = 50;
+      newPlayerScreen.info.time = MESSAGE_TIME_LONG;
       newPlayerScreen.status = 1;
       newPlayerScreen.infoList[0].input = false;
       newPlayerScreen.infoList[1].input = true;
@@ -85,7 +87,7 @@ class Player {
     for (int i=0; i<s.length; i++) 
       if (newPlayerScreen.infoList[0].message.equals(s[i]) || newPlayerScreen.infoList[0].message.equals("player")) {
         newPlayerScreen.info.message = "Player name has been taken. Please choose another name.";
-        newPlayerScreen.info.time = 50;
+        newPlayerScreen.info.time = MESSAGE_TIME_LONG;
         newPlayerScreen.status = 0;
         newPlayerScreen.infoList[0].input = true;
         newPlayerScreen.infoList[1].input = false;

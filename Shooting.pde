@@ -1,8 +1,9 @@
 /*            TO DO
  *  reset upgrade
- *  serialization
  *  max 12 player's name
  *  add sound 
+ 
+ *  pos of init bullet, shooter.x, shooter.y
  */
 
 //---------------------------- import libraries -----------------------------//

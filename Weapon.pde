@@ -1,63 +1,58 @@
 abstract class Weapon {
+  // basic
+  String name;
+  String explaination; 
+  boolean enable;                // can shooter use it or not
+  
+  // display
+  PImage img;                    // image
+  
+  // bullets
   Bullet bullet;                 // the kind of bullet weapon creates
   int bulletLeft;                // how many bullet left
-  PImage img;                    // image
+  int bulletNum = 1;                 // number of buttlet per shot
+  float bulletSpeed;                   // how fast the bullet is
+  
+  // delay
   int defaultDelay;              // how many frames by default before weapon can shoot again
   int delay;                     // how many frames left before weapon can shoot again
   int defaultSpecialDelay;       // how many frames by default before weapon can use special again
   int delaySpecial;              // how many frames left before weapon can use special again
-  float speed;                   // how fast the bullet is
-  boolean enable;                // can shooter use it or not
+  
+  // price
   int specialAbilityPrice;       // how much special ability using this weapon cost
-  int blNum = 1;                 // number of buttlet per shot
   int price;
   
-  String name;
-  String explaination;  
-  
-  int count = 0;
   void shoot() {
-    // do nothing when delay is not over or out of bullet
-    if (delay > 0 || bulletLeft == 0)
+    //------------- do nothing when delay is not over----------------
+    if (delay > 0 )
       return;
+      
+    //--------------warn if out of bullets--------------------------
+    if (bulletLeft < bulletNum) {
+      screen.info.message = "Out of bullet!";
+      screen.info.time = MESSAGE_TIME_SHORT;
+      return;
+    }
     
-    // shoot!
+    // ------------------------shoot!--------------------------------
+    // calculate vx, vy for bullet(s)
     float d = dist(shooter.x, shooter.y, mouseX, mouseY);
-    float vx = shooter.upgradeList[3].value * speed * (mouseX - shooter.x) / d;          // x speed
-    float vy = shooter.upgradeList[3].value * speed * (mouseY - shooter.y) / d;          // y speed
-    for (int i=0; i<blNum; i++) {
-      bulletList[round.bulletCount + i] = newBullet(vx, vy);
+    float vx = shooter.upgradeList[3].value * bulletSpeed * (mouseX - shooter.x) / d;
+    float vy = shooter.upgradeList[3].value * bulletSpeed * (mouseY - shooter.y) / d;
+    
+    // create bullet(s)
+    for (int i=0; i<bulletNum; i++) {
+      bulletList[round.bulletCount + i] = bullet.clone(vx, vy);
       bulletList[round.bulletCount + i].x += vx * i * 2;
       bulletList[round.bulletCount + i].y += vy * i * 2;
     }
+    
+    // set delay, calculate bullets number
     delay = (int) (defaultDelay * shooter.upgradeList[2].value);
     if (bulletLeft > 0)
-      bulletLeft -= blNum;
-    round.bulletCount += blNum;
-  }
-  
-  Bullet newBullet (float vx, float vy) {
-    Weapon wp = shooter.currentWeapon;
-    
-    if (wp instanceof HandStone)
-      return new Stone(shooter.x, shooter.y, vx, vy);
-    
-    if (wp instanceof HandShuriken)
-      return new Shuriken(shooter.x, shooter.y, vx, vy);
-      
-    if (wp instanceof HandGrenade)
-      return new Grenade(shooter.x, shooter.y, vx, vy);
-      
-    if (wp instanceof Bow)
-      return new Arrow(shooter.x, shooter.y, vx, vy);
-      
-    if (wp instanceof FreezeGun)
-      return new Ice(shooter.x, shooter.y, vx, vy);
-    
-    if (wp instanceof LaserGun)
-      return new Laser(shooter.x, shooter.y, vx, vy);
-      
-    return null;
+      bulletLeft -= bulletNum;
+    round.bulletCount += bulletNum;
   }
   
   void special () {
@@ -73,9 +68,9 @@ abstract class Weapon {
       
       // create one bullet for each enemy
       float d = dist(shooter.x, shooter.y, enemyList[i].x, enemyList[i].y);
-      float vx = shooter.upgradeList[3].value * speed * 2 * (enemyList[i].x - shooter.x) / d;          // x speed
-      float vy = shooter.upgradeList[3].value * speed * 2 * (enemyList[i].y - shooter.y) / d;          // y speed
-      bulletList[round.bulletCount] = newBullet(vx, vy);
+      float vx = shooter.upgradeList[3].value * bulletSpeed * 2 * (enemyList[i].x - shooter.x) / d;          // x speed
+      float vy = shooter.upgradeList[3].value * bulletSpeed * 2 * (enemyList[i].y - shooter.y) / d;          // y speed
+      bulletList[round.bulletCount] = bullet.clone(vx, vy);
       round.bulletCount += 1;
     }
   }
@@ -84,84 +79,125 @@ abstract class Weapon {
 
 class HandStone extends Weapon {
   HandStone () {
+    name = "Stone";
+    explaination = "explaination for stone";
+    
+    img = handPic;
+    
     bullet = new Stone(0, 0, 0, 0);
+    bulletLeft = Integer.MIN_VALUE;
+    bulletNum = 1;
+    bulletSpeed = 20;
+    
     defaultDelay = 25;
     defaultSpecialDelay = 250;
-    img = handPic;  
-    speed = 20;
-    bulletLeft = Integer.MIN_VALUE;
-    specialAbilityPrice = 300; 
+   
     price = 0;
+    specialAbilityPrice = 25; 
   }    
-}
-
-
-class HandGrenade extends Weapon {
-  HandGrenade () {
-    bullet = new Grenade (0, 0, 0, 0); 
-    defaultDelay = 25;
-    defaultSpecialDelay = -1;
-    img = handPic;  
-    speed = 15;
-    bulletLeft = 5;
-    specialAbilityPrice = 900;
-    price = 500;
-  }
 }
 
 
 class HandShuriken extends Weapon{
   HandShuriken () {
+    name = "Shuriken";
+    explaination = "explaination for Shuriken";
+    
+    img = shurikenPic;
+    
     bullet = new Shuriken(0, 0, 0, 0);
-    defaultDelay = 10;
-    defaultSpecialDelay = 500;
-    img = handPic;
-    speed = 20;
-    bulletLeft = -1;
-    specialAbilityPrice = 300; 
-    price = 100;
+    bulletLeft = Integer.MIN_VALUE;
+    bulletNum = 1;
+    bulletSpeed = 30;
+    
+    defaultDelay = 20;
+    defaultSpecialDelay = 275;
+   
+    price = 150;
+    specialAbilityPrice = 75; 
   }  
 }
 
 
 class Bow extends Weapon {
   Bow () {
-    bullet = new Arrow(0, 0, 0, 0);
-    defaultDelay = 10;
-    defaultSpecialDelay = 500;
+    name = "Bow";
+    explaination = "explaination for Bow";
+    
     img = bowPic;
-    speed = 25;
-    bulletLeft = -1;
-    specialAbilityPrice = 400; 
-    price = 300;
+    
+    bullet = new Arrow(0, 0, 0, 0);
+    bulletLeft = Integer.MIN_VALUE;
+    bulletNum = 1;
+    bulletSpeed = 40;
+    
+    defaultDelay = 20;
+    defaultSpecialDelay = 275;
+   
+    price = 200;
+    specialAbilityPrice = 75; 
   }  
+}
+
+
+class HandGrenade extends Weapon {
+  HandGrenade () {
+    name = "Grenade";
+    explaination = "explaination for Grenade";
+    
+    img = grenadePic;
+    
+    bullet = new Grenade(0, 0, 0, 0);
+    bulletLeft = 5;
+    bulletNum = 1;
+    bulletSpeed = 20;
+    
+    defaultDelay = 35;
+    defaultSpecialDelay = 80;
+   
+    price = 300;
+    specialAbilityPrice = 175; 
+  }
 }
 
 
 class FreezeGun extends Weapon {
   FreezeGun () {
+    name = "FreezeGun";
+    explaination = "explaination for FreezeGun";
+    
+    img = handPic;
+    
     bullet = new Ice(0, 0, 0, 0);
+    bulletLeft = Integer.MIN_VALUE;
+    bulletNum = 1;
+    bulletSpeed = 20;
+    
     defaultDelay = 10;
-    defaultSpecialDelay = 500;
-    img = freezeGunPic;
-    speed = 25;
-    bulletLeft = 20;
-    specialAbilityPrice = 350; 
+    defaultSpecialDelay = 150;
+   
     price = 400;
+    specialAbilityPrice = 100; 
   }  
 }
 
 
 class LaserGun extends Weapon { 
   LaserGun () {
+    name = "LaserGun";
+    explaination = "explaination for LaserGun";
+    
+    img = handPic;
+    
     bullet = new Laser(0, 0, 0, 0);
-    defaultDelay = 5;
-    defaultSpecialDelay = 500;
-    img = laserGunPic;
-    speed = 30;
-    bulletLeft = -1;
-    specialAbilityPrice = 1000; 
-    blNum = 5;
-    price = 600;
+    bulletLeft = Integer.MIN_VALUE;
+    bulletNum = 3;
+    bulletSpeed = 50;
+    
+    defaultDelay = 8;
+    defaultSpecialDelay = 400;
+   
+    price = 500;
+    specialAbilityPrice = 300; 
   }
 }

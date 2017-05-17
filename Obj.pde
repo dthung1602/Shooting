@@ -1,4 +1,4 @@
-abstract class Obj extends CanBeAttacked implements Cloneable, Serializable {
+abstract class Obj extends CanBeAttacked implements Cloneable {
   // info
   String name;
   String explaination;

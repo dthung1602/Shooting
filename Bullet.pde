@@ -1,4 +1,4 @@
-abstract class Bullet {
+abstract class Bullet  implements Cloneable {
   float x, y;
   float vx,vy;
   int status = 0;          // 0 = in game; 1 = out of game
@@ -55,6 +55,20 @@ abstract class Bullet {
     if (dist(x, y, e.x, e.y) < e.size + hitRadius)
       return true;
     return false;
+  }
+  
+  Bullet clone(float vx, float vy) {
+    try {
+      Bullet bl =  (Bullet) super.clone();
+      bl.vx = vx;
+      bl.vy = vy;
+      bl.x = shooter.x;      // bullet starts at weapon's pos
+      bl.y = shooter.y;
+      return bl;
+    } 
+    catch (CloneNotSupportedException e) {
+      return null;
+    }
   }
   
   void action () {}
