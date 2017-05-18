@@ -80,8 +80,6 @@ abstract class Weapon {
 class HandStone extends Weapon {
   HandStone () {
     name = "Stone";
-    explaination = "explaination for stone";
-    
     img = handPic;
     
     bullet = new Stone();
@@ -94,6 +92,8 @@ class HandStone extends Weapon {
    
     price = 0;
     specialAbilityPrice = 25; 
+    
+    explaination = name + "\nBla bla bla\nPrice: $" + price + "\nBullet price: $" + bullet.price + "\nBullet left: Infinity";
   }    
 }
 
@@ -101,8 +101,6 @@ class HandStone extends Weapon {
 class HandShuriken extends Weapon{
   HandShuriken () {
     name = "Shuriken";
-    explaination = "explaination for Shuriken";
-    
     img = shurikenPic;
     
     bullet = new Shuriken();
@@ -115,6 +113,8 @@ class HandShuriken extends Weapon{
    
     price = 150;
     specialAbilityPrice = 75; 
+    
+    explaination = name + "\nBla bla bla\nPrice: $" + price + "\nBullet price: $" + bullet.price + "\nBullet left: Infinity";
   }  
 }
 
@@ -122,8 +122,6 @@ class HandShuriken extends Weapon{
 class Bow extends Weapon {
   Bow () {
     name = "Bow";
-    explaination = "explaination for Bow";
-    
     img = bowPic;
     
     bullet = new Arrow();
@@ -136,6 +134,8 @@ class Bow extends Weapon {
    
     price = 200;
     specialAbilityPrice = 75; 
+    
+    explaination = name + "\nBla bla bla\nPrice: $" + price + "\nBullet price: $" + bullet.price + "\nBullet left: Infinity";
   }  
 }
 
@@ -143,8 +143,6 @@ class Bow extends Weapon {
 class HandGrenade extends Weapon {
   HandGrenade () {
     name = "Grenade";
-    explaination = "explaination for Grenade";
-    
     img = grenadePic;
     
     bullet = new Grenade();
@@ -157,6 +155,8 @@ class HandGrenade extends Weapon {
    
     price = 300;
     specialAbilityPrice = 175; 
+    
+    explaination = name + "\nBla bla bla\nPrice: $" + price + "\nBullet price: $" + bullet.price + "\nBullet left: " + bulletLeft;
   }
 }
 
@@ -164,8 +164,6 @@ class HandGrenade extends Weapon {
 class FreezeGun extends Weapon {
   FreezeGun () {
     name = "FreezeGun";
-    explaination = "explaination for FreezeGun";
-    
     img = handPic;
     
     bullet = new Ice();
@@ -178,6 +176,8 @@ class FreezeGun extends Weapon {
    
     price = 400;
     specialAbilityPrice = 100; 
+    
+    explaination = name + "\nBla bla bla\nPrice: $" + price + "\nBullet price: $" + bullet.price + "\nBullet left: Infinity";
   }  
 }
 
@@ -185,8 +185,6 @@ class FreezeGun extends Weapon {
 class LaserGun extends Weapon { 
   LaserGun () {
     name = "LaserGun";
-    explaination = "explaination for LaserGun";
-    
     img = handPic;
     
     bullet = new Laser();
@@ -199,5 +197,7 @@ class LaserGun extends Weapon {
    
     price = 500;
     specialAbilityPrice = 300; 
+    
+    explaination = name + "\nBla bla bla\nPrice: $" + price + "\nBullet price: $" + bullet.price + "\nBullet left: Infinity";
   }
 }

@@ -525,15 +525,15 @@ void loadInfoToScreens() {
   for (int i=0; i<shooter.upgradeList.length; i++)
     upgradeScreens[i/6].infoList[i%6] = new Info(shooter.upgradeList[i].name, 250 + 470 * (i%6 / 3), 275 + (i%6 % 3) * 120, YELLOW_BOLD, fontMedium);
   upgradeScreens[0].infoList[12] = upgradeScreens[1].infoList[12] = new Info("", 340, 178, BROWN, fontMedium);
-  upgradeScreens[0].infoList[13] = upgradeScreens[1].infoList[13] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontMedium);
+  upgradeScreens[0].infoList[13] = upgradeScreens[1].infoList[13] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontSmall);
 
-  // load weapon info to upgrade screens
+  // load weapon info to buy weapon screens
   upgradeScreens[2].infoList = new Info [10];
   upgradeScreens[3].infoList = new Info [10];
   for (int i=0; i<shooter.weaponList.length; i++) 
-    upgradeScreens[i/4 + 2].infoList[i%4] = new Info(shooter.weaponList[i].name, 290, 290 + (i % 4) * 87, BROWN, fontMedium);
+    upgradeScreens[i/4 + 2].infoList[i%4] = new Info("[" + (i+1) + "]  " + shooter.weaponList[i].name, 290, 290 + (i % 4) * 87, BROWN, fontMedium);
   upgradeScreens[2].infoList[8] = upgradeScreens[3].infoList[8] = new Info("", 340, 178, BROWN, fontMedium);
-  upgradeScreens[2].infoList[9] = upgradeScreens[3].infoList[9] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontMedium);
+  upgradeScreens[2].infoList[9] = upgradeScreens[3].infoList[9] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontSmall);
 
   // update info in change player screen
   player.updatePlayerList();

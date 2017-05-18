@@ -156,7 +156,10 @@ class BuyBulletButton extends Button {
     shooter.money -= price;
     shooter.weaponList[wpNum].bulletLeft += 1;
     
-    // update info
+    // update explaination
+    shooter.weaponList[wpNum].explaination =  split(shooter.weaponList[wpNum].explaination, "\nBullet left: ")[0] + "\nBullet left: " + shooter.weaponList[wpNum].bulletLeft;
+    
+    // update money
     upgradeScreens[0].infoList[12].message = str(shooter.money);
     upgradeScreens[1].infoList[12].message = str(shooter.money);
     upgradeScreens[2].infoList[8].message = str(shooter.money);
@@ -165,7 +168,7 @@ class BuyBulletButton extends Button {
   
   void show() {
     super.show();
-    screen.infoList[9].message = "$" + shooter.weaponList[wpNum].bullet.price;  // show price of bullet
+    screen.infoList[9].message = shooter.weaponList[wpNum].explaination;   // explain wp
   }
 }
 
