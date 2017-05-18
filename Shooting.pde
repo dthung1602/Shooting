@@ -156,7 +156,7 @@ void setup () {
   round = new Round();
 
   //--------------ready to start----------------//
-  loadInfo();
+  loadInfoToScreens();
   round.reset();
   shooter.currentWeapon = shooter.weaponList[0];
 
@@ -518,28 +518,8 @@ void createScreens() {
 }
 
 
-void loadInfo() {
-  String data [];
-  String tmp [];
-
-  //>>> load weapon info
-  data = loadStrings("./Config/weapon.txt");
-  for (int i=0; i<data.length; i++) {
-    tmp = split(data[i], '_');
-    shooter.weaponList[i].name = tmp[0];
-    shooter.weaponList[i].explaination = tmp[1].replace("\\n", "\n");
-  }
-
-  //>>> load upgrade info
-  data = loadStrings("./Config/upgrade.txt");
-  for (int i=0; i<data.length; i++) {
-    tmp = split(data[i], '_');
-    shooter.upgradeList[i].name = tmp[0];
-    shooter.upgradeList[i].explaination = tmp[1].replace("\\n", "\n");
-    ;
-  }
-
-  //>>> load upgrade info to upgrade screens
+void loadInfoToScreens() {
+  // load upgrade info to upgrade screens
   upgradeScreens[0].infoList = new Info [14];
   upgradeScreens[1].infoList = new Info [14];
   for (int i=0; i<shooter.upgradeList.length; i++)
@@ -547,7 +527,7 @@ void loadInfo() {
   upgradeScreens[0].infoList[12] = upgradeScreens[1].infoList[12] = new Info("", 340, 178, BROWN, fontMedium);
   upgradeScreens[0].infoList[13] = upgradeScreens[1].infoList[13] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontMedium);
 
-  //>>> load weapon info to upgrade screens
+  // load weapon info to upgrade screens
   upgradeScreens[2].infoList = new Info [10];
   upgradeScreens[3].infoList = new Info [10];
   for (int i=0; i<shooter.weaponList.length; i++) 

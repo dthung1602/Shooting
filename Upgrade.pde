@@ -10,7 +10,9 @@ class Upgrade {
   String name;              // name of upgrade
   String explaination;           // explaination of upgrade
 
-  Upgrade (float value, float increase, int maxLevel, float price, float priceIncrease, int method) {
+  Upgrade (String name, String explaination, float value, float increase, int maxLevel, float price, float priceIncrease, int method) {
+    this.name = name;
+    this.explaination = explaination;
     this.value = value;
     this.increase = increase;
     this.maxLevel = maxLevel;

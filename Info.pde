@@ -14,7 +14,13 @@ class Info {
     this.font = font;
   }
   
+  Info() {
+  }
+  
   void show () {
+    if (message == null)
+      return;
+    
     textFont(font);
     fill(cl);
     String s = message;

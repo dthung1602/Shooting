@@ -1,6 +1,0 @@
-Stone_Free\nThe weakest weapon 0
-Shuriken_The weakest weapon1
-Bow_The weakest weapon2
-Grenade_The weakest weapon3
-Freeze Gun_The weakest weapon4
-Laser Gun_The weakest weapon5

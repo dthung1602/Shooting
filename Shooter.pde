@@ -32,16 +32,16 @@ class Shooter extends CanBeAttacked {
   // upgrades
   // (float value, float increase, float maxLevel, float price, float priceIncrease, int method)
   Upgrade upgradeList [] = new Upgrade [] {
-    new Upgrade(0, 1, 1, 100, 1.5, 0),               //0 aim
-    new Upgrade(DEFAULT_HEALTH, 50, 5, 100, 1.5, 1), //1 max health 
-    new Upgrade(1, -0.15, 6, 100, 1.5, 0),           //2 weapon delay
-    new Upgrade(1, 0.1, 5, 100, 1.5, 0),             //3 weapon speed
-    new Upgrade(1, 0.2, 5, 100, 1.5, 0),             //4 bonus money
-    new Upgrade(1, -0.15, 3, 100, 1.5, 0),           //5 special wp delay
-    new Upgrade(1, -0.1, 3, 100, 1.5, 0),            //6 how much special ability cost
-    new Upgrade(0, 1, 8, 500, 1.5, 0),               //7 bonus damage
-    new Upgrade(1, 0.2, 6, 150, 1.5, 0),             //8 explosion radius
-    new Upgrade(0, 20, 5, 180, 1.5, 0),              //9 wall extra health
+    new Upgrade("Aim", "An red stroke that helps\n you select the target.",0, 1, 1, 100, 1.5, 0),               //0 aim
+    new Upgrade("Max health", "exp for max health", DEFAULT_HEALTH, 50, 5, 100, 1.5, 1),                        //1 max health 
+    new Upgrade("Weapon delay", "exp for max healtheapon delay", 1, -0.15, 6, 100, 1.5, 0),                     //2 weapon delay
+    new Upgrade("Weapon speed", "exp for max healthWeapon speed", 1, 0.1, 5, 100, 1.5, 0),                      //3 weapon speed
+    new Upgrade("Bonus money", "exp for Bonus money", 1, 0.2, 5, 100, 1.5, 0),                                  //4 bonus money
+    new Upgrade("Spe. weapon delay", "exp forpe. weapon deh", 1, -0.15, 3, 100, 1.5, 0),                        //5 special wp delay
+    new Upgrade("Spe. ability price", "exppe. ability pric", 1, -0.1, 3, 100, 1.5, 0),                          //6 how much special ability cost
+    new Upgrade("Bonus damage", "exp onus damageh", 0, 1, 8, 500, 1.5, 0),                                      //7 bonus damage
+    new Upgrade("Explosion radius", "plosion radius", 1, 0.2, 6, 150, 1.5, 0),                                  //8 explosion radius
+    new Upgrade("Wall extra health", "exp forWall extra health", 0, 20, 5, 180, 1.5, 0),                        //9 wall extra health
   };
   
   // objs
