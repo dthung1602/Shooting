@@ -64,18 +64,37 @@ abstract class ExplosiveObj extends Obj {
   int explosionRadius;
 
   void action () {
+    // self-destruction
     health = 0;
+    
+    // add new explosion effect
     effectList[round.effectCount] = new ExplosionEffect(x, y);
     round.effectCount++;
+    
+    // explode, cause damage to enemies
     for (int i=0; i<round.enemyCount; i++) {
       if (enemyList[i].health > 0 && touch(enemyList[i])) {
         enemyList[i].hit(this);
+      }
+    }
+    
+    // trigger other explosive obj
+    for (int i=0; i<round.objCount; i++) {
+      Obj obj = objList[round.objCount];
+      if (obj.health > 0 && obj instanceof ExplosiveObj && touch(obj)) {
+        obj.action();
       }
     }
   }
 
   private boolean touch (Enemy e) {
     if (dist(e.x, e.y, x, y) < explosionRadius * shooter.upgradeList[8].value)
+      return true;
+    return false;
+  }
+  
+  private boolean touch (Obj obj) {
+    if (dist(obj.x, obj.y, x, y) < explosionRadius * shooter.upgradeList[8].value)
       return true;
     return false;
   }

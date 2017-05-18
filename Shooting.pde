@@ -2,8 +2,10 @@
  *  reset upgrade
  *  max 12 player's name
  *  add sound 
- 
+ * optimize import
  *  pos of init bullet, shooter.x, shooter.y
+ * change all img to right size
+ * disguid enemy
  */
 
 //---------------------------- import libraries -----------------------------//
@@ -97,7 +99,9 @@ PImage freezeGunPic;
 
 // image of enemy
 PImage basicEnemyPic;
-//>>>>>
+PImage fastEnemyPic;
+PImage flyEnemyPic;
+PImage strongEnemyPic;
 
 // image of obj
 PImage wallPic;
@@ -192,8 +196,10 @@ void loadImages() {
   freezeGunPic = loadImage("./Pic/laser_gun.png");
 
   // enemy image
-  basicEnemyPic = loadImage("./Pic/dart_monkey.png");
-  //>>>
+  basicEnemyPic  = loadImage("./Pic/dart_monkey.png");
+  fastEnemyPic   = loadImage("./Pic/ice_tower.png");
+  flyEnemyPic    = loadImage("./Pic/bomb_tower.png");
+  strongEnemyPic = loadImage("./Pic/super_monkey.png");
 
   // obj image
   wallPic        = loadImage("./Pic/wall.png");

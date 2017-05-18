@@ -2,7 +2,6 @@ abstract class Bullet  implements Cloneable {
   // basic
   int status = 0;          // 0 = in game; 1 = out of game
   int damage;
-  int hitRadius;           // how close bullet to enemy to be considered as hit
   int price;
   PImage img;
   
@@ -50,15 +49,15 @@ abstract class Bullet  implements Cloneable {
     image(img, x, y, 20, 20);
   }   
   
-  boolean touch (Enemy e) {
-    if (dist(x, y, e.x, e.y) < e.size + hitRadius)
+  private boolean touch (Enemy e) {
+    if (e.x - e.w < x && x < e.x + e.w && e.y - e.h < y && y < e.y + e.h)
       return true;
     return false;
   }
   
   Bullet clone(float vx, float vy) {
     try {
-      Bullet bl =  (Bullet) super.clone();
+      Bullet bl = (Bullet) super.clone();
       bl.vx = vx;
       bl.vy = vy;
       bl.x = shooter.x;      // bullet starts at weapon's pos
@@ -75,7 +74,7 @@ abstract class Bullet  implements Cloneable {
 
 
 abstract class ExplodesiveBullet extends Bullet {
-  int explosiveRadius;
+  int explosionRadius;
   
   ExplodesiveBullet() {
   }
@@ -83,12 +82,17 @@ abstract class ExplodesiveBullet extends Bullet {
   void action () {
     // cause damage to surounding enemies
     for (int i=0; i<round.enemyCount; i++) {
-      if (enemyList[i].health > 0 && dist(enemyList[i].x, enemyList[i].y, x, y) < explosiveRadius * shooter.upgradeList[8].value)
+      if (enemyList[i].health > 0 && dist(enemyList[i].x, enemyList[i].y, x, y) < explosionRadius * shooter.upgradeList[8].value)
         enemyList[i].hit(this);
     }
     
     // triggers others obj to explode
-    // TODO
+    for (int i=0; i<round.objCount; i++) {
+      Obj obj = objList[round.objCount];
+      if (obj.health > 0 && obj instanceof ExplosiveObj && dist(obj.x, obj.y, x, y) < explosionRadius * shooter.upgradeList[8].value) {
+        obj.action();
+      }
+    }
     
     // add explosive effect
     effectList[round.effectCount] = new ExplosionEffect(x, y);
@@ -100,7 +104,6 @@ abstract class ExplodesiveBullet extends Bullet {
 class Stone extends Bullet {
   Stone () {
     damage = 1;
-    hitRadius = 5;
     price = 0;
     weight = 1;
     img = stonePic;    
@@ -111,7 +114,6 @@ class Stone extends Bullet {
 class Shuriken extends Bullet {
   Shuriken () {
     damage = 2;
-    hitRadius = 5;
     price = 0;
     weight = 0;
     img = shurikenPic;
@@ -122,7 +124,6 @@ class Shuriken extends Bullet {
 class Arrow extends Bullet {
   Arrow () {
     damage = 3;
-    hitRadius = 5;
     price = 0;
     weight = 0;
     img = arrowPic;
@@ -133,11 +134,10 @@ class Arrow extends Bullet {
 class Grenade extends ExplodesiveBullet {
   Grenade () {
     damage = 1;
-    hitRadius = 5;
     price = 50;
     weight = 1.2;
     img = grenadePic;
-    explosiveRadius = 50;
+    explosionRadius = 50;
   }
 }
 
@@ -146,7 +146,6 @@ class Ice extends Bullet {
   // TODO freeze
   Ice () {
     damage = 1;
-    hitRadius = 5;
     price = 0;
     weight = 0;
     img = icePic;
@@ -157,7 +156,6 @@ class Ice extends Bullet {
 class Laser extends Bullet {
   Laser () {
     damage = 5;
-    hitRadius = 5;
     price = 0;
     weight = 0;
     img = laserPic;

@@ -29,7 +29,7 @@ abstract class Weapon {
       return;
       
     //--------------warn if out of bullets--------------------------
-    if (bulletLeft < bulletNum) {
+    if (bulletLeft > 0 && bulletLeft < bulletNum) {
       screen.info.message = "Out of bullet!";
       screen.info.time = MESSAGE_TIME_SHORT;
       return;
