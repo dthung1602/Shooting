@@ -131,7 +131,7 @@ boolean soundEnable = true;
 void setup () {
   //----------------loading screen---------------//
   size(1200, 700);
-  background(loadImage("./Pic/loading.png"));
+  background(loadImage("./Pic/screen/loading.png"));
 
 
   //-------------------basic---------------------//
@@ -170,35 +170,34 @@ void draw () {
 
 void loadImages() {
   // bullet images
-  stonePic   = loadImage("./Pic/stone.png");
-  shurikenPic= loadImage("./Pic/dart.png");
-  arrowPic   = loadImage("./Pic/arrow.png");
-  icePic     = loadImage("./Pic/ice.png");
-  grenadePic = loadImage("./Pic/grenade.png");
-  laserPic   = loadImage("./Pic/laser.gif");
-  nukePic    = loadImage("./Pic/nuke.png");
+  stonePic   = loadImage("./Pic/bullet/stone.png");
+  shurikenPic= loadImage("./Pic/bullet/dart.png");
+  arrowPic   = loadImage("./Pic/bullet/arrow.png");
+  icePic     = loadImage("./Pic/bullet/ice.png");
+  grenadePic = loadImage("./Pic/bullet/grenade.png");
+  laserPic   = loadImage("./Pic/bullet/laser.gif");
 
   //effect images
-  explosionPic = loadImage("./Pic/explosion.png");
-  snowflakePic = loadImage("./Pic/dart.png");
+  explosionPic = loadImage("./Pic/effect/explosion.png");
+  snowflakePic = loadImage("./Pic/effect/explosion.png"); //>>>>
 
   //weapon image
-  handPic      = loadImage("./Pic/laser_gun.png");
-  bowPic       = loadImage("./Pic/bow.png");
-  laserGunPic  = loadImage("./Pic/laser_gun.png");
-  freezeGunPic = loadImage("./Pic/laser_gun.png");
+  handPic      = loadImage("./Pic/weapon/laser_gun.png");
+  bowPic       = loadImage("./Pic/weapon/bow.png");
+  laserGunPic  = loadImage("./Pic/weapon/laser_gun.png");
+  freezeGunPic = loadImage("./Pic/weapon/laser_gun.png");
 
   // obj image
-  wallPic        = loadImage("./Pic/wall.png");
-  bigWallPic     = loadImage("./Pic/big_wall.png");
-  barrelPic      = loadImage("./Pic/barrel.png");
-  toxicBarrelPic = loadImage("./Pic/toxic_barrel.png");
+  wallPic        = loadImage("./Pic/obj/wall.png");
+  bigWallPic     = loadImage("./Pic/obj/big_wall.png");
+  barrelPic      = loadImage("./Pic/obj/barrel.png");
+  toxicBarrelPic = loadImage("./Pic/obj/toxic_barrel.png");
 
   // other image
-  playPic = loadImage("./Pic/play.png");
-  tickPic = loadImage("./Pic/tick.png");
-  lockRoundPic = loadImage("./Pic/lock_round.png");
-  lockWorldPic = loadImage("./Pic/lock_world.png");
+  playPic = loadImage("./Pic/screen/play.png");
+  tickPic = loadImage("./Pic/other/tick.png");
+  lockRoundPic = loadImage("./Pic/other/lock_round.png");
+  lockWorldPic = loadImage("./Pic/other/lock_world.png");
 }
 
 
@@ -220,7 +219,7 @@ void createScreens() {
   Info infoList [];
 
   //---------------menu screen---------------
-  bg = loadImage("./Pic/menu.png");
+  bg = loadImage("./Pic/screen/menu.png");
   buttonList = new Button[] {
     new MapScreenButton(245, 525, 580, 590, 0), // map screen
     new ChangeScreenButton(615, 525, 950, 590, 8), // setting screen
@@ -230,7 +229,7 @@ void createScreens() {
   menuScreen = new Screen(bg, buttonList);
 
   //---------------data screen---------------
-  bg = loadImage("./Pic/choosing.png");
+  bg = loadImage("./Pic/screen/choosing.png");
   buttonList = new Button [] {
     new ChangeScreenButton(165, 525, 240, 603, 0), // menu screen
     new ChangePlayerButton(245, 600, 580, 668), 
@@ -240,7 +239,7 @@ void createScreens() {
   dataScreen = new Screen(bg, buttonList);
 
   // ---------------create change user screen---------------
-  bg = loadImage("./Pic/login.png");
+  bg = loadImage("./Pic/screen/login.png");
   buttonList = new Button[] {
     new ChangeScreenButton(158, 30, 232, 102, 5), // data screen
     new LoginButton(678, 617, 944, 678), 
@@ -251,7 +250,7 @@ void createScreens() {
   changePlayerScreen = new Screen(bg, buttonList);
 
   // --------------- create new user screen---------------
-  bg = loadImage("./Pic/new_player.png");
+  bg = loadImage("./Pic/screen/new_player.png");
   buttonList = new Button [] {
     new ChangeScreenButton(155, 27, 235, 102, 5), // data screen
     new CreateNewUserButton(457, 615, 725, 680), 
@@ -272,7 +271,7 @@ void createScreens() {
   mapScreens = new Screen [2];
 
   // -------map screen 0---------
-  bg = loadImage("./Pic/map0.png");
+  bg = loadImage("./Pic/screen/map0.png");
   buttonList = new Button  [] {
     new ChangeScreenButton (67, 28, 140, 100, 0), // menu screen
     new MapScreenButton (1064, 30, 1138, 100, 1), 
@@ -288,7 +287,7 @@ void createScreens() {
   mapScreens[0] = new Screen(bg, buttonList);
 
   // -------map screen 1---------
-  bg = loadImage("./Pic/map1.png");
+  bg = loadImage("./Pic/screen/map1.png");
   buttonList = new Button  [] {
     new ChangeScreenButton (67, 28, 141, 100, 0), // menu screen
     new MapScreenButton (969, 30, 1043, 100, 0), 
@@ -304,7 +303,7 @@ void createScreens() {
   mapScreens[1] = new Screen(bg, buttonList);
 
   //---------------create choose round screen---------------
-  bg = loadImage("./Pic/choose_round.png");
+  bg = loadImage("./Pic/screen/choose_round.png");
   buttonList = new Button  [] {
     new MapScreenButton (59, 31, 134, 103, 0), // map screen
     new ChooseRoundButton (246, 168, 342, 249, 0), 
@@ -320,7 +319,7 @@ void createScreens() {
   chooseRoundScreen = new Screen(bg, buttonList);
 
   // ---------------create setting screen---------------
-  bg = loadImage("./Pic/option.png");
+  bg = loadImage("./Pic/screen/option.png");
   buttonList = new Button[] {
     new ChangeScreenButton(457, 615, 720, 680, 0), // menu screen
     new SoundButton(245, 300, 290, 345), 
@@ -335,7 +334,7 @@ void createScreens() {
   upgradeScreens = new Screen [4];
 
   //-----------screen 0----------------
-  bg = loadImage("./Pic/upgrade0.png");
+  bg = loadImage("./Pic/screen/upgrade0.png");
   buttonList = new Button [] {
     new ChangeScreenButton(168, 619, 432, 678, 0), // menu screen
     new MapScreenButton(459, 620, 724, 677, 0), // map screen
@@ -362,7 +361,7 @@ void createScreens() {
 
 
   //-----------screen 1----------------
-  bg = loadImage("./Pic/upgrade1.png");
+  bg = loadImage("./Pic/screen/upgrade1.png");
   buttonList = new Button [] {
     new ChangeScreenButton(168, 619, 432, 678, 0), // menu screen
     new MapScreenButton(459, 620, 724, 677, 0), // map screen
@@ -389,7 +388,7 @@ void createScreens() {
   upgradeScreens[1].status = 1;
 
   //-----------screen 2----------------
-  bg = loadImage("./Pic/upgrade2.png");
+  bg = loadImage("./Pic/screen/upgrade2.png");
   buttonList = new Button [] {
     new ChangeScreenButton(168, 619, 432, 678, 0), // menu screen
     new MapScreenButton(459, 620, 724, 677, 0), // map screen
@@ -412,7 +411,7 @@ void createScreens() {
   upgradeScreens[2].status = 2;
 
   //-----------screen 3----------------
-  bg = loadImage("./Pic/upgrade3.png");
+  bg = loadImage("./Pic/screen/upgrade3.png");
   buttonList = new Button [] {
     new ChangeScreenButton(168, 619, 432, 678, 0), // menu screen
     new MapScreenButton(459, 620, 724, 677, 0), // map screen
@@ -434,7 +433,7 @@ void createScreens() {
   upgradeScreens[3].status = 3;
 
   // --------------------------create pause screen--------------------------
-  bg = loadImage("./Pic/pausing.png");
+  bg = loadImage("./Pic/screen/pausing.png");
   buttonList = new Button[] {
     new ContinueButton(250, 575, 580, 635), 
     new ChangeScreenButton(630, 575, 960, 635, 0), // menu screen
@@ -442,7 +441,7 @@ void createScreens() {
   pauseScreen = new Screen(bg, buttonList);
 
   // --------------------------create win screen--------------------------
-  bg = loadImage("./Pic/win.png");
+  bg = loadImage("./Pic/screen/win.png");
   buttonList = new Button[] {
     new MapScreenButton(315, 620, 578, 680, 0), 
     new ChangeScreenButton(605, 620, 867, 680, 0)  // menu scree
@@ -450,7 +449,7 @@ void createScreens() {
   winScreen = new Screen(bg, buttonList);
 
   // --------------------------create lose screen--------------------------
-  bg = loadImage("./Pic/lose.png");
+  bg = loadImage("./Pic/screen/lose.png");
   buttonList = new Button[] {
     new ContinueButton(257, 317, 354, 397), // play again
     new UpgradeScreenButton(257, 435, 354, 517, 0), // upgrade
@@ -460,7 +459,7 @@ void createScreens() {
   loseScreen = new Screen(bg, buttonList);
 
   // ------------------------create quit screen----------------------------
-  bg = loadImage("./Pic/quit.png");
+  bg = loadImage("./Pic/screen/quit.png");
   buttonList = new Button[] {
     new QuitButton(245, 618, 580, 683), 
     new ChangeScreenButton(622, 618, 960, 683, 0), // menu screen
@@ -468,7 +467,7 @@ void createScreens() {
   quitScreen = new Screen(bg, buttonList);
 
   // ------------------------------confirm screen------------------------
-  bg = loadImage("./Pic/confirm.png");
+  bg = loadImage("./Pic/screen/confirm.png");
   buttonList = new Button[] { 
     new ChangeScreenButton(315, 620, 579, 678, 6), // change player screen
     new DeletePlayerButton(603, 624, 870, 677), 
@@ -476,7 +475,7 @@ void createScreens() {
   confirmScreen = new Screen(bg, buttonList);
 
   // --------------------------create leave game screen-------------------
-  bg = loadImage("./Pic/leave_game.png");
+  bg = loadImage("./Pic/screen/leave_game.png");
   buttonList = new Button[] {
     new ChangeScreenButton(315, 620, 579, 678, 11), // change player screen
     new ChangeScreenButton(603, 624, 870, 677, 0), 

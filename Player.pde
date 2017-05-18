@@ -82,10 +82,10 @@ class Player {
       return;
     }
 
-    // check if player name has been taken and diff from player
-    String s [] = loadStrings("./Player/player.txt");
+    // check if player name has been taken
+    String s [] = loadStrings("./Player/__player__.txt");
     for (int i=0; i<s.length; i++) 
-      if (newPlayerScreen.infoList[0].message.equals(s[i]) || newPlayerScreen.infoList[0].message.equals("player")) {
+      if (newPlayerScreen.infoList[0].message.equals(s[i])) {
         newPlayerScreen.info.message = "Player name has been taken. Please choose another name.";
         newPlayerScreen.info.time = MESSAGE_TIME_LONG;
         newPlayerScreen.status = 0;
@@ -108,7 +108,7 @@ class Player {
     saveStrings("./Player/" + newPlayerScreen.infoList[0].message + ".txt", s);
 
     // add player's name to playerlist
-    s = loadStrings("./Player/player.txt");
+    s = loadStrings("./Player/__player.txt__");
     s = (String []) append(s, newPlayerScreen.infoList[0].message);
     saveStrings("./Player/player.txt", s);
 
@@ -165,7 +165,7 @@ class Player {
 
   void deletePlayer () {
     // remove name from player list
-    String data [] = loadStrings("./Player/player.txt");
+    String data [] = loadStrings("./Player/__player__.txt");
     for (int i=0; i<data.length; i++) 
       if (data[i].equals(name)) {
         data = (String []) concat(subset(data, 0, i), subset(data, i+1));
@@ -226,7 +226,7 @@ class Player {
 
   void updatePlayerList() {
     // load data from file
-    String data [] = loadStrings("./Player/player.txt");
+    String data [] = loadStrings("./Player/__player__.txt");
     changePlayerScreen.infoList = new Info [data.length + 2];  
 
     // info[0]: username, info[1]: password
