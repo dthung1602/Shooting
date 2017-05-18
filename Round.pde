@@ -29,7 +29,6 @@ class Round {
     oldFrame       = frameCount;
     newEnemyDelay  = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);
     totalEnemyInRound = (int) (DEFAULT_ENEMY_NUM * pow(DIFICULTLY, currentRound));
-    playScreen.bg = loadImage("./Pic/World/world" + currentWorld + ".png");
     //>> reset special abilities
   }
 }

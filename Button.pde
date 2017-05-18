@@ -348,6 +348,13 @@ class ChooseWorldButton extends Button {
       screen.info.time = MESSAGE_TIME_SHORT;
       return;
     }
+    
+    // re-load images
+    playScreen.bg  = loadImage("./Pic/World/world" + worldNum + "/background.png");
+    basicEnemyPic  = loadImage("./Pic/World/world" + worldNum + "/basic_enemy.png");
+    fastEnemyPic   = loadImage("./Pic/World/world" + worldNum + "/fast_enemy.png");
+    flyEnemyPic    = loadImage("./Pic/World/world" + worldNum + "/fly_enemy.png");
+    strongEnemyPic = loadImage("./Pic/World/world" + worldNum + "/strong_enemy.png");
       
     // change to choose round screen
     round.currentWorld = worldNum;

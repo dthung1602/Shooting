@@ -79,13 +79,9 @@ Screen leaveGameScreen;
 PImage stonePic;
 PImage shurikenPic;
 PImage arrowPic;
-PImage bulletPic;
 PImage icePic;
-PImage firePic;
-PImage bombPic;
 PImage grenadePic;
 PImage laserPic;
-PImage nukePic;
 
 // image of visual effects
 PImage snowflakePic;
@@ -173,14 +169,11 @@ void draw () {
 
 
 void loadImages() {
-  // weapon images
+  // bullet images
   stonePic   = loadImage("./Pic/stone.png");
   shurikenPic= loadImage("./Pic/dart.png");
   arrowPic   = loadImage("./Pic/arrow.png");
-  bulletPic  = loadImage("./Pic/bullet.png");
   icePic     = loadImage("./Pic/ice.png");
-  firePic    = loadImage("./Pic/fire.png");
-  bombPic    = loadImage("./Pic/bomb.png");
   grenadePic = loadImage("./Pic/grenade.png");
   laserPic   = loadImage("./Pic/laser.gif");
   nukePic    = loadImage("./Pic/nuke.png");
@@ -194,12 +187,6 @@ void loadImages() {
   bowPic       = loadImage("./Pic/bow.png");
   laserGunPic  = loadImage("./Pic/laser_gun.png");
   freezeGunPic = loadImage("./Pic/laser_gun.png");
-
-  // enemy image
-  basicEnemyPic  = loadImage("./Pic/dart_monkey.png");
-  fastEnemyPic   = loadImage("./Pic/ice_tower.png");
-  flyEnemyPic    = loadImage("./Pic/bomb_tower.png");
-  strongEnemyPic = loadImage("./Pic/super_monkey.png");
 
   // obj image
   wallPic        = loadImage("./Pic/wall.png");
@@ -241,9 +228,6 @@ void createScreens() {
     new ChangeScreenButton(615, 615, 950, 680, 9), // quit screen
   };
   menuScreen = new Screen(bg, buttonList);
-
-  //---------------high score screen---------------
-  //highScoreScreen = new HighScoreScreen();
 
   //---------------data screen---------------
   bg = loadImage("./Pic/choosing.png");
@@ -525,15 +509,15 @@ void loadInfoToScreens() {
   for (int i=0; i<shooter.upgradeList.length; i++)
     upgradeScreens[i/6].infoList[i%6] = new Info(shooter.upgradeList[i].name, 250 + 470 * (i%6 / 3), 275 + (i%6 % 3) * 120, YELLOW_BOLD, fontMedium);
   upgradeScreens[0].infoList[12] = upgradeScreens[1].infoList[12] = new Info("", 340, 178, BROWN, fontMedium);
-  upgradeScreens[0].infoList[13] = upgradeScreens[1].infoList[13] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontSmall);
+  upgradeScreens[0].infoList[13] = upgradeScreens[1].infoList[13] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontMedium);
 
   // load weapon info to buy weapon screens
   upgradeScreens[2].infoList = new Info [10];
   upgradeScreens[3].infoList = new Info [10];
   for (int i=0; i<shooter.weaponList.length; i++) 
-    upgradeScreens[i/4 + 2].infoList[i%4] = new Info("[" + (i+1) + "]  " + shooter.weaponList[i].name, 290, 290 + (i % 4) * 87, BROWN, fontMedium);
+    upgradeScreens[i/4 + 2].infoList[i%4] = new Info("[" + (i+1) + "]  " + shooter.weaponList[i].name + "Bullet li", 290, 290 + (i % 4) * 87, BROWN, fontMedium);
   upgradeScreens[2].infoList[8] = upgradeScreens[3].infoList[8] = new Info("", 340, 178, BROWN, fontMedium);
-  upgradeScreens[2].infoList[9] = upgradeScreens[3].infoList[9] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontSmall);
+  upgradeScreens[2].infoList[9] = upgradeScreens[3].infoList[9] = new Info("Hoover mouse over buttons\nfor more infomation", 600, 145, BROWN, fontMedium);
 
   // update info in change player screen
   player.updatePlayerList();

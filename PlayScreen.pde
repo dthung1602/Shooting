@@ -4,7 +4,7 @@ class PlayScreen extends Screen {
 
   PlayScreen () {
     buttonList = new Button [] {
-      new ChangeScreenButton(1135, 1, 1190, 55, 12), // menu
+      new ChangeScreenButton(1132, 0, 1190, 56, 12), // leave game confirm
     };
     buttonList[0].highlight = false;
 
@@ -161,7 +161,12 @@ class PlayScreen extends Screen {
     round.currentRound++;
     round.totalEnemyInRound *= DIFICULTLY;
     screen.changeScreen(upgradeScreens[0]);
-    screen.infoList[12].message = str(shooter.money);
+    
+    // update money info in upgrade screen
+    upgradeScreens[0].infoList[12].message = str(shooter.money);
+    upgradeScreens[1].infoList[12].message = str(shooter.money);
+    upgradeScreens[2].infoList[8].message = str(shooter.money);
+    upgradeScreens[3].infoList[8].message = str(shooter.money);
 
     // save game, unlock new round
     if (round.currentWorld == player.maxWorld)
@@ -204,7 +209,7 @@ class PlayScreen extends Screen {
     Button b;
     for (int i=0; i<buttonList.length; i++) {
       b = buttonList[i]; 
-      if (b.containPoint(mouseX, mouseY) && b.enable) {
+      if (b.containPoint(mouseX, mouseY) && b.enable && b.highlight) {
         noStroke();
         fill(BLUE);
         rect(b.x1, b.y1, b.x2, b.y2);
