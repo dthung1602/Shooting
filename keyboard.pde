@@ -60,8 +60,6 @@ void keyPressed () {
     }
   }
 
-
-
   //------------------for change player screen----------------
   if (screen == changePlayerScreen) {
     // enter alnum

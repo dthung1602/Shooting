@@ -1,12 +1,12 @@
 class PlayScreen extends Screen {
-  int countDown;
-  Bar barList[];
+  private int countDown;
+  private Bar barList[];
 
   PlayScreen () {
-    bg = loadImage("./Pic/map0.jpg");
     buttonList = new Button [] {
       new ChangeScreenButton(1135, 1, 1190, 55, 12), // menu
     };
+    buttonList[0].highlight = false;
 
     infoList = new Info [] {
       new Info("", 20, 25, WHITE, fontSmall), // health

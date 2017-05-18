@@ -63,10 +63,15 @@ class Shooter extends CanBeAttacked {
   }
 
   void specialAbility () {
+    // check if enough money
     int price = (int) (upgradeList[6].value * currentWeapon.specialAbilityPrice);
-    if (money < price)
+    if (money < price) {
+      screen.info.message = "Not enough money";
+      screen.info.time = MESSAGE_TIME_SHORT;
       return;
+    }
 
+    // create 10 random bullet fall from sky
     money -= price;
     for (int i=0; i<10; i++) {
       bulletList[round.bulletCount] = (Bullet) currentWeapon.bullet.clone(0, 5 + random(15)); //0, 15);
@@ -110,12 +115,15 @@ class Shooter extends CanBeAttacked {
   }
 
   private void showWeapon () {
+    // rotate to right anble
     angle = - atan2(y-mouseY, mouseX-x);
     translate(x, y);
     rotate(angle);
     image(currentWeapon.img, 0, 0, 100, 75);
     rotate(-angle);
     translate(-x, -y);
+    
+    // reduce delay
     if (currentWeapon.delay > 0)
       currentWeapon.delay--;
     if (currentWeapon.delaySpecial > 0)

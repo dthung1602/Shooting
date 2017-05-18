@@ -35,7 +35,7 @@ abstract class Button {
 }
 
 
-//---------------------------chage screen-----------------------------------------
+//--------------------------------------chage screen-----------------------------------------
 class ChangeScreenButton extends Button {
   int screenNum;
   
@@ -51,7 +51,7 @@ class ChangeScreenButton extends Button {
 }
 
 
-//----------------------menu screen----------------------
+//---------------------------------------menu screen----------------------------------------
 class ContinueButton extends Button {
   ContinueButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
@@ -74,11 +74,7 @@ class ContinueButton extends Button {
 }
 
 
-// -----------------------Play screen------------------------
-
-
-
-// -----------------------Upgrades-------------------------------------
+//---------------------------------------Upgrades---------------------------------------
 class UpgradeScreenButton extends Button {
   int num;
 
@@ -211,7 +207,7 @@ class DowngradeButton extends Button {
 }
 
 
-//--------------------------player screens--------------------------
+//---------------------------------------player screens---------------------------------------
 class ChangePlayerButton extends Button {
   ChangePlayerButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
@@ -289,7 +285,7 @@ class DeletePlayerButton extends Button {
 }
 
 
-//-----------------------------setting buttons---------------------------------
+//---------------------------------------setting buttons---------------------------------------
 class MusicButton extends Button {
   MusicButton (int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
@@ -312,7 +308,7 @@ class SoundButton extends Button {
 }
 
 
-//------------------------Map screen buttons----------------------------
+//---------------------------------------Map screen buttons---------------------------------------
 class MapScreenButton extends Button {
   int num;
 
@@ -383,7 +379,7 @@ class ChooseRoundButton extends Button {
 }
 
 
-//------------------------Other buttons---------------------------------
+//---------------------------------------Other buttons---------------------------------------
 class QuitButton extends Button {
   QuitButton(int x1, int y1, int x2, int y2) {
     super(x1, y1, x2, y2);
