@@ -232,7 +232,7 @@ class Player {
     // info[0]: username, info[1]: password
     changePlayerScreen.infoList[0] = new Info("", 375, 370, RED, fontMedium);
     changePlayerScreen.infoList[1] = new Info("", 375, 465, RED, fontMedium);
-    changePlayerScreen.infoList[1].hiden = true;
+    changePlayerScreen.infoList[1].hidden = true;
 
     // all user names
     for (int i=0; i<data.length; i++) {

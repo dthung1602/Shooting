@@ -3,7 +3,7 @@ class Info {
   int x, y;
   color cl;
   PFont font;
-  boolean hiden = false;
+  boolean hidden = false;
   boolean input = false;
   
   Info (String message, int x, int y, color cl, PFont font) {
@@ -25,8 +25,8 @@ class Info {
     fill(cl);
     String s = message;
     
-    // if hiden, turn content into ***
-    if (hiden) {
+    // if hidden, turn content into ***
+    if (hidden) {
       s = "";
       for (int i=0; i<message.length(); i++) 
         s += '*';

@@ -66,6 +66,12 @@ class PlayScreen extends Screen {
   }
 
   private void createEnemy() {
+    // check if fighting a boss
+    if (round.currentRound == MAX_ROUND - 1) {
+      createBoss();
+      return;
+    }
+
     // check if enough enemy have been created this round
     if (round.enemyCount == round.totalEnemyInRound) 
       return;
@@ -84,7 +90,7 @@ class PlayScreen extends Screen {
     if (round.currentRound <= 4) {
       enemyList[round.enemyCount] = new BasicEnemy(width, y);
 
-      // 50% basic, 50% fast
+    // 50% basic, 50% fast
     } else if (round.currentRound <= 8) {
       if (k <= 50) {
         enemyList[round.enemyCount] = new BasicEnemy(width, y);
@@ -118,6 +124,15 @@ class PlayScreen extends Screen {
     round.enemyCount++;
   }
 
+  private void createBoss() {
+    // create boss at first
+    if (round.enemyCount == 0) {
+      enemyList[0] = new Boss(round.currentWorld);
+      round.enemyCount++;
+      return;
+    }
+  }
+
   private void drawObj() {
     for (int i=0; i<round.objCount; i++)
       if (objList[i].health > 0)
@@ -137,9 +152,15 @@ class PlayScreen extends Screen {
   }
 
   private void drawBullet() {
+    // shooter's bullets
     for (int i=0; i<round.bulletCount; i++)
       if (bulletList[i].status == 0)
         bulletList[i].show();
+        
+    // enemy's bullets
+    for (int i=0; i<round.enemyBulletCount; i++)
+      if (enemyBulletList[i].status == 0)
+        enemyBulletList[i].show();
   }
 
   private void checkGameEnd() {
@@ -152,16 +173,20 @@ class PlayScreen extends Screen {
   }
 
   private void checkFinishRound() {
-    // have not finish round
-    if (round.killCount < round.totalEnemyInRound)
-      return;
+    if (round.currentRound == MAX_ROUND - 1) {  // for fighting boss
+      if (enemyList[0].health > 0)
+        return;
+    } else {                        // for normal rounds
+      if (round.killCount < round.totalEnemyInRound)
+        return;
+    }
 
     // finish round
     round.reset();
     round.currentRound++;
     round.totalEnemyInRound *= DIFICULTLY;
     screen.changeScreen(upgradeScreens[0]);
-    
+
     // update money info in upgrade screen
     upgradeScreens[0].infoList[12].message = str(shooter.money);
     upgradeScreens[1].infoList[12].message = str(shooter.money);
@@ -174,7 +199,7 @@ class PlayScreen extends Screen {
     player.savePlayer();
 
     // check if player win current world
-    if (round.currentRound == MAX_ROUND-1) {
+    if (round.currentRound == MAX_ROUND && round.currentWorld == player.maxWorld) {
       player.maxWorld++;
       player.maxRound = 0;
       // >> check if win all world

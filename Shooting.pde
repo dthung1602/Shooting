@@ -2,7 +2,7 @@
  *  reset upgrade
  *  max 12 player's name
  *  add sound 
- * optimize import
+ *  optimize import
  *  pos of init bullet, shooter.x, shooter.y
  * change all img to right size
  * disguid enemy
@@ -20,9 +20,10 @@ float GRAVITY         = 0.5;
 int DEFAULT_HEALTH    = 50;
 int DEFAULT_MONEY     = 100;
 int DEFAULT_ENEMY_NUM = 5;        // how many enemy for 1st round
-int MAX_ROUND         = 10;
+int MAX_ROUND         = 9;
 int ENEMY_LIST_SIZE   = 500;
 int BULLET_LIST_SIZE  = 1000;
+int ENEMY_BULLET_SIZE = 500;
 int EFFECT_LIST_SIZE  = 500;
 int STUFF_LIST_SIZE   = 100;
 float DIFICULTLY      = 1.2;
@@ -53,6 +54,7 @@ Shooter shooter;
 //----------------------------- lists------------------------------------//
 Enemy enemyList []         = new Enemy [ENEMY_LIST_SIZE];
 Bullet bulletList []       = new Bullet [BULLET_LIST_SIZE];
+EnemyBullet enemyBulletList[]   = new EnemyBullet [ENEMY_BULLET_SIZE];
 VisualEffect effectList [] = new VisualEffect [EFFECT_LIST_SIZE];
 Obj objList []             = new Obj [STUFF_LIST_SIZE];
 Screen screenList [];
@@ -263,8 +265,8 @@ void createScreens() {
     new Info("", 220, 488, RED, fontMedium), 
     new Info("", 220, 558, RED, fontMedium), 
   };
-  infoList[1].hiden = true;
-  infoList[2].hiden = true;
+  infoList[1].hidden = true;
+  infoList[2].hidden = true;
   newPlayerScreen = new Screen(bg, buttonList, infoList);
 
   // ---------------create map screens---------------

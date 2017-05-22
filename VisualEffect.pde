@@ -1,10 +1,22 @@
-abstract class VisualEffect {
+abstract class VisualEffect implements Cloneable {
   float x, y;          // position of effect
   int time;            // how long effect last 
   
   VisualEffect(float x, float y){
     this.x = x;
     this.y = y;
+  }
+  
+  VisualEffect clone(int x, int y) {
+    try {
+      VisualEffect ve = (VisualEffect) super.clone();
+      ve.x = x;
+      ve.y = y;
+      return ve;
+    } 
+    catch (CloneNotSupportedException e) {
+      return null;
+    }
   }
   
   void show() {}

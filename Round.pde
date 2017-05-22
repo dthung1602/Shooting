@@ -6,6 +6,7 @@ class Round {
   int killCount;                             // how many enemy kiled
   int enemyCount;                            // how many enemy in current round
   int bulletCount;                           // how many weapon in current round 
+  int enemyBulletCount;                      // how many bullet enemy shoot in round
   int effectCount;                           // number of effect in current round
   int objCount;                              // number of obj in current round
   int oldFrame        = 0;                   // save frame since the last time an enemy was created

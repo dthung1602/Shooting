@@ -50,7 +50,7 @@ abstract class Bullet  implements Cloneable {
   }   
   
   private boolean touch (Enemy e) {
-    if (e.x - e.w < x && x < e.x + e.w && e.y - e.h < y && y < e.y + e.h)
+    if (e.x1 < x && x < e.x2 && e.y1 < y && y < e.y2)
       return true;
     return false;
   }

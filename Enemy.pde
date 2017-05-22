@@ -16,8 +16,8 @@ abstract class Enemy {
   int bonusMoney;
   
   // display
-  int w, h;
   PImage img;
+  int x1, x2, y1, y2;
   
   Enemy (int x, int y) {
     this.x = x;
@@ -57,7 +57,12 @@ abstract class Enemy {
     if (y + img.height/2 > height - GROUND_HEIGHT)
       y += speed;
     
+    //
     speed = defaultSpeed;
+    x1 = x - img.width/2;
+    y1 = y - img.width/2;
+    x2 = x + img.height/2;
+    y2 = y + img.height/2;
         
     // check if enemy can attact house
     if (x - shooter.x < attackRange) {
@@ -114,8 +119,6 @@ class BasicEnemy extends Enemy {
     attackRange = 100;
     
     img = basicEnemyPic;
-    w = img.width/2;
-    h = img.height/2;
   }
 }
 
@@ -135,8 +138,6 @@ class FastEnemy extends Enemy {
     attackRange = 100;
     
     img = fastEnemyPic;
-    w = img.width/2;
-    h = img.height/2;
   }
 }
 
@@ -156,8 +157,6 @@ class FlyEnemy extends Enemy {
     attackRange = 100;
     
     img = flyEnemyPic;
-    w = img.width/2;
-    h = img.height/2;  
   }
 }
 
@@ -177,7 +176,5 @@ class StrongEnemy extends Enemy {
     attackRange = 100;
     
     img = strongEnemyPic;
-    w = img.width/2;
-    h = img.height/2;
   }
 }
