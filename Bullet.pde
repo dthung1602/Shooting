@@ -45,12 +45,30 @@ abstract class Bullet  implements Cloneable {
       }
     }
     
+    // for fighting with boss
+    if (round.currentRound == MAX_ROUND - 1) {
+      // check if touch enemy bullet
+      for (int i=0; i<round.enemyBulletCount; i++)
+        if (enemyBulletList[i].status == 0 && touch(enemyBulletList[i])) {
+          status = 1;
+          enemyBulletList[i].status = 1;
+          action();
+          enemyBulletList[i].action();
+        }
+    }
+    
     // draw
     image(img, x, y, 20, 20);
   }   
   
   private boolean touch (Enemy e) {
     if (e.x1 < x && x < e.x2 && e.y1 < y && y < e.y2)
+      return true;
+    return false;
+  }
+  
+  private boolean touch (EnemyBullet bl) {
+    if (bl.x - bl.img.width/2 < x && x < bl.x + bl.img.width/2 && bl.y - bl.img.height/2 < y && y < bl.y + bl.img.height/2)
       return true;
     return false;
   }

@@ -5,7 +5,7 @@ class Boss extends Enemy {
   int delay;
   EnemyBullet slowBullet;
   float bulletSpeed;
-  FreezeEffect fastAttack;
+  ExplosionEffect fastAttack;
   ExplosionEffect slowAttack;
   int fastAttackPosibility;
   int slowAttackPosibility;
@@ -16,11 +16,12 @@ class Boss extends Enemy {
 
   Boss (int bossNum) {
     super(width, height/2);
-    health = 50;
+    health = 250;
     damage = 7;
-    bulletSpeed = 2;
-    fastAttack = new FreezeEffect(0, 0);
+    bulletSpeed = 5;
+    fastAttack = new ExplosionEffect(0, 0);
     slowAttack = new ExplosionEffect(0, 0);
+    slowBullet = new EBomb();
 
     // load image
     img = loadImage("./Pic/World/world" + bossNum + "/boss.png");
@@ -38,8 +39,8 @@ class Boss extends Enemy {
     // set up posibility of boss
     tmp =  split(data[0], " ");
     fastAttackPosibility = int(tmp[0]);
-    slowAttackPosibility = int(tmp[1]) + fastAttackPosibility;
-    createEnemyibility = int(tmp[2]) + slowAttackPosibility; 
+    slowAttackPosibility = int(tmp[1]);
+    createEnemyibility = int(tmp[2]); 
     delayMax = int(tmp[3]);
     delayMin = int(tmp[4]);
 
@@ -73,9 +74,9 @@ class Boss extends Enemy {
     // action
     if (delay == 0) {
       int p = (int) random(0, 101);        // random number to decide action
-      if (p > fastAttackPosibility) 
+      if (p < fastAttackPosibility) 
         fastAttack();
-      else if (p > slowAttackPosibility) 
+      else if (p < fastAttackPosibility + slowAttackPosibility) 
         slowAttack();
       else
         createEnemy();
@@ -88,13 +89,16 @@ class Boss extends Enemy {
 
   private void fastAttack() {
     effectList[round.effectCount] = fastAttack.clone(x[position], y[position]);
+    round.effectCount++;
     shooter.health -= damage;
     screen.info.message = "fast att";
     screen.info.time = MESSAGE_TIME_SHORT;
   }
 
   private void slowAttack() {
-    // >>> effectList[round.effectCount] = (VisualEffect) slowAttack.clone();
+    // effect
+    effectList[round.effectCount] = slowAttack.clone(x[position], y[position]);
+    round.effectCount++;
     
     // calculate speedx, speedy from x, y to shooter
     for (int i=0; i<5; i++) {

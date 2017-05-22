@@ -21,15 +21,22 @@ class Round {
   }
 
   void reset() {
-    killCount      = 0;
-    enemyCount     = 0;
-    bulletCount    = 0;
-    effectCount    = 0;
-    objCount       = 0;
-    shooter.health = (int) shooter.upgradeList[1].value;
-    oldFrame       = frameCount;
-    newEnemyDelay  = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);
+    killCount         = 0;
+    enemyCount        = 0;
+    bulletCount       = 0;
+    enemyBulletCount  = 0;
+    effectCount       = 0;
+    objCount          = 0;
+    shooter.health    = (int) shooter.upgradeList[1].value;
+    oldFrame          = frameCount;
+    newEnemyDelay     = (int) random(MIN_ENEMY_DELAY, MAX_ENEMY_DELAY);
     totalEnemyInRound = (int) (DEFAULT_ENEMY_NUM * pow(DIFICULTLY, currentRound));
-    //>> reset special abilities
+    
+    // reset all weapons
+    for (int i=0; i<shooter.weaponList.length; i++) {
+      Weapon wp = shooter.weaponList[i];
+      wp.delay = wp.defaultDelay;
+      wp.defaultSpecialDelay = wp.defaultSpecialDelay;
+    }
   }
 }

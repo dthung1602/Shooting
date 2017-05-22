@@ -1,5 +1,6 @@
 abstract class VisualEffect implements Cloneable {
   float x, y;          // position of effect
+  int timeDefault;     // how long effect last by default
   int time;            // how long effect last 
   
   VisualEffect(float x, float y){
@@ -12,6 +13,7 @@ abstract class VisualEffect implements Cloneable {
       VisualEffect ve = (VisualEffect) super.clone();
       ve.x = x;
       ve.y = y;
+      ve.time = ve.timeDefault;
       return ve;
     } 
     catch (CloneNotSupportedException e) {
@@ -30,7 +32,7 @@ class FreezeEffect extends VisualEffect {
   
   FreezeEffect(float x, float y) {
     super(x, y);
-    time = 8;
+    timeDefault = time = 8;
     inc = (int) map(1,0,time,0,maxRadius);
   }
   
@@ -60,7 +62,7 @@ class ExplosionEffect extends VisualEffect {
   
   ExplosionEffect(float x, float y) {
     super(x, y);
-    time = 5;
+    timeDefault = time = 5;
     inc = (int) map(1,0,time,0,maxSize);
   }
   

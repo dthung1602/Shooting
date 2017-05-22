@@ -22,8 +22,8 @@ int DEFAULT_MONEY     = 100;
 int DEFAULT_ENEMY_NUM = 5;        // how many enemy for 1st round
 int MAX_ROUND         = 9;
 int ENEMY_LIST_SIZE   = 500;
-int BULLET_LIST_SIZE  = 1000;
-int ENEMY_BULLET_SIZE = 500;
+int BULLET_LIST_SIZE  = 2000;
+int ENEMY_BULLET_SIZE = 200;
 int EFFECT_LIST_SIZE  = 500;
 int STUFF_LIST_SIZE   = 100;
 float DIFICULTLY      = 1.2;
@@ -113,6 +113,9 @@ PImage tickPic;
 PImage lockRoundPic;
 PImage lockWorldPic;
 
+// enemy bullet
+PImage bombPic;
+
 //------------------------------ fonts -------------------------------//
 PFont fontSmall;
 PFont fontMedium;
@@ -200,6 +203,9 @@ void loadImages() {
   tickPic = loadImage("./Pic/other/tick.png");
   lockRoundPic = loadImage("./Pic/other/lock_round.png");
   lockWorldPic = loadImage("./Pic/other/lock_world.png");
+  
+  // enemy bullet 
+  bombPic = loadImage("./Pic/other/bomb.png");
 }
 
 

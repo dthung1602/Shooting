@@ -1,4 +1,5 @@
 abstract class EnemyBullet extends Bullet {
+  
   EnemyBullet () {
   }
   
@@ -46,5 +47,20 @@ abstract class EnemyBullet extends Bullet {
     catch (CloneNotSupportedException e) {
       return null;
     }
+  }
+}
+
+
+class EBomb extends EnemyBullet {
+  EBomb () {
+    super();
+    damage = 5;
+    weight = 0;
+    img = bombPic;
+  }  
+  
+  void action () {
+    effectList[round.effectCount] = new ExplosionEffect(x, y);
+    round.effectCount++;
   }
 }
